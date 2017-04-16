@@ -11,7 +11,7 @@
     "start": "yarn start:server",
     "start:server": "node server.js",
     "start:prod": "cd client && yarn build && cd .. && yarn start",
-    "postinstall": "cd client && npm install && npm run build"
+    "postinstall": "cd client && yarn install && yarn build"
   },
   "author": "Aldo Ziflaj <aldoziflaj95@gmail.com>",
   "license": "ISC",
