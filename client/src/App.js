@@ -13,7 +13,11 @@ class App extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/api/example').then((response) => {
+    let baseUrl = '';
+    if (process.env.ENV === 'development') {
+      baseUrl = 'http://localhost:5000';
+    }
+    axios.get(`${baseUrl}/api/example`).then((response) => {
       this.setState({ message: response.data.message });
     });
   }
