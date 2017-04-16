@@ -3,10 +3,8 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const ExampleController = require('./app/controllers/ExampleController.js');
-const example = new ExampleController();
-const UsersController = require('./app/controllers/UsersController.js');
-const users = new UsersController();
+const example = require('./router/example.js');
+const users = require('./router/users.js');
 
 const app = express();
 app.use(express.static(path.join(__dirname, 'client', 'public')));
@@ -17,13 +15,9 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/', (req, res) => {
-  res.sendFile('index.html');
-});
+app.get('/', (req, res) => { res.sendFile('index.html'); });
 
-app.get('/example', example.index);
-
-app.get('/users/:id', users.show);
-app.post('/users', users.create);
+app.use('/example', example);
+app.use('/users', users);
 
 app.listen(5000, '0.0.0.0', () => { console.log('Listening on 0.0.0.0:5000'); });

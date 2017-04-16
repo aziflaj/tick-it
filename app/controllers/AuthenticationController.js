@@ -1,9 +1,8 @@
 class AuthenticationController {
-  authenticate(req, res) => {
+  authenticate(req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
   }
 }
-
 
 module.exports = AuthenticationController;

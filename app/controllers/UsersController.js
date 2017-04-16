@@ -1,7 +1,7 @@
 const UserDAO = require('../dao/UserDAO');
 
 class UsersController {
-  show(req, res) {
+  show(req, res, next) {
     const dao = new UserDAO();
     const user = dao.getById(req.params.id).then((user) => {
       res.json({
@@ -11,7 +11,7 @@ class UsersController {
     });
   }
 
-  create(req, res) {
+  create(req, res, next) {
     const user = {
       username: req.body.username,
       password: req.body.password,
