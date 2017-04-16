@@ -3,10 +3,14 @@ const UserDAO = require('../dao/UserDAO');
 class UsersController {
   show(req, res, next) {
     const dao = new UserDAO();
-    const user = dao.getById(req.params.id).then((user) => {
+    const user = dao.getByUsername(req.params.username).then((user) => {
       res.json({
         status: 'ok',
-        user: user
+        user: {
+          id: user.id,
+          username: user.username,
+          full_name: user.full_name
+        }
       });
     });
   }

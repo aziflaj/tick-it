@@ -8,13 +8,13 @@ class AuthenticationController {
     const username = req.body.username;
     const password = req.body.password;
     const dao = new UserDAO();
-    
+
     dao.getByUsername(username).then((user) => {
       bcrypt.compare(password, user.password).then((matching) => {
         if (matching) {
           res.json({
             status: 'ok',
-            token: JsonWebToken.sign({id: user.id}),
+            token: JsonWebToken.sign({id: user.id, username: user.username}),
             user: {
               id: user.id,
               username: user.username,
