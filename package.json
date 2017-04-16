@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "description": "tickIt ticketing system",
   "main": "server.js",
+  "engines": {
+    "node": "6.10.2"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "yarn start:server",
     "start:server": "node server.js",
     "start:prod": "cd client && yarn build && cd .. && yarn start",
-    "postinstall": "cd client && yarn install && yarn build"
+    "postinstall": "cd client && npm install && npm run build"
   },
   "author": "Aldo Ziflaj <aldoziflaj95@gmail.com>",
   "license": "ISC",
