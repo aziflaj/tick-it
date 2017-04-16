@@ -6,6 +6,8 @@ const bodyParser = require('body-parser');
 const apiRouter = require('./router');
 
 const app = express();
+app.set('port', (process.env.PORT || 5000));
+
 app.use(express.static(path.join(__dirname, 'client', 'build')));
 app.use(bodyParser.json());
 app.use(function(req, res, next) {
@@ -17,4 +19,12 @@ app.use(function(req, res, next) {
 app.get('/', (req, res) => { res.sendFile('index.html'); });
 app.use('/api', apiRouter);
 
-app.listen(5000, '0.0.0.0', () => { console.log('Listening on 0.0.0.0:5000'); });
+if (process.env.ENV === 'production') {
+  app.listen(app.get('port'), () => {
+    console.log(`Listening on port ${app.get('port')}`);
+  });
+} else {
+  app.listen(app.get('port'), '0.0.0.0', () => {
+    console.log(`Listening on 0.0.0.0:${app.get('port')}`);
+  });
+}

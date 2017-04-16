@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "yarn start:server",
     "start:server": "node server.js",
-    "start:prod": "cd client && yarn build && cd .. && yarn start"
+    "start:prod": "cd client && yarn build && cd .. && yarn start",
+    "postinstall": "cd client && yarn && yarn build"
   },
   "author": "Aldo Ziflaj <aldoziflaj95@gmail.com>",
   "license": "ISC",
