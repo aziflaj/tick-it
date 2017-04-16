@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "yarn start:server",
-    "start:server": "node server.js"
+    "start:server": "node server.js",
+    "start:prod": "cd client && yarn build && cd .. && yarn start"
   },
   "author": "Aldo Ziflaj <aldoziflaj95@gmail.com>",
   "license": "ISC",

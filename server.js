@@ -3,12 +3,10 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const example = require('./router/example.js');
-const users = require('./router/users.js');
-const auth = require('./router/auth.js');
+const apiRouter = require('./router');
 
 const app = express();
-app.use(express.static(path.join(__dirname, 'client', 'public')));
+app.use(express.static(path.join(__dirname, 'client', 'build')));
 app.use(bodyParser.json());
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -17,9 +15,6 @@ app.use(function(req, res, next) {
 });
 
 app.get('/', (req, res) => { res.sendFile('index.html'); });
-
-app.use('/example', example);
-app.use('/authenticate', auth);
-app.use('/users', users);
+app.use('/api', apiRouter);
 
 app.listen(5000, '0.0.0.0', () => { console.log('Listening on 0.0.0.0:5000'); });
