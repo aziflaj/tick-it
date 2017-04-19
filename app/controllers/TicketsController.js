@@ -1,5 +1,6 @@
 const TicketDAO = require('../dao/TicketDAO');
 const { currentUser } = require('../helpers/UserHelpers');
+const { toJson } = require('../helpers/TicketHelpers');
 
 class TicketsController {
   index(req, res, next) {
@@ -7,6 +8,16 @@ class TicketsController {
       res.json({
         status: 'ok',
         message: `Tickets for user ${user.username}`
+      });
+    });
+  }
+
+  show(req, res, next) {
+    const dao = new TicketDAO();
+    dao.getById(req.params.id).then((ticket) => {
+      res.json({
+        status: 'ok',
+        ticket: toJson(ticket)
       });
     });
   }
@@ -22,17 +33,21 @@ class TicketsController {
 
       const dao = new TicketDAO();
 
-      dao.save(ticket).then((ticket_id) => {
-        res.json({
-          status: 'ok',
-          message: `Ticket saved with id ${ticket_id}`
-        });
-      }).catch((error) => {
-        res.json({
-          status: 'error',
-          message: 'Some issue occurred'
-        });
-      });
+      dao.save(ticket,
+        (results, ticket_id) => {
+          res.json({
+            status: 'ok',
+            message: `Ticket saved with id ${ticket_id}`
+          });
+        },
+        (error) => {
+          console.log(errors);
+          res.json({
+            status: 'error',
+            message: 'Some issue occurred'
+          });
+        }
+      );
     });
   }
 }

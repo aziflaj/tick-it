@@ -14,16 +14,19 @@ class UserDAO {
     });
   }
 
-  save(user) {
-    return bcrypt.hash(user.password, SALT_ROUNDS).then((hash) => {
+  save(user, successHandler, errorHandler) {
+    bcrypt.hash(user.password, SALT_ROUNDS).then((hash) => {
       db.incr('user_count').then((user_count) => {
+        console.log(`user_count: ${user_count}`);
         user.id = user_count;
         user.password = hash;
-        return db.hmset(`user:${user_count}`, user).then((result) => {
-          db.hset('users', user.username, user_count); // username serves as index
-          db.hset('users', user.email, user_count);    // email serves as index
-          return user_count;
-        })
+
+        db.multi()
+          .hmset(`user:${user_count}`, user)
+          .hset('users', user.username, user_count) // username serves as index
+          .hset('users', user.email, user_count)    // email serves as index
+          .exec().then((results) => successHandler(results, user_count))
+                 .catch((error) => errorHandler(error));
       });
     });
   }

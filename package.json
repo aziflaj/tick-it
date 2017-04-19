@@ -8,8 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "yarn start:server",
-    "start:server": "node server.js",
+    "start": "node server.js",
+    "start:dev": "nodemon --watch ./ server.js ",
     "start:prod": "cd client && yarn build && cd .. && yarn start",
     "postinstall": "cd client && yarn install && yarn build"
   },
@@ -22,5 +22,8 @@
     "express": "^4.15.2",
     "ioredis": "^2.5.0",
     "jsonwebtoken": "^7.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }
