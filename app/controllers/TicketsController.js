@@ -21,10 +21,17 @@ class TicketsController {
       };
 
       const dao = new TicketDAO();
-      const ticket_id = dao.save(ticket);
-      res.json({
-        status: 'ok',
-        message: 'Ticket saved'
+
+      dao.save(ticket).then((ticket_id) => {
+        res.json({
+          status: 'ok',
+          message: `Ticket saved with id ${ticket_id}`
+        });
+      }).catch((error) => {
+        res.json({
+          status: 'error',
+          message: 'Some issue occurred'
+        });
       });
     });
   }

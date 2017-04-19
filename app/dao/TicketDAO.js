@@ -6,11 +6,13 @@ class TicketDAO {
   }
 
   save(ticket) {
-    db.incr('ticket_count').then((ticket_count) => {
+    return db.incr('ticket_count', (ticket_count) => {
       ticket.id = ticket_count;
-      return db.hmset(`ticket:${ticket_count}`, ticket).then((result) => {
-        db.zadd(`customer_tickets:${ticket.customer_id}`, ticket_count, Date.now());
-      });
+
+      return db.multi()
+               .hmset(`ticket:${ticket_count}`, ticket)
+               .zadd(`customer_tickets:${ticket.customer_id}`, ticket_count, Date.now())
+               .exec();
     });
   }
 }
