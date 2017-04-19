@@ -1,8 +1,8 @@
 const apiRouter = require('express').Router();
 
-const pages = require('./pages.js');
-const users = require('./users.js');
-const auth = require('./auth.js');
+const pages = require('./pages');
+const users = require('./users');
+const auth = require('./auth');
 
 apiRouter.use('/pages', pages);
 apiRouter.use('/authenticate', auth);

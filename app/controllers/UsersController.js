@@ -1,14 +1,13 @@
-const User = require('../models/User.js');
 const UserDAO = require('../dao/UserDAO');
+const { toJson } = require('../helpers/UserHelpers');
 
 class UsersController {
   show(req, res, next) {
     const dao = new UserDAO();
-    dao.getByUsername(req.params.username).then((u) => {
-      const user = new User(u);
+    dao.getByUsername(req.params.username).then((user) => {
       res.json({
         status: 'ok',
-        user: user.toJson()
+        user: toJson(user)
       });
     });
   }
@@ -25,7 +24,7 @@ class UsersController {
     const user_id = dao.save(user);
     res.json({
       status: 'ok',
-      message: `Saved user with id ${user_id}`
+      message: 'User created'
     });
   }
 }

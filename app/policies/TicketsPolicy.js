@@ -1,4 +1,4 @@
-const JsonWebToken = require('../../lib/jwt.js');
+const JsonWebToken = require('../../lib/jwt');
 
 class TicketsPolicy {
   isAllowed(req) {

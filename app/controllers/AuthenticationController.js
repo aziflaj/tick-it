@@ -1,7 +1,8 @@
 const bcrypt = require('bcrypt');
 
-const UserDAO = require('../dao/UserDAO.js');
-const JsonWebToken = require('../../lib/jwt.js');
+const UserDAO = require('../dao/UserDAO');
+const JsonWebToken = require('../../lib/jwt');
+const { toJson } = require('../helpers/UserHelpers')
 
 class AuthenticationController {
   authenticate(req, res, next) {
@@ -15,11 +16,7 @@ class AuthenticationController {
           res.json({
             status: 'ok',
             token: JsonWebToken.sign({id: user.id, username: user.username}),
-            user: {
-              id: user.id,
-              username: user.username,
-              full_name: user.full_name
-            }
+            user: toJson(user)
           });
         } else {
           res.json({
