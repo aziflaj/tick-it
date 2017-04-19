@@ -1,10 +1,10 @@
 const apiRouter = require('express').Router();
 
-const example = require('./example.js');
+const pages = require('./pages.js');
 const users = require('./users.js');
 const auth = require('./auth.js');
 
-apiRouter.use('/example', example);
+apiRouter.use('/pages', pages);
 apiRouter.use('/authenticate', auth);
 apiRouter.use('/users', users);
 

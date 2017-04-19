@@ -1,4 +1,4 @@
-class ExampleController {
+class PagesController {
   index(req, res, next) {
     res.json({
       status: 'ok',
@@ -7,4 +7,4 @@ class ExampleController {
   }
 }
 
-module.exports = ExampleController;
+module.exports = PagesController;

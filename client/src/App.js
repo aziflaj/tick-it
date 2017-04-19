@@ -17,7 +17,7 @@ class App extends Component {
     if (process.env.ENV === 'development') {
       baseUrl = 'http://localhost:5000';
     }
-    axios.get(`${baseUrl}/api/example`).then((response) => {
+    axios.get(`${baseUrl}/api/pages`).then((response) => {
       this.setState({ message: response.data.message });
     });
   }
