@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import './Login.css';
+import axios from 'axios';
+import '../styles.css';
+
+import {baseUrl} from '../helpers/Constants';
 
 class Login extends Component {
   constructor(props) {
@@ -20,7 +23,12 @@ class Login extends Component {
 
   onFormSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
+    axios.post(`${baseUrl}/authenticate`, {
+      email: this.state.email,
+      password: this.state.password
+    }).then((response) => {
+      console.log(response);
+    });
   }
 
   render() {
@@ -45,7 +53,7 @@ class Login extends Component {
               onChange={this.onPasswordChange.bind(this)}
               required
         />
-      
+
        <div className="checkbox">
          <label>
            <input type="checkbox" value="remember-me" /> Remember me
