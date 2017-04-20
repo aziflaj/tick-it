@@ -11,11 +11,11 @@ class Login extends Component {
   }
 
   onEmailChange(e) {
-    this.setState({email: e.target.value });
+    this.setState({ email: e.target.value });
   }
 
   onPasswordChange(e) {
-    this.setState({password: e.target.value });
+    this.setState({ password: e.target.value });
   }
 
   onFormSubmit(e) {
@@ -38,7 +38,14 @@ class Login extends Component {
         />
 
        <label for="inputPassword" className="sr-only">Password</label>
-       <input type="password" id="inputPassword" className="form-control" placeholder="Password" required />
+       <input type="password"
+              id="inputPassword"
+              className="form-control"
+              placeholder="Password"
+              onChange={this.onPasswordChange.bind(this)}
+              required
+        />
+      
        <div className="checkbox">
          <label>
            <input type="checkbox" value="remember-me" /> Remember me
