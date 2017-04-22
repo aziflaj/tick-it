@@ -5,5 +5,6 @@ const users = new UsersController();
 
 router.get('/:username', users.show);
 router.post('/', users.create);
+router.delete('/:username', users.delete);
 
 module.exports = router;

@@ -29,8 +29,20 @@ class UserDAO {
     });
   }
 
-  update(id, user) {
-    return db.hmset(`user:${id}`, user);
+  update(username, data) {
+    return getByUsername(username).then((user) => {
+      return db.hmset(`user:${user.id}`, data); 
+    });
+  }
+
+  delete(username) {
+    return this.getByUsername(username).then((user) => {
+      return db.multi()
+               .hdel('users', user.username)
+               .hdel('users', user.email)
+               .del(`user:${user.id}`)
+               .exec();
+    });
   }
 }
 

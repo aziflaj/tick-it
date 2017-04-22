@@ -34,6 +34,18 @@ class UsersController {
         });
     });
   }
+
+  delete(req, res, next) {
+    const username = req.params.username;
+    const dao = new UserDAO();
+    dao.delete(username).then((results) => {
+      console.log(results);
+      res.json({
+        status: 'ok',
+        message: `User ${username} deleted`
+      });
+    });
+  }
 }
 
 module.exports = UsersController;

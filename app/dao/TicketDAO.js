@@ -17,8 +17,17 @@ class TicketDAO {
     });
   }
 
-  update(id, ticket) {
-    return db.hmset(`ticket:${id}`, ticket);
+  update(id, data) {
+    return db.hmset(`ticket:${id}`, data);
+  }
+
+  delete(id) {
+    return getById(id).then((ticket) => {
+      return db.multi()
+               .del(`ticket:${ticket.id}`)
+               .zrem(`customer_tickets:${ticket.customer_id}`)
+               .exec();
+    });
   }
 }
 

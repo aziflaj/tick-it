@@ -55,8 +55,21 @@ class TicketsController {
     };
     const dao = new TicketDAO();
     dao.update(req.params.ticket_id, ticket).then((result) => {
-      console.log(result);
-      
+      res.json({
+        status: 'ok',
+        ticket: ticket
+      });
+    });
+  }
+
+  delete(req, res, next) {
+    const ticketId = req.params.ticket_id;
+    const dao = new TicketDAO();
+    dao.delete(ticketId).then((result) => {
+      res.json({
+        status: 'ok',
+        message: `Ticket ${ticketId} deleted`
+      })
     })
   }
 }
