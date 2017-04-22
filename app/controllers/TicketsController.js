@@ -32,23 +32,32 @@ class TicketsController {
       };
 
       const dao = new TicketDAO();
-
-      dao.save(ticket,
-        (results, ticket_id) => {
-          res.json({
-            status: 'ok',
-            message: `Ticket saved with id ${ticket_id}`
-          });
-        },
-        (error) => {
+      dao.save(ticket).then((ticket_id) => {
+        res.json({
+          status: 'ok',
+          message: `Ticket saved with id ${ticket_id}`
+        });
+      }).catch((error) => {
           console.log(errors);
           res.json({
             status: 'error',
             message: 'Some issue occurred'
           });
-        }
-      );
+      });
     });
+  }
+
+  update(req, res, next) {
+    const ticket = {
+      title: req.body.title,
+      description: req.body.description,
+      status: req.body.status
+    };
+    const dao = new TicketDAO();
+    dao.update(req.params.ticket_id, ticket).then((result) => {
+      console.log(result);
+      
+    })
   }
 }
 

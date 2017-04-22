@@ -21,22 +21,18 @@ class UsersController {
     };
 
     const dao = new UserDAO();
-
-    dao.save(user,
-      (results, user_id) => {
-        res.json({
-          status: 'ok',
-          message: `User saved with id ${user_id}`
-        });
-      },
-      (error) => {
-        console.log(error);
+    dao.save(user).then((user_id) => {
+      res.json({
+        status: 'ok',
+        message: `User saved with id ${user_id}`
+      });
+    }).catch((error) => {
+        console.log(errors);
         res.json({
           status: 'error',
           message: 'Some issue occurred'
         });
-      }
-    );
+    });
   }
 }
 

@@ -5,17 +5,20 @@ class TicketDAO {
     return db.hgetall(`ticket:${id}`);
   }
 
-  save(ticket, successHandler, errorHandler) {
-    db.incr('ticket_count').then((ticket_count) => {
+  save(ticket) {
+    return db.incr('ticket_count').then((ticket_count) => {
       console.log(`ticket_count ${ticket_count}`);
       ticket.id = ticket_count;
 
-      db.multi()
+      return db.multi()
         .hmset(`ticket:${ticket_count}`, ticket)
         .zadd(`customer_tickets:${ticket.customer_id}`, ticket_count, Date.now())
-        .exec().then((results) => successHandler(results, ticket_count))
-               .catch((error) => errorHandler(error));
+        .exec().then((result) => ticket_count);
     });
+  }
+
+  update(id, ticket) {
+    return db.hmset(`ticket:${id}`, ticket);
   }
 }
 

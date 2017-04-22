@@ -33,4 +33,9 @@ router.post('/', (req, res, next) => {
   // }
 });
 
+router.put('/:ticket_id', (req, res, next) => {
+  // TODO: check if authorized
+  tickets.update(req, res, next);  
+});
+
 module.exports = router;
