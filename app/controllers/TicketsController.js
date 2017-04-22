@@ -2,6 +2,8 @@ const TicketDAO = require('../dao/TicketDAO');
 const { currentUser } = require('../helpers/UserHelpers');
 const { toJson } = require('../helpers/TicketHelpers');
 
+const ticketDao = new TicketDAO();
+
 class TicketsController {
   index(req, res, next) {
     currentUser(req).then((user) => {
@@ -13,8 +15,7 @@ class TicketsController {
   }
 
   show(req, res, next) {
-    const dao = new TicketDAO();
-    dao.getById(req.params.id).then((ticket) => {
+    ticketDao.getById(req.params.id).then((ticket) => {
       res.json({
         status: 'ok',
         ticket: toJson(ticket)
@@ -31,8 +32,7 @@ class TicketsController {
         customer_id: user.id
       };
 
-      const dao = new TicketDAO();
-      dao.save(ticket).then((ticket_id) => {
+      ticketDao.save(ticket).then((ticket_id) => {
         res.json({
           status: 'ok',
           message: `Ticket saved with id ${ticket_id}`
@@ -53,8 +53,8 @@ class TicketsController {
       description: req.body.description,
       status: req.body.status
     };
-    const dao = new TicketDAO();
-    dao.update(req.params.ticket_id, ticket).then((result) => {
+
+    ticketDao.update(req.params.ticket_id, ticket).then((result) => {
       res.json({
         status: 'ok',
         ticket: ticket
@@ -64,8 +64,8 @@ class TicketsController {
 
   delete(req, res, next) {
     const ticketId = req.params.ticket_id;
-    const dao = new TicketDAO();
-    dao.delete(ticketId).then((result) => {
+
+    ticketDao.delete(ticketId).then((result) => {
       res.json({
         status: 'ok',
         message: `Ticket ${ticketId} deleted`

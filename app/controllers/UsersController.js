@@ -1,10 +1,11 @@
 const UserDAO = require('../dao/UserDAO');
 const { toJson } = require('../helpers/UserHelpers');
 
+const userDao = new UserDAO();
+
 class UsersController {
   show(req, res, next) {
-    const dao = new UserDAO();
-    dao.getByUsername(req.params.username).then((user) => {
+    userDao.getByUsername(req.params.username).then((user) => {
       res.json({
         status: 'ok',
         user: toJson(user)
@@ -20,8 +21,7 @@ class UsersController {
       full_name: req.body.full_name
     };
 
-    const dao = new UserDAO();
-    dao.save(user).then((user_id) => {
+    userDao.save(user).then((user_id) => {
       res.json({
         status: 'ok',
         message: `User saved with id ${user_id}`
@@ -37,8 +37,7 @@ class UsersController {
 
   delete(req, res, next) {
     const username = req.params.username;
-    const dao = new UserDAO();
-    dao.delete(username).then((results) => {
+    userDao.delete(username).then((results) => {
       console.log(results);
       res.json({
         status: 'ok',
