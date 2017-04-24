@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import '../styles.css';
 
 import baseUrl from '../helpers/Constants';
@@ -34,33 +35,39 @@ class Login extends Component {
   render() {
     return (
       <form className="form-signin" onSubmit={this.onFormSubmit.bind(this)}>
-       <h2 className="form-signin-heading">Please sign in</h2>
-       <label htmlFor="inputEmail" className="sr-only">Username</label>
-       <input id="inputEmail"
-              type="text"
-              className="form-control"
-              placeholder="Username"
-              required
-              autoFocus
-              onChange={this.onUsernameChange.bind(this)}
+        <h2 className="form-signin-heading">Please sign in</h2>
+        <label htmlFor="inputEmail" className="sr-only">Username</label>
+        <input id="inputEmail"
+               type="text"
+               className="form-control"
+               placeholder="Username"
+               required
+               autoFocus
+               onChange={this.onUsernameChange.bind(this)}
         />
 
-       <label htmlFor="inputPassword" className="sr-only">Password</label>
-       <input type="password"
-              id="inputPassword"
-              className="form-control"
-              placeholder="Password"
-              onChange={this.onPasswordChange.bind(this)}
-              required
+        <label htmlFor="inputPassword" className="sr-only">Password</label>
+        <input type="password"
+               id="inputPassword"
+               className="form-control"
+               placeholder="Password"
+               onChange={this.onPasswordChange.bind(this)}
+               required
         />
 
-       <div className="checkbox">
-         <label>
-           <input type="checkbox" value="remember-me" /> Remember me
-         </label>
-       </div>
-       <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-     </form>
+        <div className="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me" /> Remember me
+          </label>
+        </div>
+
+        <div>
+          Don't have an account?
+          <Link to='/signup'>Sign up</Link>
+        </div>
+
+        <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      </form>
     );
   }
 }
