@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
-import './Login.css';
+import axios from 'axios';
+import '../styles.css';
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
+      username: '',
       password: ''
     };
   }
 
-  onEmailChange(e) {
-    this.setState({ email: e.target.value });
+  onUsernameChange(e) {
+    this.setState({ username: e.target.value });
   }
 
   onPasswordChange(e) {
@@ -20,21 +21,26 @@ class Login extends Component {
 
   onFormSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
+    axios.post(`http://localhost:5000/api/authenticate`, {
+      email: this.state.email,
+      password: this.state.password
+    }).then((response) => {
+      console.log(response);
+    });
   }
 
   render() {
     return (
       <form className="form-signin" onSubmit={this.onFormSubmit.bind(this)}>
        <h2 className="form-signin-heading">Please sign in</h2>
-       <label for="inputEmail" className="sr-only">Email address</label>
+       <label for="inputEmail" className="sr-only">Username</label>
        <input id="inputEmail"
-              type="email"
+              type="text"
               className="form-control"
-              placeholder="Email address"
+              placeholder="Username"
               required
               autoFocus
-              onChange={this.onEmailChange.bind(this)}
+              onChange={this.onUsernameChange.bind(this)}
         />
 
        <label for="inputPassword" className="sr-only">Password</label>
@@ -45,7 +51,7 @@ class Login extends Component {
               onChange={this.onPasswordChange.bind(this)}
               required
         />
-      
+
        <div className="checkbox">
          <label>
            <input type="checkbox" value="remember-me" /> Remember me
