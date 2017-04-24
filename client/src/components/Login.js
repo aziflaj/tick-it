@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import '../styles.css';
 
+import { baseUrl } from '../helpers/Constants';
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -21,7 +23,7 @@ class Login extends Component {
 
   onFormSubmit(e) {
     e.preventDefault();
-    axios.post(`http://localhost:5000/api/authenticate`, {
+    axios.post(`${baseUrl}/api/authenticate`, {
       username: this.state.username,
       password: this.state.password
     }).then((response) => {

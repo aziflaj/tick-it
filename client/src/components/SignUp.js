@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import '../styles.css';
 
+import { baseUrl } from '../helpers/Constants';
+
 class SignUp extends Component {
   constructor(props) {
     super(props);
@@ -31,7 +33,7 @@ class SignUp extends Component {
 
   onFormSubmit(e) {
     e.preventDefault();
-    axios.post(`http://localhost:5000/api/users`, {
+    axios.post(`${baseUrl}/api/users`, {
       full_name: this.state.full_name,
       username: this.state.username,
       email: this.state.email,
