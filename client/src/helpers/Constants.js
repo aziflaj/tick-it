@@ -1,6 +1,3 @@
-let baseUrl = '';
-if (process.env.ENV === 'development') {
-  baseUrl = 'http://localhost:5000';
-}
+const baseUrl = (process.env.NODE_ENV === 'development') ? 'http://localhost:5000/api' : '';
 
 export default baseUrl;

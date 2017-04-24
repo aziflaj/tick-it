@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import baseUrl from '../helpers/Constants';
 import logo from './logo.svg';
 import '../../styles.css';
 
@@ -13,11 +14,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    let baseUrl = '';
-    if (process.env.ENV === 'development') {
-      baseUrl = 'http://localhost:5000';
-    }
-    axios.get(`${baseUrl}/api/pages`).then((response) => {
+    axios.get(`${baseUrl}/pages`).then((response) => {
       this.setState({ message: response.data.message });
     });
   }
