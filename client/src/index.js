@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 // import App from './components/App/App';
-import Login from './components/Login/Login';
+import Login from './components/Login';
 import './index.css';
 
 ReactDOM.render(

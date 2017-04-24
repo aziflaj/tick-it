@@ -2,19 +2,17 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import '../styles.css';
 
-import {baseUrl} from '../helpers/Constants';
-
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
+      username: '',
       password: ''
     };
   }
 
-  onEmailChange(e) {
-    this.setState({ email: e.target.value });
+  onUsernameChange(e) {
+    this.setState({ username: e.target.value });
   }
 
   onPasswordChange(e) {
@@ -23,7 +21,7 @@ class Login extends Component {
 
   onFormSubmit(e) {
     e.preventDefault();
-    axios.post(`${baseUrl}/authenticate`, {
+    axios.post(`http://localhost:5000/api/authenticate`, {
       email: this.state.email,
       password: this.state.password
     }).then((response) => {
@@ -35,14 +33,14 @@ class Login extends Component {
     return (
       <form className="form-signin" onSubmit={this.onFormSubmit.bind(this)}>
        <h2 className="form-signin-heading">Please sign in</h2>
-       <label for="inputEmail" className="sr-only">Email address</label>
+       <label for="inputEmail" className="sr-only">Username</label>
        <input id="inputEmail"
-              type="email"
+              type="text"
               className="form-control"
-              placeholder="Email address"
+              placeholder="Username"
               required
               autoFocus
-              onChange={this.onEmailChange.bind(this)}
+              onChange={this.onUsernameChange.bind(this)}
         />
 
        <label for="inputPassword" className="sr-only">Password</label>
