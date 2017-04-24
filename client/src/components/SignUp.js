@@ -47,7 +47,7 @@ class SignUp extends Component {
     return (
       <form className="form-signin" onSubmit={this.onFormSubmit.bind(this)}>
        <h2 className="form-signin-heading">Please enter the required information to sign up.</h2>
-       <label for="inputFullName" className="sr-only">Full Name</label>
+       <label htmlFor="inputFullName" className="sr-only">Full Name</label>
        <input id="inputFullName"
               type="text"
               className="form-control"
@@ -57,7 +57,7 @@ class SignUp extends Component {
               onChange={this.onFullNameChange.bind(this)}
         />
 
-       <label for="inputUsername" className="sr-only">Username</label>
+       <label htmlFor="inputUsername" className="sr-only">Username</label>
        <input id="inputUsername"
               type="text"
               className="form-control"
@@ -67,7 +67,7 @@ class SignUp extends Component {
               onChange={this.onUsernameChange.bind(this)}
         />
 
-        <label for="inputEmail" className="sr-only">E-Mail</label>
+        <label htmlFor="inputEmail" className="sr-only">E-Mail</label>
         <input id="inputEmail"
                type="text"
                className="form-control"
@@ -77,7 +77,7 @@ class SignUp extends Component {
                onChange={this.onEmailChange.bind(this)}
          />
 
-       <label for="inputPassword" className="sr-only">Password</label>
+       <label htmlFor="inputPassword" className="sr-only">Password</label>
        <input type="password"
               id="inputPassword"
               className="form-control"

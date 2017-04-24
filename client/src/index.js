@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import App from './components/App/App';
-import Login from './components/Login';
+import routes from './config/routes';
 import './styles.css';
 
 ReactDOM.render(
-  <Login />,
+  routes,
   document.getElementById('root')
 );

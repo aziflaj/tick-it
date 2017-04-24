@@ -35,7 +35,7 @@ class Login extends Component {
     return (
       <form className="form-signin" onSubmit={this.onFormSubmit.bind(this)}>
        <h2 className="form-signin-heading">Please sign in</h2>
-       <label for="inputEmail" className="sr-only">Username</label>
+       <label htmlFor="inputEmail" className="sr-only">Username</label>
        <input id="inputEmail"
               type="text"
               className="form-control"
@@ -45,7 +45,7 @@ class Login extends Component {
               onChange={this.onUsernameChange.bind(this)}
         />
 
-       <label for="inputPassword" className="sr-only">Password</label>
+       <label htmlFor="inputPassword" className="sr-only">Password</label>
        <input type="password"
               id="inputPassword"
               className="form-control"
