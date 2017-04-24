@@ -8,6 +8,6 @@ const tickets = require('./tickets');
 apiRouter.use('/pages', pages);
 apiRouter.use('/authenticate', auth);
 apiRouter.use('/users', users);
-apiRouter.use('/users/:username/tickets', tickets);
+apiRouter.use('/tickets', tickets);
 
 module.exports = apiRouter;

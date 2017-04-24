@@ -7,9 +7,11 @@ const ticketDao = new TicketDAO();
 class TicketsController {
   index(req, res, next) {
     currentUser(req).then((user) => {
-      res.json({
-        status: 'ok',
-        message: `Tickets for user ${user.username}`
+      ticketDao.ticketsForUser(user).then((tickets) => {
+        res.json({
+          status: 'ok',
+          tickets: tickets
+        });
       });
     });
   }

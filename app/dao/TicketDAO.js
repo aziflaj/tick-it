@@ -1,5 +1,7 @@
 const db = require('../../lib/db');
 
+const { arrayToObject } = require('../helpers/TicketHelpers');
+
 class TicketDAO {
   getById(id) {
     return db.hgetall(`ticket:${id}`);
@@ -12,7 +14,7 @@ class TicketDAO {
 
       return db.multi()
         .hmset(`ticket:${ticket_count}`, ticket)
-        .zadd(`customer_tickets:${ticket.customer_id}`, ticket_count, Date.now())
+        .zadd(`customer_tickets:${ticket.customer_id}`, Date.now(), ticket_count)
         .exec().then((result) => ticket_count);
     });
   }
@@ -27,6 +29,13 @@ class TicketDAO {
                .del(`ticket:${ticket.id}`)
                .zrem(`customer_tickets:${ticket.customer_id}`)
                .exec();
+    });
+  }
+
+  ticketsForUser(user, from = 0, to = -1) {
+    return db.zrange(`customer_tickets:${user.id}`, from, to).then((result) => {
+      const keys = result.map((item) => `ticket:${item}`).join(' ');
+      return db.mhgetall(keys).then((result) => result.map((item) => arrayToObject(item)));
     });
   }
 }
