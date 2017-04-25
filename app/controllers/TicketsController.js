@@ -49,23 +49,8 @@ class TicketsController {
     });
   }
 
-  update(req, res, next) {
-    const ticket = {
-      title: req.body.title,
-      description: req.body.description,
-      status: req.body.status
-    };
-
-    ticketDao.update(req.params.ticket_id, ticket).then((result) => {
-      res.json({
-        status: 'ok',
-        ticket: ticket
-      });
-    });
-  }
-
-  delete(req, res, next) {
-    const ticketId = req.params.ticket_id;
+  destroy(req, res, next) {
+    const ticketId = req.params.id;
 
     ticketDao.delete(ticketId).then((result) => {
       res.json({
