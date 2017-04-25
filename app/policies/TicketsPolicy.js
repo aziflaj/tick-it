@@ -1,16 +1,10 @@
 const TicketDAO = require('../dao/TicketDAO');
 const JsonWebToken = require('../../lib/jwt');
-const { currentUser } = require('../helpers/UserHelpers');
+const { isLoggedIn, currentUser } = require('../helpers/UserHelpers');
 
 class TicketsPolicy {
-  isAllowed(req) {
-    const token = req.get('Authorization').split(' ')[1];
-    try {
-      const decoded = JsonWebToken.verify(token);
-      return decoded.username == req.params.username;
-    } catch (error) {
-      return false;
-    }
+  canCreate(req) {
+    return isLoggedIn(req);
   }
 
   canDelete(req) {

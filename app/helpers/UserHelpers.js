@@ -1,8 +1,13 @@
 const JsonWebToken = require('../../lib/jwt');
 const UserDAO = require('../dao/UserDAO');
 
+function isLoggedIn(req) {
+  const authHeader = req.get('Authorization');
+  return typeof authHeader !== 'undefined';
+}
+
 function currentUser(req) {
-  const token = req.get('Authorization').split(' ')[1];
+  const token = authHeader.split(' ')[1];
   try {
     const decoded = JsonWebToken.verify(token);
     const dao = new UserDAO();
@@ -22,5 +27,6 @@ function toJson(user) {
   };
 }
 
+module.exports.isLoggedIn = isLoggedIn;
 module.exports.currentUser = currentUser;
 module.exports.toJson = toJson;

@@ -16,7 +16,11 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  tickets.create(req, res, next);
+  if (policy.canCreate(req)) {
+    tickets.create(req, res, next);
+  } else {
+    unauthorized(res);
+  }
 });
 
 router.delete('/:id', (req, res, next) => {
