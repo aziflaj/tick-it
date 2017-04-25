@@ -37,6 +37,7 @@ class UserDAO {
 
   delete(username) {
     return this.getByUsername(username).then((user) => {
+      // TODO: delete tickets
       return db.multi()
                .hdel('users', user.username)
                .hdel('users', user.email)

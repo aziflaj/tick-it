@@ -35,10 +35,9 @@ class UsersController {
     });
   }
 
-  delete(req, res, next) {
+  destroy(req, res, next) {
     const username = req.params.username;
     userDao.delete(username).then((results) => {
-      console.log(results);
       res.json({
         status: 'ok',
         message: `User ${username} deleted`

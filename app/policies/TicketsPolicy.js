@@ -1,5 +1,4 @@
 const TicketDAO = require('../dao/TicketDAO');
-const JsonWebToken = require('../../lib/jwt');
 const { isLoggedIn, currentUser } = require('../helpers/UserHelpers');
 
 class TicketsPolicy {

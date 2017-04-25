@@ -7,7 +7,7 @@ function isLoggedIn(req) {
 }
 
 function currentUser(req) {
-  const token = authHeader.split(' ')[1];
+  const token = req.get('Authorization').split(' ')[1];
   try {
     const decoded = JsonWebToken.verify(token);
     const dao = new UserDAO();
