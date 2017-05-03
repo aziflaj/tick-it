@@ -6,9 +6,14 @@ const TicketsPolicy = require('../app/policies/TicketsPolicy');
 const policy = new TicketsPolicy();
 
 const { unauthorized } = require('../lib/response');
+const { isLoggedIn } = require('../app/helpers/UserHelpers');
 
 router.get('/', (req, res, next) => {
-  tickets.index(req, res, next);
+  if (isLoggedIn(req)) {
+    tickets.index(req, res, next);
+  } else {
+    unauthorized(res);
+  }
 });
 
 router.get('/:id', (req, res, next) => {
