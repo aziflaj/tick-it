@@ -24,9 +24,14 @@ class NewTicket extends Component {
 
   onFormSubmit(e) {
     e.preventDefault();
-    axios.post(`${baseUrl}/tickets`, {
-      title: this.state.title,
-      description: this.state.description
+    axios({
+      method: 'post',
+      url: `${baseUrl}/tickets`,
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`},
+      data: {
+        title: this.state.title,
+        description: this.state.description
+      }
     }).then((response) => {
       console.log(response);
       //this.context.router.history.push(`/tickets/${response.data.user.username}`);
@@ -59,7 +64,7 @@ class NewTicket extends Component {
                       placeholder="title"
                       required
                       autoFocus
-                      onChange={this.onTitleChange.bind(this)}
+                      onChange={this.onDescriptionChange.bind(this)}
             ></textarea>
           </div>
         </div>

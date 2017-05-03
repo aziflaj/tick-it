@@ -37,7 +37,7 @@ class TicketsController {
       ticketDao.save(ticket).then((ticket_id) => {
         res.json({
           status: 'ok',
-          message: `Ticket saved with id ${ticket_id}`
+          id: ticket_id
         });
       }).catch((error) => {
           console.log(errors);
