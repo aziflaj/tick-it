@@ -28,7 +28,9 @@ class Login extends Component {
       username: this.state.username,
       password: this.state.password
     }).then((response) => {
-      console.log(response);
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', response.data.user);
+      this.context.router.history.push(`/users/${response.data.user.username}`);
     });
   }
 
@@ -70,6 +72,10 @@ class Login extends Component {
       </form>
     );
   }
+}
+
+Login.contextTypes = {
+  router: React.PropTypes.object.isRequired
 }
 
 export default Login;

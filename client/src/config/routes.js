@@ -3,12 +3,16 @@ import { HashRouter, Route } from 'react-router-dom';
 
 import Login from '../components/Login';
 import SignUp from '../components/SignUp';
+import Profile from '../components/Profile';
+import NewTicket from '../components/NewTicket';
 
 const routes = (
   <HashRouter>
     <div>
       <Route exact path="/" component={Login} />
       <Route path="/signup" component={SignUp} />
+      <Route path="/users/:username" component={Profile} />
+      <Route path="/users/:username/tickets/create" component={NewTicket} />
     </div>
   </HashRouter>
 );
