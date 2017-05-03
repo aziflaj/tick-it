@@ -11,7 +11,8 @@
     "start": "node server.js",
     "start:dev": "nodemon --watch ./ server.js ",
     "start:prod": "cd client && yarn build && cd .. && yarn start",
-    "postinstall": "cd client && yarn install && yarn build"
+    "postinstall": "cd client && yarn install && yarn build",
+    "seed": "node db/seed.js"
   },
   "author": "Aldo Ziflaj <aldoziflaj95@gmail.com>",
   "license": "ISC",
@@ -24,6 +25,8 @@
     "jsonwebtoken": "^7.3.0"
   },
   "devDependencies": {
+    "asyncawait": "^1.0.6",
+    "faker": "^4.1.0",
     "nodemon": "^1.11.0"
   }
 }

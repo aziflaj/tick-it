@@ -9,7 +9,6 @@ class TicketDAO {
 
   save(ticket) {
     return db.incr('ticket_count').then((ticket_count) => {
-      console.log(`ticket_count ${ticket_count}`);
       ticket.id = ticket_count;
       ticket.created_at = Date.now();
 
