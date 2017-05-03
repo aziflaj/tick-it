@@ -8,11 +8,11 @@ import NewTicket from '../components/NewTicket';
 
 const routes = (
   <HashRouter>
-    <div>
+    <div className="container">
       <Route exact path="/" component={Login} />
       <Route path="/signup" component={SignUp} />
       <Route path="/users/:username" component={Profile} />
-      <Route path="/users/:username/tickets/create" component={NewTicket} />
+      <Route path="/tickets/create" component={NewTicket} />
     </div>
   </HashRouter>
 );
