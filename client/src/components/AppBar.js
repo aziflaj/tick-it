@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import '../styles.css';
 
 class AppBar extends Component {
@@ -7,10 +8,15 @@ class AppBar extends Component {
   }
 
   render() {
-    let logoutDiv = '';
+    let loggedInDiv = '';
     if (localStorage.getItem('token')) {
-      logoutDiv = (
+      loggedInDiv = (
         <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul className="nav navbar-nav">
+            <Link to='/tickets'>My Tickets</Link>
+            <Link to='/tickets/create'>New Ticket</Link>
+          </ul>
+
           <ul className="nav navbar-nav navbar-right">
             <li>
               <button className="btn btn-link" onClick={this.handleLogout.bind(this)}>
@@ -35,7 +41,7 @@ class AppBar extends Component {
             <a className="navbar-brand" href="#">Tick-it</a>
           </div>
 
-          {logoutDiv}
+          {loggedInDiv}
         </div>
       </nav>
     )

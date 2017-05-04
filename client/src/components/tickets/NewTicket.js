@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-import '../styles.css';
+import '../../styles.css';
 
-import baseUrl from '../config/constants';
+import baseUrl from '../../config/constants';
 
 class NewTicket extends Component {
   constructor(props) {
@@ -68,11 +68,10 @@ class NewTicket extends Component {
             <textarea id="inputDescription"
                       type="text"
                       className="form-control"
-                      placeholder="title"
                       required
                       autoFocus
                       onChange={this.onDescriptionChange.bind(this)}
-            ></textarea>
+            />
           </div>
         </div>
 
