@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../styles.css';
 
-import baseUrl from '../helpers/Constants';
+import baseUrl from '../config/constants';
 
 class Login extends Component {
   constructor(props) {
@@ -75,7 +76,7 @@ class Login extends Component {
 }
 
 Login.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: PropTypes.object.isRequired
 }
 
 export default Login;

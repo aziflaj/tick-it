@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import baseUrl from '../helpers/Constants';
+import baseUrl from '../config/constants';
 import logo from './logo.svg';
 import '../../styles.css';
 

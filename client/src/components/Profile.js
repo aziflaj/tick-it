@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 import '../styles.css';
 
-import baseUrl from '../helpers/Constants';
+import baseUrl from '../config/constants';
 
 class Profile extends Component {
   constructor(props) {
@@ -11,6 +12,12 @@ class Profile extends Component {
     this.state = {
       user: {}
     };
+  }
+
+  componentWillMount() {
+    if (localStorage.getItem('token') === null) {
+      this.context.router.history.push('/');
+    }
   }
 
   componentDidMount() {
@@ -26,4 +33,8 @@ class Profile extends Component {
   }
 }
 
-export default Profile
+Profile.contextTypes = {
+  router: PropTypes.object.isRequired
+};
+
+export default Profile;

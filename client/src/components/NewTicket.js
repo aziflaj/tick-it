@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+
 import '../styles.css';
 
-import baseUrl from '../helpers/Constants';
+import baseUrl from '../config/constants';
 
 class NewTicket extends Component {
   constructor(props) {
@@ -36,6 +37,12 @@ class NewTicket extends Component {
       console.log(response);
       //this.context.router.history.push(`/tickets/${response.data.user.username}`);
     });
+  }
+
+  componentWillMount() {
+    if (localStorage.getItem('token') === null) {
+      this.context.router.history.push('/');
+    }
   }
 
   render() {
@@ -80,7 +87,7 @@ class NewTicket extends Component {
 }
 
 NewTicket.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: PropTypes.object.isRequired
 }
 
 export default NewTicket;
