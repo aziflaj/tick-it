@@ -51,7 +51,7 @@ class NewTicket extends Component {
         <h2 className="form-signin-heading">Enter you ticket information</h2>
         <div className="form-group">
           <label htmlFor="inputTitle" className="control-label col-sm-2">Title</label>
-          <div class="col-sm-10">
+          <div className="col-sm-10">
             <input id="inputTitle"
                    type="text"
                    className="form-control"
@@ -64,7 +64,7 @@ class NewTicket extends Component {
 
         <div className="form-group">
           <label htmlFor="inputDescription" className="control-label col-sm-2">Description</label>
-          <div class="col-sm-10">
+          <div className="col-sm-10">
             <textarea id="inputDescription"
                       type="text"
                       className="form-control"
@@ -75,9 +75,9 @@ class NewTicket extends Component {
           </div>
         </div>
 
-        <div class="form-group">
-          <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-default">Submit</button>
+        <div className="form-group">
+          <div className="col-sm-offset-2 col-sm-10">
+            <button type="submit" className="btn btn-default">Submit</button>
           </div>
         </div>
       </form>
