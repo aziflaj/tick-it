@@ -28,8 +28,18 @@ router.post('/', (req, res, next) => {
   }
 });
 
+router.put('/:id', (req, res, next) => {
+  policy.canUpdate(req).then(ok => {
+    if (ok) {
+      tickets.update(req, res, next);
+    } else {
+      unauthorized(res);
+    }
+  });
+});
+
 router.delete('/:id', (req, res, next) => {
-  policy.canDelete(req).then((ok) => {
+  policy.canDelete(req).then(ok => {
     if (ok) {
       tickets.destroy(req, res, next);
     } else {

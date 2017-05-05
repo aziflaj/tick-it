@@ -49,6 +49,22 @@ class TicketsController {
     });
   }
 
+  update(req, res, next) {
+    const ticket = {
+      title: req.body.title,
+      description: req.body.description,
+      status: req.body.status,
+      agent_id: req.body.agent_id
+    };
+
+    ticketDao.update(req.params.id, ticket).then(data => {
+      res.json({
+        status: 'ok',
+        id: req.params.id
+      });
+    });
+  }
+
   destroy(req, res, next) {
     const ticketId = req.params.id;
 
