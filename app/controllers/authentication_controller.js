@@ -1,8 +1,8 @@
 const bcrypt = require('bcrypt');
 
-const UserDAO = require('../dao/UserDAO');
+const UserDAO = require('../dao/user_dao');
 const JsonWebToken = require('../../lib/jwt');
-const { toJson } = require('../helpers/UserHelpers')
+const { toJson } = require('../helpers/user_helpers');
 
 class AuthenticationController {
   authenticate(req, res, next) {

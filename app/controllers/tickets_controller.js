@@ -1,6 +1,6 @@
-const TicketDAO = require('../dao/TicketDAO');
-const { currentUser } = require('../helpers/UserHelpers');
-const { toJson } = require('../helpers/TicketHelpers');
+const TicketDAO = require('../dao/ticket_dao');
+const { currentUser } = require('../helpers/user_helpers');
+const { toJson } = require('../helpers/ticket_helpers');
 
 const ticketDao = new TicketDAO();
 

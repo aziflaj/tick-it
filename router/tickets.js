@@ -1,12 +1,12 @@
 const router = require('express').Router();
 
-const TicketsController = require('../app/controllers/TicketsController');
+const TicketsController = require('../app/controllers/tickets_controller');
 const tickets = new TicketsController();
-const TicketsPolicy = require('../app/policies/TicketsPolicy');
+const TicketsPolicy = require('../app/policies/tickets_policy');
 const policy = new TicketsPolicy();
 
 const { unauthorized } = require('../lib/response');
-const { isLoggedIn } = require('../app/helpers/UserHelpers');
+const { isLoggedIn } = require('../app/helpers/user_helpers');
 
 router.get('/', (req, res, next) => {
   if (isLoggedIn(req)) {

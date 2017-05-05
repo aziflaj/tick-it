@@ -1,5 +1,5 @@
-const UserDAO = require('../dao/UserDAO');
-const { toJson } = require('../helpers/UserHelpers');
+const UserDAO = require('../dao/user_dao');
+const { toJson } = require('../helpers/user_helpers');
 
 const userDao = new UserDAO();
 

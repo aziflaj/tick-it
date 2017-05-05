@@ -1,5 +1,5 @@
 const JsonWebToken = require('../../lib/jwt');
-const UserDAO = require('../dao/UserDAO');
+const UserDAO = require('../dao/user_dao');
 
 function isLoggedIn(req) {
   const authHeader = req.get('Authorization');

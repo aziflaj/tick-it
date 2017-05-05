@@ -1,5 +1,5 @@
-const UserDAO = require('../dao/UserDAO');
-const { currentUser } = require('../helpers/UserHelpers');
+const UserDAO = require('../dao/user_dao');
+const { currentUser } = require('../helpers/user_helpers');
 
 class TicketsPolicy {
   canDelete(req) {

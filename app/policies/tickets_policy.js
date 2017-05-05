@@ -1,5 +1,5 @@
-const TicketDAO = require('../dao/TicketDAO');
-const { isLoggedIn, currentUser } = require('../helpers/UserHelpers');
+const TicketDAO = require('../dao/ticket_dao');
+const { isLoggedIn, currentUser } = require('../helpers/user_helpers');
 
 class TicketsPolicy {
   canCreate(req) {

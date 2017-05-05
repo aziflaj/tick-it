@@ -1,11 +1,9 @@
 const faker = require('faker');
-const async = require('asyncawait/async');
-const await = require('asyncawait/await');
 
-const UserDAO = require('../app/dao/UserDAO');
+const UserDAO = require('../app/dao/user_dao');
 const userDao = new UserDAO();
 
-const TicketDAO = require('../app/dao/TicketDAO');
+const TicketDAO = require('../app/dao/ticket_dao');
 const ticketDao = new TicketDAO();
 
 const users = [

@@ -1,6 +1,6 @@
 const db = require('../../lib/db');
 
-const { arrayToObject } = require('../helpers/TicketHelpers');
+const { arrayToObject } = require('../helpers/ticket_helpers');
 
 class TicketDAO {
   getById(id) {
