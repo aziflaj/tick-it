@@ -35,6 +35,7 @@ class TicketsList extends Component {
         {this.state.tickets.map(ticket => {
           return (
             <TicketItem
+              id={ticket.id}
               key={ticket.id}
               title={ticket.title}
               status={ticket.status}
