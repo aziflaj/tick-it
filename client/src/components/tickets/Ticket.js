@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-import '../../styles.css';
-
-import baseUrl from '../../config/constants';
-
 import TicketItem from './TicketItem';
+import '../../styles.css';
+import baseUrl from '../../config/constants';
 
 class Ticket extends Component {
   constructor(props) {

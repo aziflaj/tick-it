@@ -11,7 +11,7 @@ class AuthenticationController {
     const dao = new UserDAO();
 
     dao.getByUsername(username).then((user) => {
-      bcrypt.compare(password, user.password).then((matching) => {
+      bcrypt.compare(password, user.password).then(matching => {
         if (matching) {
           res.json({
             status: 'ok',
@@ -24,6 +24,11 @@ class AuthenticationController {
             message: 'Invalid username or password'
           });
         }
+      }).catch(error => {
+        res.json({
+          status: 'error',
+          message: 'Invalid username or password'
+        });
       });
     });
   }

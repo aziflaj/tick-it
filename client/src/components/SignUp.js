@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import '../styles.css';
 
+import '../styles.css';
 import baseUrl from '../config/constants';
 
 class SignUp extends Component {
@@ -13,7 +13,8 @@ class SignUp extends Component {
       username: '',
       password: '',
       email: '',
-      full_name: ''
+      full_name: '',
+      disabled: false
     };
   }
 
@@ -35,6 +36,7 @@ class SignUp extends Component {
 
   onFormSubmit(e) {
     e.preventDefault();
+    this.setState({ disabled: true });
     axios.post(`${baseUrl}/users`, {
       full_name: this.state.full_name,
       username: this.state.username,
@@ -100,7 +102,7 @@ class SignUp extends Component {
           <Link to='/'>Log in</Link>
         </div>
 
-        <button className="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+        <button className="btn btn-lg btn-primary btn-block" type="submit" disabled={this.state.disabled}>Register</button>
       </form>
     );
   }

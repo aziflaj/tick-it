@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import '../../styles.css';
-
 import baseUrl from '../../config/constants';
 
 class NewTicket extends Component {

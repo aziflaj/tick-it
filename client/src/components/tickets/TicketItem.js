@@ -3,8 +3,6 @@ import {Link} from 'react-router-dom';
 
 import '../../styles.css';
 
-import baseUrl from '../../config/constants';
-
 class TicketItem extends Component {
   render() {
     return (

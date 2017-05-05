@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import '../styles.css';
 
+import '../styles.css';
 import baseUrl from '../config/constants';
 
 class Login extends Component {
@@ -11,7 +11,9 @@ class Login extends Component {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      disabled: false,
+      errorMessage: ''
     };
   }
 
@@ -25,13 +27,21 @@ class Login extends Component {
 
   onFormSubmit(e) {
     e.preventDefault();
+    this.setState({ disabled: true });
     axios.post(`${baseUrl}/authenticate`, {
       username: this.state.username,
       password: this.state.password
     }).then((response) => {
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', response.data.user);
-      this.context.router.history.push(`/users/${response.data.user.username}`);
+      if (response.data.status === 'ok') {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', response.data.user);
+        this.context.router.history.push(`/users/${response.data.user.username}`);
+      } else {
+        this.setState({
+          errorMessage: response.data.message,
+          disabled: false
+        });
+      }
     });
   }
 
@@ -45,6 +55,7 @@ class Login extends Component {
   render() {
     return (
       <form className="form-signin" onSubmit={this.onFormSubmit.bind(this)}>
+        <p className="bg-danger">{this.state.errorMessage}</p>
         <h2 className="form-signin-heading">Please sign in</h2>
         <label htmlFor="inputEmail" className="sr-only">Username</label>
         <input id="inputEmail"
@@ -76,7 +87,7 @@ class Login extends Component {
           <Link to='/signup'>Sign up</Link>
         </div>
 
-        <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button className="btn btn-lg btn-primary btn-block" type="submit" disabled={this.state.disabled}>Sign in</button>
       </form>
     );
   }

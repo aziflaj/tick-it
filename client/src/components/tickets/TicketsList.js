@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import '../../styles.css';
-
 import TicketItem from './TicketItem';
+import '../../styles.css';
 import baseUrl from '../../config/constants';
 
 class TicketsList extends Component {
