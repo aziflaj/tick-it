@@ -14,7 +14,8 @@ class SignUp extends Component {
       password: '',
       email: '',
       full_name: '',
-      disabled: false
+      disabled: false,
+      errorMessage: ''
     };
   }
 
@@ -43,7 +44,15 @@ class SignUp extends Component {
       email: this.state.email,
       password: this.state.password
     }).then((response) => {
-      console.log(response);
+      if (response.data.status === 'ok') {
+        alert('You should login now');
+        this.context.router.history.push('/');
+      } else {
+        this.setState({
+          errorMessage: response.data.message,
+          disabled: false
+        });
+      }
     });
   }
 

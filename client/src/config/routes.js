@@ -21,8 +21,8 @@ const routes = (
         <Route path="/signup" component={SignUp} />
         <Route path="/users/:username" component={Profile} />
         <Route exact path="/tickets" component={TicketsList} />
+        <Route exact path="/tickets/create" component={NewTicket} />
         <Route path="/tickets/:id" component={Ticket} />
-        <Route path="/tickets/create" component={NewTicket} />
       </div>
     </div>
   </HashRouter>
