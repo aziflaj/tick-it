@@ -31,18 +31,18 @@ const users = [
 
 const tickets = [
   {
-    title: faker.lorem.sentence,
-    description: faker.lorem.text,
+    title: faker.lorem.sentence(),
+    description: faker.lorem.text(),
     status: 'opened'
   },
   {
-    title: faker.lorem.sentence,
-    description: faker.lorem.text,
+    title: faker.lorem.sentence(),
+    description: faker.lorem.text(),
     status: 'opened'
   },
   {
-    title: faker.lorem.sentence,
-    description: faker.lorem.text,
+    title: faker.lorem.sentence(),
+    description: faker.lorem.text(),
     status: 'opened'
   }
 ];

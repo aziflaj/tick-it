@@ -35,6 +35,13 @@ class Login extends Component {
     });
   }
 
+  componentWillMount() {
+    if (localStorage.getItem('token')) {
+      const username = localStorage.getItem('user').username;
+      this.context.router.history.push(`/users/${username}`);
+    }
+  }
+
   render() {
     return (
       <form className="form-signin" onSubmit={this.onFormSubmit.bind(this)}>

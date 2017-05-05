@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../styles.css';
@@ -42,6 +43,13 @@ class SignUp extends Component {
     }).then((response) => {
       console.log(response);
     });
+  }
+
+  componentWillMount() {
+    if (localStorage.getItem('token')) {
+      const username = localStorage.getItem('user').username;
+      this.context.router.history.push(`/users/${username}`);
+    }
   }
 
   render() {
@@ -96,6 +104,10 @@ class SignUp extends Component {
       </form>
     );
   }
+}
+
+SignUp.contextTypes = {
+  router: PropTypes.object.isRequired
 }
 
 export default SignUp;

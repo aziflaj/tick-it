@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import '../styles.css';
 
 class AppBar extends Component {
   handleLogout(e) {
     console.log('logout');
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.context.router.history.push('/');
   }
 
   render() {
@@ -46,6 +50,10 @@ class AppBar extends Component {
       </nav>
     )
   }
+}
+
+AppBar.contextTypes = {
+  router: PropTypes.object.isRequired
 }
 
 export default AppBar;
