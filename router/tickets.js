@@ -2,6 +2,9 @@ const router = require('express').Router();
 
 const TicketsController = require('../app/controllers/tickets_controller');
 const tickets = new TicketsController();
+const CommentsController = require('../app/controllers/comments_controller');
+const comments = new CommentsController();
+
 const TicketsPolicy = require('../app/policies/tickets_policy');
 const policy = new TicketsPolicy();
 
@@ -46,6 +49,16 @@ router.delete('/:id', (req, res, next) => {
       unauthorized(res);
     }
   });
+});
+
+router.post('/:ticket_id/comments', (req, res, next) => {
+  // policy.canComment(req)
+  comments.create(req, res, next);
+});
+
+router.delete('/:ticket_id/comments/:comment_id', (req, res, next) => {
+  // policy.canDeleteComment(req)
+  comments.destroy(req, res, next);
 });
 
 module.exports = router;

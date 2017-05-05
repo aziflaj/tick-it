@@ -17,10 +17,10 @@ class TicketsController {
   }
 
   show(req, res, next) {
-    ticketDao.getById(req.params.id).then((ticket) => {
+    ticketDao.getById(req.params.id).then(ticket => {
       res.json({
         status: 'ok',
-        ticket: toJson(ticket)
+        ticket: ticket
       });
     });
   }

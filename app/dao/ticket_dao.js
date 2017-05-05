@@ -4,7 +4,18 @@ const { arrayToObject } = require('../helpers/ticket_helpers');
 
 class TicketDAO {
   getById(id) {
-    return db.hgetall(`ticket:${id}`);
+    return db.hgetall(`ticket:${id}`).then(ticket => {
+      return db.zrange(`ticket_comments:${ticket.id}`, 0, -1).then(result => {
+        const keys = result.map(item => `comment:${item}`).join(' ');
+        return db.mhgetall(keys).then(result => {
+          const objs = result.map(item => arrayToObject(item));
+          return {
+            ticket: ticket,
+            comments: objs
+          };
+        });
+      });
+    });
   }
 
   save(ticket) {
