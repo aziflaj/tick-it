@@ -39,6 +39,7 @@ class Ticket extends Component {
   render() {
     return (
       <TicketItem
+        id={this.state.ticket.id}
         title={this.state.ticket.title}
         status={this.state.ticket.status}
         description={this.state.ticket.description}
