@@ -10,6 +10,7 @@ import Profile from '../components/Profile';
 
 import NewTicket from '../components/tickets/NewTicket';
 import TicketsList from '../components/tickets/TicketsList';
+import Ticket from '../components/tickets/Ticket';
 
 const routes = (
   <HashRouter>
@@ -20,6 +21,7 @@ const routes = (
         <Route path="/signup" component={SignUp} />
         <Route path="/users/:username" component={Profile} />
         <Route exact path="/tickets" component={TicketsList} />
+        <Route path="/tickets/:id" component={Ticket} />
         <Route path="/tickets/create" component={NewTicket} />
       </div>
     </div>

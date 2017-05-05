@@ -35,7 +35,7 @@ class NewTicket extends Component {
       }
     }).then((response) => {
       console.log(response);
-      //this.context.router.history.push(`/tickets/${response.data.user.username}`);
+      this.context.router.history.push(`/tickets/${response.data.id}`);
     });
   }
 
