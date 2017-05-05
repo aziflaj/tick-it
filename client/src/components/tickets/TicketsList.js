@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 import TicketItem from './TicketItem';
 import '../../styles.css';
@@ -28,10 +29,10 @@ class TicketsList extends Component {
     });
   }
 
-  render() {
+  renderTicketList(tickets) {
     return (
-      <div className="tickets-listing">
-        {this.state.tickets.map(ticket => {
+      <div>
+        {tickets.map(ticket => {
           return (
             <TicketItem
               id={ticket.id}
@@ -42,6 +43,23 @@ class TicketsList extends Component {
             />
           )
         })}
+      </div>
+    );
+  }
+
+  renderEmptyList() {
+    return (
+      <div>
+        <h3>You have no tickets</h3>
+        <Link to='/tickets/create'>Create one now?</Link>
+      </div>
+    );
+  }
+
+  render() {
+    return (
+      <div className="tickets-listing">
+        {this.state.tickets.length === 0 ? this.renderEmptyList() : this.renderTicketList(this.state.tickets)}
       </div>
     );
   }
