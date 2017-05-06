@@ -17,7 +17,7 @@ router.delete('/:username', (req, res, next) => {
     unauthorized(res);
   }
 
-  policy.canDelete(req).then((ok) => {
+  policy.canDelete(req).then(ok => {
     if (ok) {
       users.destroy(req, res, next);
     } else {

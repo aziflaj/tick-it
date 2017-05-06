@@ -1,4 +1,6 @@
 const faker = require('faker');
+const async = require('asyncawait/async');
+const await = require('asyncawait/await');
 
 const UserDAO = require('../app/dao/user_dao');
 const userDao = new UserDAO();
@@ -6,24 +8,27 @@ const userDao = new UserDAO();
 const TicketDAO = require('../app/dao/ticket_dao');
 const ticketDao = new TicketDAO();
 
-const users = [
+const customers = [
   {
     username: 'aziflaj',
     password: 'password',
     email: 'aziflaj@mail.com',
-    full_name: 'Aldo Ziflaj'
+    full_name: 'Aldo Ziflaj',
+    role: 'customer'
   },
   {
     username: 'skola',
     password: 'password',
     email: 'skola@mail.com',
-    full_name: 'Sara Kola'
+    full_name: 'Sara Kola',
+    role: 'customer'
   },
   {
     username: 'foobar',
     password: 'password',
     email: 'fbar@mail.com',
-    full_name: 'Foo Bar'
+    full_name: 'Foo Bar',
+    role: 'customer'
   }
 ];
 
@@ -45,10 +50,39 @@ const tickets = [
   }
 ];
 
-users.forEach((user, index) => {
-  userDao.save(user).then(id => {
-    const t = tickets[index];
-    t.customer_id = id;
-    ticketDao.save(t).then(t_id => console.log(`Saved ticket ${t_id}`));
+const saveUserWithTicket = async((user, ticket) => {
+  const userId = await(userDao.save(user));
+  ticket.customer_id = userId;
+  return await(ticketDao.save(ticket));
+});
+
+for (let i = 0; i < customers.length; i++) {
+  const user = customers[i];
+  saveUserWithTicket(user, tickets[i]).then(ticketId => {
+    console.log(`Saved ticket #${ticketId} for user ${user.username}`);
+  });
+}
+
+
+const supporters = [
+  {
+    username: 'jimmy',
+    password: 'password',
+    email: 'jimmy@tickit.com',
+    full_name: 'Jimmy Page',
+    role: 'support'
+  },
+  {
+    username: 'clapton',
+    password: 'password',
+    email: 'clapton@tickit.com',
+    full_name: 'Eric Clapton',
+    role: 'support'
+  }
+];
+
+supporters.forEach(supporter => {
+  userDao.save(supporter).then(id => {
+    console.log(`Saved supporter with id ${id}`);
   });
 });

@@ -6,13 +6,18 @@ const ticketDao = new TicketDAO();
 
 class TicketsController {
   index(req, res, next) {
-    currentUser(req).then((user) => {
-      ticketDao.ticketsForUser(user).then((tickets) => {
-        res.json({
-          status: 'ok',
-          tickets: tickets
+    currentUser(req).then(user => {
+      if (user.role === 'customer') {
+        ticketDao.ticketsForCustomer(user).then(tickets => {
+          res.json({
+            status: 'ok',
+            tickets: tickets
+          });
         });
-      });
+      } else if (user.role === 'supporter') {
+        // TODO: tickets for supporter
+        // TODO: ?type=all || ?type=mine
+      }
     });
   }
 
@@ -26,7 +31,7 @@ class TicketsController {
   }
 
   create(req, res, next) {
-    currentUser(req).then((user) => {
+    currentUser(req).then(user => {
       const ticket = {
         title: req.body.title,
         description: req.body.description,
@@ -34,12 +39,12 @@ class TicketsController {
         customer_id: user.id
       };
 
-      ticketDao.save(ticket).then((ticket_id) => {
+      ticketDao.save(ticket).then(ticket_id => {
         res.json({
           status: 'ok',
           id: ticket_id
         });
-      }).catch((error) => {
+      }).catch(error => {
           console.log(errors);
           res.json({
             status: 'error',
@@ -74,7 +79,7 @@ class TicketsController {
         status: 'ok',
         message: `Ticket ${ticketId} deleted`
       })
-    })
+    });
   }
 }
 

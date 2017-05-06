@@ -43,7 +43,7 @@ class TicketDAO {
     });
   }
 
-  ticketsForUser(user, from = 0, to = -1) {
+  ticketsForCustomer(user, from = 0, to = -1) {
     return db.zrange(`customer_tickets:${user.id}`, from, to).then((result) => {
       const keys = result.map((item) => `ticket:${item}`).join(' ');
       return db.mhgetall(keys).then((result) => result.map((item) => arrayToObject(item)));

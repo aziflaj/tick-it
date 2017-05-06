@@ -5,7 +5,7 @@ const userDao = new UserDAO();
 
 class UsersController {
   show(req, res, next) {
-    userDao.getByUsername(req.params.username).then((user) => {
+    userDao.getByUsername(req.params.username).then(user => {
       res.json({
         status: 'ok',
         user: toJson(user)
@@ -18,15 +18,16 @@ class UsersController {
       username: req.body.username,
       password: req.body.password,
       email: req.body.email,
-      full_name: req.body.full_name
+      full_name: req.body.full_name,
+      role: req.body.role || 'customer'
     };
 
-    userDao.save(user).then((user_id) => {
+    userDao.save(user).then(user_id => {
       res.json({
         status: 'ok',
         message: `User saved with id ${user_id}`
       });
-    }).catch((error) => {
+    }).catch(errors => {
         console.log(errors);
         res.json({
           status: 'error',
@@ -37,7 +38,7 @@ class UsersController {
 
   destroy(req, res, next) {
     const username = req.params.username;
-    userDao.delete(username).then((results) => {
+    userDao.delete(username).then(results => {
       res.json({
         status: 'ok',
         message: `User ${username} deleted`

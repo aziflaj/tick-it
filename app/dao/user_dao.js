@@ -9,14 +9,14 @@ class UserDAO {
   }
 
   getByUsername(username) {
-    return db.hget('users', username).then((id) => {
+    return db.hget('users', username).then(id => {
       return this.getById(id);
     });
   }
 
   save(user) {
-    return bcrypt.hash(user.password, SALT_ROUNDS).then((hash) => {
-      return db.incr('user_count').then((user_count) => {
+    return bcrypt.hash(user.password, SALT_ROUNDS).then(hash => {
+      return db.incr('user_count').then(user_count => {
         user.id = user_count;
         user.password = hash;
 
@@ -24,13 +24,13 @@ class UserDAO {
           .hmset(`user:${user_count}`, user)
           .hset('users', user.username, user_count) // username serves as index
           .hset('users', user.email, user_count)    // email serves as index
-          .exec().then((results) => user_count);
+          .exec().then(results => user_count);
       });
     });
   }
 
   update(username, data) {
-    return getByUsername(username).then((user) => {
+    return getByUsername(username).then(user => {
       return db.hmset(`user:${user.id}`, data);
     });
   }

@@ -10,7 +10,7 @@ class AuthenticationController {
     const password = req.body.password;
     const dao = new UserDAO();
 
-    dao.getByUsername(username).then((user) => {
+    dao.getByUsername(username).then(user => {
       bcrypt.compare(password, user.password).then(matching => {
         if (matching) {
           res.json({

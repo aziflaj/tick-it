@@ -31,12 +31,12 @@ class CommentsController {
     const ticketId = req.params.ticket_id;
     const commentId = req.params.comment_id;
 
-    commentDao.delete(commentId).then((result) => {
+    commentDao.delete(commentId).then(result => {
       res.json({
         status: 'ok',
         message: `Comment ${commentId} deleted`
       })
-    })
+    });
   }
 }
 
