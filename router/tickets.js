@@ -66,4 +66,14 @@ router.delete('/:ticket_id/comments/:comment_id', (req, res, next) => {
   });
 });
 
+router.get('/:ticket_id/assign', (req, res, next) => {
+  policy.canAssignSelf(req).then(ok => {
+    if (ok) {
+      tickets.assign(req, res, next);
+    } else {
+      unauthorized(res);
+    }
+  })
+});
+
 module.exports = router;

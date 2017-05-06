@@ -14,9 +14,22 @@ class TicketsController {
             tickets: tickets
           });
         });
-      } else if (user.role === 'supporter') {
-        // TODO: tickets for supporter
-        // TODO: ?type=all || ?type=mine
+      } else if (user.role === 'support') {
+        if (req.query.type === 'mine') {
+          ticketDao.ticketsForSupporter(user).then(tickets => {
+            res.json({
+              status: 'ok',
+              tickets: tickets
+            });
+          });
+        } else {
+          ticketDao.unassignedTickets().then(tickets => {
+            res.json({
+              status: 'ok',
+              tickets: tickets
+            });
+          });
+        }
       }
     });
   }
@@ -79,6 +92,17 @@ class TicketsController {
         status: 'ok',
         message: `Ticket ${ticketId} deleted`
       })
+    });
+  }
+
+  assign(req, res, next) {
+    currentUser(req).then(user => {
+      ticketDao.assignToSupporter(req.params.ticket_id, user.id).then(result => {
+        res.json({
+          status: 'ok',
+          message: `Assigned to ${user.username}`
+        })
+      });
     });
   }
 }

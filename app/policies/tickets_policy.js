@@ -32,6 +32,12 @@ class TicketsPolicy {
       });
     });
   }
+
+  canAssignSelf(req) {
+    return currentUser(req).then(user => {
+      return user.role === 'support';
+    });
+  }
 }
 
 function findCommentById(comments, id) {
