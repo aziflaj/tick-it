@@ -57,8 +57,13 @@ router.post('/:ticket_id/comments', (req, res, next) => {
 });
 
 router.delete('/:ticket_id/comments/:comment_id', (req, res, next) => {
-  // policy.canDeleteComment(req)
-  comments.destroy(req, res, next);
+  policy.canDeleteComment(req).then(ok => {
+    if (ok) {
+      comments.destroy(req, res, next);
+    } else {
+      unauthorized(res);
+    }
+  });
 });
 
 module.exports = router;

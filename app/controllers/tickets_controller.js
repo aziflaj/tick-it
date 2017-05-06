@@ -68,7 +68,8 @@ class TicketsController {
   destroy(req, res, next) {
     const ticketId = req.params.id;
 
-    ticketDao.delete(ticketId).then((result) => {
+    ticketDao.delete(ticketId).then(result => {
+      console.log(result);
       res.json({
         status: 'ok',
         message: `Ticket ${ticketId} deleted`

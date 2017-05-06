@@ -19,14 +19,14 @@ class TicketDAO {
   }
 
   save(ticket) {
-    return db.incr('ticket_count').then((ticket_count) => {
+    return db.incr('ticket_count').then(ticket_count => {
       ticket.id = ticket_count;
       ticket.created_at = Date.now();
 
       return db.multi()
         .hmset(`ticket:${ticket_count}`, ticket)
-        .zadd(`customer_tickets:${ticket.customer_id}`, ticket.created_at, ticket_count)
-        .exec().then((result) => ticket_count);
+        .zadd(`customer_tickets:${ticket.customer_id}`, ticket.created_at, ticket.id)
+        .exec().then(result => ticket_count);
     });
   }
 
@@ -35,11 +35,11 @@ class TicketDAO {
   }
 
   delete(id) {
-    return this.getById(id).then((ticket) => {
+    return db.hgetall(`ticket:${id}`).then(ticket => {
       return db.multi()
-               .del(`ticket:${ticket.id}`)
-               .zrem(`customer_tickets:${ticket.customer_id}`, ticket.created_at)
-               .exec();
+        .del(`ticket:${ticket.id}`)
+        .zrem(`customer_tickets:${ticket.customer_id}`, ticket.id)
+        .exec();
     });
   }
 
