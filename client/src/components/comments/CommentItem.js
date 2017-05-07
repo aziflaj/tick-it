@@ -5,7 +5,7 @@ import '../../styles.css';
 class CommentItem extends Component {
   render() {
     const user = JSON.parse(localStorage.getItem('user'));
-    const author = (this.props.author_id === user.id) ? 'You' : 'Support';
+    const author = (this.props.author === user.id) ? 'You' : 'Support';
 
     return (
       <div className="comment well">
