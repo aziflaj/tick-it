@@ -9,6 +9,7 @@ class CustomerLinks extends Component {
       <ul className="nav navbar-nav">
         <Link to='/tickets'>My Tickets</Link>
         <Link to='/tickets/create'>New Ticket</Link>
+        <Link to='/setting'>Settings</Link>
       </ul>
     );
   }
