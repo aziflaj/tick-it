@@ -58,7 +58,8 @@ class SignUp extends Component {
 
   componentWillMount() {
     if (localStorage.getItem('token')) {
-      const username = localStorage.getItem('user').username;
+      const user = JSON.parse(localStorage.getItem('user'));
+      const username = user.username;
       this.context.router.history.push(`/users/${username}`);
     }
   }

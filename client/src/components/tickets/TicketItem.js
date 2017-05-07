@@ -7,7 +7,7 @@ class TicketItem extends Component {
   render() {
     return (
       <div className="ticket well">
-        <h3><Link to={`/tickets/${this.props.id}`}>{this.props.title}</Link></h3>
+        <h3><Link to={`/ticket/${this.props.id}`}>{this.props.title}</Link></h3>
         <p>{this.props.status}</p>
         <p>{this.props.description}</p>
       </div>

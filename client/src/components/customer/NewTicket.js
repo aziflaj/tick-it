@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-import '../../styles.css';
 import baseUrl from '../../config/constants';
+import '../../styles.css';
 
 class NewTicket extends Component {
   constructor(props) {

@@ -23,7 +23,8 @@ function toJson(user) {
     id: user.id,
     username: user.username,
     full_name: user.full_name,
-    email: user.email
+    email: user.email,
+    role: user.role
   };
 }
 

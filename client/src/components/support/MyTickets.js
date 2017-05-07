@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-import TicketItem from './TicketItem';
-import '../../styles.css';
+import TicketItem from '../tickets/TicketItem';
 import baseUrl from '../../config/constants';
+import '../../styles.css';
 
-class TicketsList extends Component {
+class MyTickets extends Component {
   constructor(props) {
     super(props);
     this.state = { tickets: [] };
@@ -21,10 +21,9 @@ class TicketsList extends Component {
   componentDidMount() {
     axios({
       method: 'get',
-      url: `${baseUrl}/tickets`,
+      url: `${baseUrl}/tickets?type=mine`,
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
     }).then((response) => {
-      console.log(response.data);
       this.setState({ tickets: response.data.tickets });
     });
   }
@@ -51,7 +50,7 @@ class TicketsList extends Component {
     return (
       <div>
         <h3>You have no tickets</h3>
-        <Link to='/tickets/create'>Create one now?</Link>
+        <Link to='/tickets/all'>Assign one to yourself</Link>
       </div>
     );
   }
@@ -65,4 +64,4 @@ class TicketsList extends Component {
   }
 }
 
-export default TicketsList;
+export default MyTickets;

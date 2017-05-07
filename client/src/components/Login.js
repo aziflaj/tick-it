@@ -33,8 +33,9 @@ class Login extends Component {
       password: this.state.password
     }).then((response) => {
       if (response.data.status === 'ok') {
+        console.log(response.data.user);
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', response.data.user);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
         this.context.router.history.push(`/users/${response.data.user.username}`);
       } else {
         this.setState({
@@ -47,7 +48,8 @@ class Login extends Component {
 
   componentWillMount() {
     if (localStorage.getItem('token')) {
-      const username = localStorage.getItem('user').username;
+      const user = JSON.parse(localStorage.getItem('user'));
+      const username = user.username;
       this.context.router.history.push(`/users/${username}`);
     }
   }
