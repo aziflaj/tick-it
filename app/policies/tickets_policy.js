@@ -17,7 +17,9 @@ class TicketsPolicy {
   canUpdate(req) {
     const dao = new TicketDAO();
     return currentUser(req).then(user => {
-      return dao.getById(req.params.id).then(ticket => ticket.customer_id == user.id || ticket.agent_id == user.id);
+      return dao.getById(req.params.id).then(ticket => {
+        return ticket.ticket.customer_id == user.id || ticket.ticket.supporter_id == user.id
+      });
     });
   }
 

@@ -33,7 +33,6 @@ class Login extends Component {
       password: this.state.password
     }).then((response) => {
       if (response.data.status === 'ok') {
-        console.log(response.data.user);
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.user));
         this.context.router.history.push(`/users/${response.data.user.username}`);

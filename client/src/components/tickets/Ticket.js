@@ -4,8 +4,8 @@ import axios from 'axios';
 
 import TicketItem from './TicketItem';
 import CommentsList from '../comments/CommentsList';
-import '../../styles.css';
 import baseUrl from '../../config/constants';
+import '../../styles.css';
 
 class Ticket extends Component {
   constructor(props) {
@@ -42,11 +42,19 @@ class Ticket extends Component {
     let assignButton = '';
     if (user.role === 'support' && typeof this.state.ticket.supporter_id === 'undefined') {
       assignButton = (
-        <button
-          className="btn btn-primary"
-          onClick={this.assignToSelf.bind(this)}
-        >
+        <button className="btn btn-primary" onClick={this.assignToSelf.bind(this)}>
           Assign to self
+        </button>
+      );
+    }
+    let closeButton = '';
+    if (((this.state.ticket.customer_id === user.id && user.role === 'customer')
+         || (this.state.ticket.supporter_id === user.id && user.role === 'support'))
+         && this.state.ticket.status === 'opened'
+       ) {
+      closeButton = (
+        <button className="btn btn-danger" onClick={this.markAsClosed.bind(this)}>
+          Mark as closed
         </button>
       );
     }
@@ -60,6 +68,7 @@ class Ticket extends Component {
           description={this.state.ticket.description}
         />
         {assignButton}
+        {closeButton}
         <CommentsList
           ticketId={this.state.ticket.id}
           comments={this.state.comments}
@@ -74,6 +83,24 @@ class Ticket extends Component {
       url: `${baseUrl}/tickets/${this.props.match.params.id}/assign`,
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
     }).then((response) => {
+      if (response.data.status === 'ok') {
+        window.location.reload();
+      }
+    });
+  }
+
+  markAsClosed() {
+    axios({
+      method: 'put',
+      url: `${baseUrl}/tickets/${this.props.match.params.id}`,
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`},
+      data: {
+        status: 'closed',
+        title: this.state.ticket.title,
+        description: this.state.ticket.description
+      }
+    }).then((response) => {
+      console.log(response);
       if (response.data.status === 'ok') {
         window.location.reload();
       }
