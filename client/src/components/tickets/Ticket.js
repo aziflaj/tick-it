@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import TicketItem from './TicketItem';
 import CommentsList from '../comments/CommentsList';
+import NewComment from '../comments/NewComment';
 import baseUrl from '../../config/constants';
 import '../../styles.css';
 
@@ -59,6 +60,15 @@ class Ticket extends Component {
       );
     }
 
+    let commentForm = '';
+    if (this.state.ticket.status === 'opened') {
+      commentForm = (
+        <NewComment
+          ticketId={this.state.ticket.id}
+        />
+      );
+    }
+
     return (
       <div className="ticket">
         <TicketItem
@@ -69,8 +79,8 @@ class Ticket extends Component {
         />
         {assignButton}
         {closeButton}
+        {commentForm}
         <CommentsList
-          ticketId={this.state.ticket.id}
           comments={this.state.comments}
         />
       </div>
