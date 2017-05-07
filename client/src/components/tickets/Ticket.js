@@ -38,6 +38,19 @@ class Ticket extends Component {
   }
 
   render() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    let assignButton = '';
+    if (user.role === 'support' && typeof this.state.ticket.supporter_id === 'undefined') {
+      assignButton = (
+        <button
+          className="btn btn-primary"
+          onClick={this.assignToSelf.bind(this)}
+        >
+          Assign to self
+        </button>
+      );
+    }
+
     return (
       <div className="ticket">
         <TicketItem
@@ -46,12 +59,25 @@ class Ticket extends Component {
           status={this.state.ticket.status}
           description={this.state.ticket.description}
         />
+        {assignButton}
         <CommentsList
           ticketId={this.state.ticket.id}
           comments={this.state.comments}
         />
       </div>
     );
+  }
+
+  assignToSelf() {
+    axios({
+      method: 'get',
+      url: `${baseUrl}/tickets/${this.props.match.params.id}/assign`,
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
+    }).then((response) => {
+      if (response.data.status === 'ok') {
+        window.location.reload();
+      }
+    });
   }
 }
 
