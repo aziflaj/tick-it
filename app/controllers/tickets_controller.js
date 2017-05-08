@@ -17,7 +17,6 @@ class TicketsController {
       } else if (user.role === 'support') {
         if (req.query.type === 'mine') {
           ticketDao.ticketsForSupporter(user).then(tickets => {
-            console.log(tickets);
             res.json({
               status: 'ok',
               tickets: tickets
