@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 import '../../styles.css';
 import baseUrl from '../../config/constants';
+import { updateObject } from '../../helpers';
 
 class Settings extends Component {
   constructor(props) {
@@ -68,7 +69,9 @@ class Settings extends Component {
         full_name: this.state.full_name
       }
     }).then((response) => {
-      console.log(response);
+      const user = JSON.parse(localStorage.getItem('user'));
+      const updatedUser = JSON.parse(response.config.data);
+      localStorage.setItem('user', updateObject(user, updatedUser));
       this.context.router.history.push(`/users/${JSON.parse(localStorage.getItem('user')).username}`);
     });
   }
