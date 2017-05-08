@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-import '../styles.css';
 import baseUrl from '../config/constants';
+import { showLoading, hideLoading } from '../helpers';
+import '../styles.css';
 
 class Login extends Component {
   constructor(props) {
@@ -28,10 +29,12 @@ class Login extends Component {
   onFormSubmit(e) {
     e.preventDefault();
     this.setState({ disabled: true });
+    showLoading();
     axios.post(`${baseUrl}/authenticate`, {
       username: this.state.username,
       password: this.state.password
     }).then((response) => {
+      hideLoading();
       if (response.data.status === 'ok') {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.user));
