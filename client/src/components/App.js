@@ -6,7 +6,7 @@ import Login from './Login';
 import SignUp from './SignUp';
 import Profile from './Profile';
 
-import { NewTicket, TicketsList } from './customer';
+import { NewTicket, TicketsList, Settings } from './customer';
 
 import { AllTickets, MyTickets } from './support';
 
@@ -46,6 +46,7 @@ class App extends Component {
             <Route exact path="/tickets/all" component={AllTickets} />
             <Route exact path="/tickets/mine" component={MyTickets} />
 
+            <Route path="/settings" component={Settings} />
           </div>
         </div>
       </HashRouter>

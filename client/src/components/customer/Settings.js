@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
+import ReactConfirmAlert, { confirmAlert } from 'react-confirm-alert';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-import '../styles.css';
-import baseUrl from '../config/constants';
+import '../../styles.css';
+import baseUrl from '../../config/constants';
 
 class Settings extends Component {
-  const user = JSON.parse(localStorage.getItem('user'));
-
   constructor(props) {
     super(props);
+    const user = JSON.parse(localStorage.getItem('user'));
     this.state = {
       username: user.username,
       email: user.email,
@@ -33,11 +33,28 @@ class Settings extends Component {
   }
 
   onDeleteAccount() {
-    //TODO
+    confirmAlert({
+      title: 'Delete profile',
+      message: 'Are you sure you want to delete your profile?',
+      confirmLabel: 'Delete',
+      cancelLabel: 'Cancel',
+      onConfirm: () => {
+        axios({
+          method: 'delete',
+          url: `${baseUrl}/users/${JSON.parse(localStorage.getItem('user')).username}`,
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}`},
+        }).then((response) => {
+          console.log(response);
+          localStorage.removeItem('user');
+          localStorage.removeItem('token');
+          this.context.router.history.push(`/`);
+        });
+      }
+    });
   }
 
   onCanceledRequest() {
-    //TODO
+    this.context.router.history.push(`/users/${JSON.parse(localStorage.getItem('user')).username}`);
   }
 
   onFormSubmit(e) {
@@ -79,10 +96,10 @@ class Settings extends Component {
         />
 
         <div>
-
-        <button className="btn btn-lg btn-primary btn-block" onClick={this.onDeleteAccount()} disabled={this.state.disabled}>Delete Account</button>
-        <button className="btn btn-lg btn-primary btn-block" onClick={this.onCanceledRequest()} disabled={this.state.disabled}>Cancel</button>
-        <button className="btn btn-lg btn-primary btn-block" type="submit" disabled={this.state.disabled}>Save</button>
+          <button className="btn btn-lg btn-primary btn-block" onClick={this.onDeleteAccount.bind(this)} disabled={this.state.disabled}>Delete Account</button>
+          <button className="btn btn-lg btn-primary btn-block" onClick={this.onCanceledRequest.bind(this)} disabled={this.state.disabled}>Cancel</button>
+          <button className="btn btn-lg btn-primary btn-block" type="submit" disabled={this.state.disabled}>Save</button>
+        </div>
       </form>
     );
   }
@@ -90,6 +107,6 @@ class Settings extends Component {
 
 Settings.contextTypes = {
   router: PropTypes.object.isRequired
-}
+};
 
 export default Settings;
