@@ -58,7 +58,19 @@ class Settings extends Component {
   }
 
   onFormSubmit(e) {
-    //TODO
+    axios({
+      method: 'put',
+      url: `${baseUrl}/users/${JSON.parse(localStorage.getItem('user')).username}`,
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`},
+      data: {
+        username: this.state.username,
+        email: this.state.email,
+        full_name: this.state.full_name
+      }
+    }).then((response) => {
+      console.log(response);
+      this.context.router.history.push(`/users/${JSON.parse(localStorage.getItem('user')).username}`);
+    });
   }
 
   render() {

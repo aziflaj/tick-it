@@ -30,7 +30,7 @@ class UserDAO {
   }
 
   update(username, data) {
-    return getByUsername(username).then(user => {
+    return this.getByUsername(username).then(user => {
       return db.hmset(`user:${user.id}`, data);
     });
   }

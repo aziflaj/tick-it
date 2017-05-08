@@ -36,6 +36,21 @@ class UsersController {
     });
   }
 
+  update(req, res, next) {
+    const username = req.params.username;
+    const data = {
+      username: req.body.username,
+      email: req.body.email,
+      full_name: req.body.full_name
+    }
+    userDao.update(username, data).then(results => {
+      res.json({
+        status: 'ok',
+        message: 'User updated'
+      });
+    });
+  }
+
   destroy(req, res, next) {
     const username = req.params.username;
     userDao.delete(username).then(results => {

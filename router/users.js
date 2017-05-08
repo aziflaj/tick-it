@@ -12,12 +12,26 @@ router.get('/:username', users.show);
 
 router.post('/', users.create);
 
+router.put('/:username', (req, res, next) => {
+  if (!isLoggedIn(req)) {
+    unauthorized(res);
+  }
+
+  policy.canModify(req).then(ok => {
+    if(ok) {
+      users.update(req, res, next);
+    } else {
+      unauthorized(res);
+    }
+  })
+});
+
 router.delete('/:username', (req, res, next) => {
   if (!isLoggedIn(req)) {
     unauthorized(res);
   }
 
-  policy.canDelete(req).then(ok => {
+  policy.canModify(req).then(ok => {
     if (ok) {
       users.destroy(req, res, next);
     } else {
