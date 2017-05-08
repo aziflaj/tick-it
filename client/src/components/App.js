@@ -1,36 +1,41 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { HashRouter, Route } from 'react-router-dom';
 
-import baseUrl from '../config/constants';
-import logo from './logo.svg';
-import '../../styles.css';
+import AppBar from './nav/AppBar';
+import Login from './Login';
+import SignUp from './SignUp';
+import Profile from './Profile';
+
+import { NewTicket, TicketsList } from './customer';
+
+import { AllTickets, MyTickets } from './support';
+
+import Ticket from './tickets/Ticket';
+
+import '../styles.css';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      message: ''
-    };
-  }
-
-  componentDidMount() {
-    axios.get(`${baseUrl}/pages`).then((response) => {
-      this.setState({ message: response.data.message });
-    });
-  }
-
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>{this.state.message}</h2>
+      <HashRouter>
+        <div className="html-content">
+          <AppBar />
+          <div className="container">
+            <Route exact path="/" component={Login} />
+            <Route path="/signup" component={SignUp} />
+            <Route path="/users/:username" component={Profile} />
+
+            <Route path="/ticket/:id" component={Ticket} />
+
+            <Route exact path="/tickets" component={TicketsList} />
+            <Route exact path="/tickets/create" component={NewTicket} />
+
+            <Route exact path="/tickets/all" component={AllTickets} />
+            <Route exact path="/tickets/mine" component={MyTickets} />
+
+          </div>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <button className="btn btn-primary">Hello</button>
-      </div>
+      </HashRouter>
     );
   }
 }
