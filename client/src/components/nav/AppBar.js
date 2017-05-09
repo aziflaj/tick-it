@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import CustomerLinks from './CustomerLinks';
 import SupportLinks from './SupportLinks';
+import AdminLinks from './AdminLinks';
 import '../../styles.css';
 import logo from '../../logo.png';
 
@@ -14,23 +15,18 @@ class AppBar extends Component {
   }
 
   render() {
-    let loggedInDiv = '';
+    let navbar = '';
     if (localStorage.getItem('token')) {
       const user = JSON.parse(localStorage.getItem('user'));
-      
-      loggedInDiv = (
-        <div className="collapse navbar-collapse">
-          {(user.role === 'customer') ? <CustomerLinks /> : <SupportLinks />}
 
-          <ul className="nav navbar-nav navbar-right">
-            <li>
-              <button className="btn btn-link" onClick={this.handleLogout.bind(this)}>
-                Log Out
-              </button>
-            </li>
-          </ul>
-        </div>
-      );
+      switch(user.role){
+        case 'customer': navbar = (<CustomerLinks />);
+                         break;
+        case 'supporter': navbar = (<SupportLinks />);
+                          break;
+        case 'admin': navbar = (<AdminLinks />);
+                      break;
+      }
     }
 
     return (
@@ -48,7 +44,17 @@ class AppBar extends Component {
             </a>
           </div>
 
-          {loggedInDiv}
+          <div className="collapse navbar-collapse">
+            {navbar}
+
+            <ul className="nav navbar-nav navbar-right">
+              <li>
+                <button className="btn btn-link" onClick={this.handleLogout.bind(this)}>
+                  Log Out
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
       </nav>
     )

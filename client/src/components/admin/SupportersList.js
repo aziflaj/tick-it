@@ -35,9 +35,9 @@ class SupporterList extends Component {
             <SupporterItem
               id={supporter.id}
               key={supporter.id}
-              title={supporter.title}
-              status={supporter.status}
-              description={supporter.description}
+              full_name={supporter.full_name}
+              email={supporter.email}
+              username={supporter.username}
             />
           )
         })}
@@ -56,7 +56,7 @@ class SupporterList extends Component {
   render() {
     return (
       <div className="supporters-listing">
-        {this.state.tickets.length === 0 ? this.renderEmptyList() : this.renderSupportersList(this.state.tickets)}
+        {this.state.supporters.length === 0 ? this.renderEmptyList() : this.renderSupportersList(this.state.supporters)}
       </div>
     );
   }
