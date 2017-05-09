@@ -107,7 +107,8 @@ class Ticket extends Component {
       data: {
         status: 'closed',
         title: this.state.ticket.title,
-        description: this.state.ticket.description
+        description: this.state.ticket.description,
+        supporter_id: this.state.ticket.supporter_id
       }
     }).then((response) => {
       console.log(response);

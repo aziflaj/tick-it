@@ -42,7 +42,8 @@ class UsersController {
       username: req.body.username,
       email: req.body.email,
       full_name: req.body.full_name
-    }
+    };
+
     userDao.update(username, data).then(results => {
       res.json({
         status: 'ok',

@@ -72,7 +72,7 @@ class TicketsController {
       title: req.body.title,
       description: req.body.description,
       status: req.body.status,
-      agent_id: req.body.agent_id
+      supporter_id: req.body.supporter_id
     };
 
     ticketDao.update(req.params.id, ticket).then(data => {

@@ -12,7 +12,6 @@ export function updateObject(object1, object2) {
   const keys1 = Object.keys(object1);
   const keys2 = Object.keys(object2);
   for (let key of keys2) {
-    console.log(key);
     object1[key] = object2[key];
   }
 

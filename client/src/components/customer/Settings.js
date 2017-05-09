@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import '../../styles.css';
 import baseUrl from '../../config/constants';
-import { updateObject } from '../../helpers';
+import { showLoading, hideLoading, updateObject } from '../../helpers';
 
 class Settings extends Component {
   constructor(props) {
@@ -59,6 +59,8 @@ class Settings extends Component {
   }
 
   onFormSubmit(e) {
+    this.setState({ disabled: true });
+    showLoading();
     axios({
       method: 'put',
       url: `${baseUrl}/users/${JSON.parse(localStorage.getItem('user')).username}`,
@@ -69,10 +71,14 @@ class Settings extends Component {
         full_name: this.state.full_name
       }
     }).then((response) => {
-      const user = JSON.parse(localStorage.getItem('user'));
-      const updatedUser = JSON.parse(response.config.data);
-      localStorage.setItem('user', updateObject(user, updatedUser));
-      this.context.router.history.push(`/users/${JSON.parse(localStorage.getItem('user')).username}`);
+      this.setState({ disabled: false });
+      hideLoading();
+      const pastUser = JSON.parse(localStorage.getItem('user'));
+      const newUser = JSON.parse(response.config.data);
+      const currentUser = updateObject(pastUser, newUser);
+
+      localStorage.setItem('user', currentUser);
+      this.context.router.history.push(`/users/${currentUser.username}`);
     });
   }
 
