@@ -21,7 +21,7 @@ app.use(function(req, res, next) {
 app.get('/', (req, res) => { res.sendFile('index.html'); });
 app.use('/api', apiRouter);
 
-if (process.env.ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   app.listen(app.get('port'), () => {
     console.log(`Listening on port ${app.get('port')}`);
   });
