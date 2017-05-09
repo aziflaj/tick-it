@@ -9,9 +9,8 @@ export function hideLoading() {
 }
 
 export function updateObject(object1, object2) {
-  const keys1 = Object.keys(object1);
-  const keys2 = Object.keys(object2);
-  for (let key of keys2) {
+  const keys = Object.keys(object2);
+  for (let key of keys) {
     object1[key] = object2[key];
   }
 

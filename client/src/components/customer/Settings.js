@@ -76,8 +76,8 @@ class Settings extends Component {
       const pastUser = JSON.parse(localStorage.getItem('user'));
       const newUser = JSON.parse(response.config.data);
       const currentUser = updateObject(pastUser, newUser);
-
-      localStorage.setItem('user', currentUser);
+      localStorage.removeItem('user');
+      localStorage.setItem('user', JSON.stringify(currentUser));
       this.context.router.history.push(`/users/${currentUser.username}`);
     });
   }

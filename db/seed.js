@@ -86,3 +86,15 @@ supporters.forEach(supporter => {
     console.log(`Saved supporter with id ${id}`);
   });
 });
+
+const admin = {
+  username: 'admin',
+  password: 'password',
+  email: 'admin@tickit.com',
+  full_name: 'admini madh',
+  role: 'admin'
+};
+
+userDao.save(admin).then(id => {
+  console.log(`Saved adminin e madh with id ${id}`);
+});
