@@ -14,6 +14,13 @@ class UserDAO {
     });
   }
 
+  getSupporters() {
+    return db.zrange('supporter', 0, -1).then(result => {
+      const keys = result.map((item) => `user:${item}`).join(' ');
+      return db.mhgetall(keys).then(result => result.map(item => arrayToObject(item)));
+    });
+  }
+
   save(user) {
     return bcrypt.hash(user.password, SALT_ROUNDS).then(hash => {
       return db.incr('user_count').then(user_count => {
@@ -24,6 +31,7 @@ class UserDAO {
           .hmset(`user:${user_count}`, user)
           .hset('users', user.username, user_count) // username serves as index
           .hset('users', user.email, user_count)    // email serves as index
+          .zadd(user.role, Date.now(), user.id)
           .exec().then(results => user_count);
       });
     });

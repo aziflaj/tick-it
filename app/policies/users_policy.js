@@ -1,7 +1,7 @@
 const UserDAO = require('../dao/user_dao');
 const { currentUser } = require('../helpers/user_helpers');
 
-class TicketsPolicy {
+class UsersPolicy {
   canModify(req) {
     const dao = new UserDAO();
     return currentUser(req).then(cUser => {
@@ -10,6 +10,12 @@ class TicketsPolicy {
       });
     });
   }
+
+  isAdmin(req) {
+    return currentUser(req).then(cUser => {
+      return user.role === 'admin';
+    });
+  }
 }
 
-module.exports = TicketsPolicy;
+module.exports = UsersPolicy;

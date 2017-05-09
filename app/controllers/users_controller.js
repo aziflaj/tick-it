@@ -61,6 +61,10 @@ class UsersController {
       });
     });
   }
+
+  supporters() {
+
+  }
 }
 
 module.exports = UsersController;
