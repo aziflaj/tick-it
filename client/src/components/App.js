@@ -10,6 +10,8 @@ import { NewTicket, TicketsList, Settings } from './customer';
 
 import { AllTickets, MyTickets } from './support';
 
+import {SupportersList} from './admin';
+
 import Ticket from './tickets/Ticket';
 
 import '../styles.css';
@@ -45,6 +47,8 @@ class App extends Component {
 
             <Route exact path="/tickets/all" component={AllTickets} />
             <Route exact path="/tickets/mine" component={MyTickets} />
+
+            <Route exact path="/supporters" component={SupportersList} />
 
             <Route path="/settings" component={Settings} />
           </div>

@@ -13,7 +13,7 @@ class UsersPolicy {
 
   isAdmin(req) {
     return currentUser(req).then(cUser => {
-      return user.role === 'admin';
+      return cUser.role === 'admin';
     });
   }
 }

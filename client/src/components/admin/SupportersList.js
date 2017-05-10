@@ -23,7 +23,8 @@ class SupporterList extends Component {
       url: `${baseUrl}/supporters`,
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
     }).then((response) => {
-      this.setState({ tickets: response.data.supporters });
+      console.log(response);
+      this.setState({ supporters: response.data.supporters });
     });
   }
 

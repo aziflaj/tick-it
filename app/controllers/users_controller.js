@@ -63,7 +63,12 @@ class UsersController {
   }
 
   supporters() {
-
+    userDao.getSupporters().then(supporters => {
+      res.json({
+        status: 'ok',
+        supporters: supporters
+      });
+    });
   }
 }
 
