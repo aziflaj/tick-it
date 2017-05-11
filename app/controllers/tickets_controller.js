@@ -14,7 +14,7 @@ class TicketsController {
             tickets: tickets
           });
         });
-      } else if (user.role === 'support') {
+      } else if (user.role === 'supporter') {
         if (req.query.type === 'mine') {
           ticketDao.ticketsForSupporter(user).then(tickets => {
             res.json({

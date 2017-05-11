@@ -40,7 +40,7 @@ class Ticket extends Component {
   render() {
     const user = JSON.parse(localStorage.getItem('user'));
     let assignButton = '';
-    if (user.role === 'support' && typeof this.state.ticket.supporter_id === 'undefined') {
+    if (user.role === 'supporter' && typeof this.state.ticket.supporter_id === 'undefined') {
       assignButton = (
         <button className="btn btn-primary" onClick={this.assignToSelf.bind(this)}>
           Assign to self
@@ -49,7 +49,7 @@ class Ticket extends Component {
     }
     let closeButton = '';
     if (((this.state.ticket.customer_id === user.id && user.role === 'customer')
-         || (this.state.ticket.supporter_id === user.id && user.role === 'support'))
+         || (this.state.ticket.supporter_id === user.id && user.role === 'supporter'))
          && this.state.ticket.status === 'opened'
        ) {
       closeButton = (

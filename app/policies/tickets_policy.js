@@ -37,7 +37,7 @@ class TicketsPolicy {
 
   canAssignSelf(req) {
     return currentUser(req).then(user => {
-      return user.role === 'support';
+      return user.role === 'supporter';
     });
   }
 }
