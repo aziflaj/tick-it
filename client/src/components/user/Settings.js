@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-import '../../styles.css';
 import baseUrl from '../../config/constants';
 import { showLoading, hideLoading, updateObject } from '../../helpers';
 
@@ -48,7 +47,7 @@ class Settings extends Component {
           console.log(response);
           localStorage.removeItem('user');
           localStorage.removeItem('token');
-          this.context.router.history.push(`/`);
+          this.context.router.history.push('/');
         });
       }
     });
@@ -59,11 +58,12 @@ class Settings extends Component {
   }
 
   onFormSubmit(e) {
+    const user = JSON.parse(localStorage.getItem('user'));
     this.setState({ disabled: true });
     showLoading();
     axios({
       method: 'put',
-      url: `${baseUrl}/users/${JSON.parse(localStorage.getItem('user')).username}`,
+      url: `${baseUrl}/users/${user.username}`,
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}`},
       data: {
         username: this.state.username,
@@ -73,11 +73,12 @@ class Settings extends Component {
     }).then((response) => {
       this.setState({ disabled: false });
       hideLoading();
-      const pastUser = JSON.parse(localStorage.getItem('user'));
+
       const newUser = JSON.parse(response.config.data);
-      const currentUser = updateObject(pastUser, newUser);
+      const currentUser = updateObject(user, newUser);
       localStorage.removeItem('user');
       localStorage.setItem('user', JSON.stringify(currentUser));
+
       this.context.router.history.push(`/users/${currentUser.username}`);
     });
   }
@@ -94,7 +95,7 @@ class Settings extends Component {
                required
                autoFocus
                onChange={this.onFullNameChange.bind(this)}
-            />
+        />
 
         <label htmlFor="inputUsername" className="sr-only">Username</label>
         <input id="inputUsername"

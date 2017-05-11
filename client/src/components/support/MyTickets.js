@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 import TicketItem from '../tickets/TicketItem';
 import baseUrl from '../../config/constants';
-import '../../styles.css';
 
 class MyTickets extends Component {
   constructor(props) {

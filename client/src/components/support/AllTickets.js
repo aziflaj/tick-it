@@ -3,7 +3,6 @@ import axios from 'axios';
 
 import TicketItem from '../tickets/TicketItem';
 import baseUrl from '../../config/constants';
-import '../../styles.css';
 
 class AllTickets extends Component {
   constructor(props) {

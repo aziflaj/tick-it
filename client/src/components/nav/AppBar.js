@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import CustomerLinks from './CustomerLinks';
 import SupportLinks from './SupportLinks';
 import AdminLinks from './AdminLinks';
-import '../../styles.css';
 import logo from '../../logo.png';
 
 class AppBar extends Component {

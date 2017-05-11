@@ -3,7 +3,6 @@ import axios from 'axios';
 
 import SupporterItem from './SupporterItem';
 import baseUrl from '../../config/constants';
-import '../../styles.css';
 
 class SupporterList extends Component {
   constructor(props) {

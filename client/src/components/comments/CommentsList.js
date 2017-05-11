@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import CommentItem from './CommentItem';
-import '../../styles.css';
 
 class CommentsList extends Component {
   renderCommentList(comments) {

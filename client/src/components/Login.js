@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 
 import baseUrl from '../config/constants';
 import { showLoading, hideLoading } from '../helpers';
-import '../styles.css';
 
 class Login extends Component {
   constructor(props) {

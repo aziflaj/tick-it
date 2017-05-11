@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import '../../styles.css';
-
 class CommentItem extends Component {
   render() {
     const user = JSON.parse(localStorage.getItem('user'));

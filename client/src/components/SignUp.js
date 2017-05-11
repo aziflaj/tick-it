@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-import '../styles.css';
 import baseUrl from '../config/constants';
 
 class SignUp extends Component {

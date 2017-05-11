@@ -6,7 +6,6 @@ import TicketItem from './TicketItem';
 import CommentsList from '../comments/CommentsList';
 import NewComment from '../comments/NewComment';
 import baseUrl from '../../config/constants';
-import '../../styles.css';
 
 class Ticket extends Component {
   constructor(props) {

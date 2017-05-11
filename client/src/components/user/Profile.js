@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 
-import '../styles.css';
-import baseUrl from '../config/constants';
+import baseUrl from '../../config/constants';
 
 class Profile extends Component {
   constructor(props) {

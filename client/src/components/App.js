@@ -4,12 +4,10 @@ import { HashRouter, Route } from 'react-router-dom';
 import AppBar from './nav/AppBar';
 import Login from './Login';
 import SignUp from './SignUp';
-import Profile from './Profile';
 
-import { NewTicket, TicketsList, Settings } from './customer';
-
+import { Profile, Settings } from './user';
+import { NewTicket, TicketsList } from './customer';
 import { AllTickets, MyTickets } from './support';
-
 import {SupportersList} from './admin';
 
 import Ticket from './tickets/Ticket';
