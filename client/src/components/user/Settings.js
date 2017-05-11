@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import ReactConfirmAlert, { confirmAlert } from 'react-confirm-alert';
+// import ReactConfirmAlert, { confirmAlert } from 'react-confirm-alert';
+import { confirmAlert } from 'react-confirm-alert';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
 import baseUrl from '../../config/constants';
 import { showLoading, hideLoading, updateObject } from '../../helpers';

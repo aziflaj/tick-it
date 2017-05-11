@@ -18,13 +18,18 @@ class AppBar extends Component {
     if (localStorage.getItem('token')) {
       const user = JSON.parse(localStorage.getItem('user'));
 
-      switch(user.role){
-        case 'customer': navbar = (<CustomerLinks />);
-                         break;
-        case 'supporter': navbar = (<SupportLinks />);
-                          break;
-        case 'admin': navbar = (<AdminLinks />);
-                      break;
+      switch (user.role) {
+        case 'customer':
+          navbar = <CustomerLinks />;
+          break;
+        case 'supporter':
+          navbar = <SupportLinks />;
+          break;
+        case 'admin':
+          navbar = <AdminLinks />;
+          break;
+        default:
+          navbar = '';
       }
     }
 
