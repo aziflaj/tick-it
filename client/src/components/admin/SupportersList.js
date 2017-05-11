@@ -7,7 +7,9 @@ import baseUrl from '../../config/constants';
 class SupporterList extends Component {
   constructor(props) {
     super(props);
-    this.state = { supporters: [] };
+    this.state = {
+      supporters: []
+    };
   }
 
   componentWillMount() {
@@ -20,8 +22,8 @@ class SupporterList extends Component {
     axios({
       method: 'get',
       url: `${baseUrl}/supporters`,
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
-    }).then((response) => {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    }).then(response => {
       console.log(response);
       this.setState({ supporters: response.data.supporters });
     });

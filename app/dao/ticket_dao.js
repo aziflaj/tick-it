@@ -1,6 +1,6 @@
 const db = require('../../lib/db');
 
-const { arrayToObject } = require('../helpers/ticket_helpers');
+const { arrayToObject } = require('../helpers/app_helpers');
 
 class TicketDAO {
   unassignedTickets() {

@@ -70,14 +70,14 @@ const supporters = [
     password: 'password',
     email: 'jimmy@tickit.com',
     full_name: 'Jimmy Page',
-    role: 'support'
+    role: 'supporter'
   },
   {
     username: 'clapton',
     password: 'password',
     email: 'clapton@tickit.com',
     full_name: 'Eric Clapton',
-    role: 'support'
+    role: 'supporter'
   }
 ];
 

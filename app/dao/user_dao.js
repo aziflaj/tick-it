@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const db = require('../../lib/db');
 
+const { arrayToObject } = require('../helpers/app_helpers');
+
 const SALT_ROUNDS = 10;
 
 class UserDAO {
