@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { HashRouter, Route } from 'react-router-dom';
+import io from 'socket.io-client';
 
 import AppBar from './nav/AppBar';
 import Login from './Login';
@@ -8,13 +9,18 @@ import SignUp from './SignUp';
 import { Profile, Settings } from './user';
 import { NewTicket, TicketsList } from './customer';
 import { AllTickets, MyTickets } from './support';
-import {SupportersList} from './admin';
+import { SupportersList } from './admin';
 
 import Ticket from './tickets/Ticket';
 
 import '../styles.css';
 
 class App extends Component {
+  componentDidMount() {
+    const sock = io('http://localhost:5000');
+    console.log(sock);
+  }
+
   render() {
     return (
       <HashRouter>
