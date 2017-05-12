@@ -1,4 +1,5 @@
 const TicketDAO = require('../dao/ticket_dao');
+const NotificationJob = require('../jobs/notification_job');
 const { currentUser } = require('../helpers/user_helpers');
 const { toJson } = require('../helpers/ticket_helpers');
 
@@ -98,6 +99,7 @@ class TicketsController {
   assign(req, res, next) {
     currentUser(req).then(user => {
       ticketDao.assignToSupporter(req.params.ticket_id, user.id).then(result => {
+        NotificationJob.notifyCustomer(req.params.ticket_id);
         res.json({
           status: 'ok',
           message: `Assigned to ${user.username}`
