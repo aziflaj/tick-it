@@ -6,22 +6,22 @@ const notificationDao = new NotificationDAO();
 class NotificationsController {
   showAll(req, res, next) {
     currentUser(req).then(user => {
-      notificationDao.getAllByUserId(user.id).then(result => {
-        console.log(result);
+      notificationDao.getAllByUserId(user.id).then(notifications => {
+        res.json({
+          status: 'ok',
+          notifications: notifications
+        });
       });
     });
   }
 
   showUnread(req, res, next) {
-
   }
 
   markAsRead(req, res, next) {
-
   }
 
   markAllAsRead(req, res, next) {
-
   }
 }
 
