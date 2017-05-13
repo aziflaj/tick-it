@@ -11,7 +11,10 @@ class NotificationJob {
           user_id: ticket.customer_id,
           message: `Ticket #${ticket.id} was assigned to supporter ${supporter.full_name}.`
         };
-        notificationDao.save(notification).then(notification_id => console.log(notification_id));
+        notificationDao.save(notification).then(notification_id => {
+          console.log(`on job ${notification_id}`);
+          db.publish('notifications', notification_id);
+        });
       });
     });
   }
