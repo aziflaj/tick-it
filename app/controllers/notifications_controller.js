@@ -22,6 +22,17 @@ class NotificationsController {
   }
 
   markAllAsRead(req, res, next) {
+    currentUser(req).then(user => {
+      notificationDao.getAllByUserId(user.id).then(notifications => {
+        notifications.map(notification => {
+          notificationDao.markAsRead(notification.id);
+        });
+        res.json({
+          status: 'ok',
+          message: `All notifications were marked as read.`
+        });
+      });
+    });
   }
 }
 

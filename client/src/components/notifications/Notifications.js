@@ -32,7 +32,15 @@ class Notifications extends Component {
   }
 
   markAllAsRead() {
-    
+    axios({
+      method: 'put',
+      url: `${baseUrl}/notifications/readall`,
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
+    }).then((response) => {
+      if (response.data.status === 'ok') {
+        window.location.reload();
+      }
+    });
   }
 
   render() {

@@ -14,4 +14,12 @@ router.get('/', (req, res, next) => {
   }
 });
 
+router.put('/readall', (req, res, next) => {
+  if (isLoggedIn(req)) {
+    notifications.markAllAsRead(req, res, next);
+  } else {
+    unauthorized(res);
+  }
+});
+
 module.exports = router;
