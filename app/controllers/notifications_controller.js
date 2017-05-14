@@ -22,7 +22,7 @@ class NotificationsController {
     notificationDao.markAsRead(req.params.notification_id).then(result => {
       res.json({
         status: 'ok',
-        message: `All notifications were marked as read.`
+        message: `Notification marked as read.`
       });
     })
   }
