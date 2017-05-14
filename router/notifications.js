@@ -22,4 +22,11 @@ router.put('/readall', (req, res, next) => {
   }
 });
 
+router.put('/:notification_id/read', (req, res, next) => {
+  if(isLoggedIn(req)) {
+    notifications.markAsRead(req, res, next);
+  } else {
+    unauthorized(res);
+  }
+})
 module.exports = router;

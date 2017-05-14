@@ -12,7 +12,7 @@ class NotificationList extends Component {
               id={notification.id}
               key={notification.id}
               message={notification.message}
-              read={notifications.read}
+              read={notification.read}
             />
           )
         })}

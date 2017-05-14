@@ -19,6 +19,12 @@ class NotificationsController {
   }
 
   markAsRead(req, res, next) {
+    notificationDao.markAsRead(req.params.notification_id).then(result => {
+      res.json({
+        status: 'ok',
+        message: `All notifications were marked as read.`
+      });
+    })
   }
 
   markAllAsRead(req, res, next) {
