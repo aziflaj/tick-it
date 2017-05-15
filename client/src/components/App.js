@@ -10,6 +10,7 @@ import { Profile, Settings } from './user';
 import { NewTicket, TicketsList } from './customer';
 import { AllTickets, MyTickets } from './support';
 import { SupportersList } from './admin';
+import Notifications from './notifications/Notifications';
 
 import Ticket from './tickets/Ticket';
 
@@ -53,6 +54,7 @@ class App extends Component {
             <Route exact path="/tickets/mine" component={MyTickets} />
 
             <Route exact path="/supporters" component={SupportersList} />
+            <Route exact path="/notifications" component={Notifications} />
 
             <Route path="/settings" component={Settings} />
           </div>

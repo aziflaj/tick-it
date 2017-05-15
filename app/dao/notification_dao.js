@@ -1,5 +1,7 @@
 const db = require('../../lib/db');
 
+const { arrayToObject } = require('../helpers/app_helpers');
+
 class NotificationDAO {
   save(notification) {
     return db.incr('notification_count').then(notification_count => {
