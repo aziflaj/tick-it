@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import SupporterItem from './SupporterItem';
@@ -55,13 +56,24 @@ class SupporterList extends Component {
     );
   }
 
+  addSupporter() {
+    this.context.router.history.push(`/newsupport`);
+  }
+
   render() {
     return (
       <div className="supporters-listing">
+        <button className="pull-right btn btn-primary" onClick={this.addSupporter.bind(this)}>
+          Add a new supporter
+        </button>
         {this.state.supporters.length === 0 ? this.renderEmptyList() : this.renderSupportersList(this.state.supporters)}
       </div>
     );
   }
+}
+
+SupporterList.contextTypes = {
+  router: PropTypes.object.isRequired
 }
 
 export default SupporterList;
