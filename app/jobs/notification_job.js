@@ -12,7 +12,8 @@ class NotificationJob {
       db.hgetall(`user:${ticket.supporter_id}`).then(supporter => {
         const notification = {
           user_id: ticket.customer_id,
-          message: `Ticket #${ticket.id} was assigned to supporter ${supporter.full_name}.`
+          message: `Ticket #${ticket.id} was assigned to supporter ${supporter.full_name}.`,
+          ticket_id: ticket.id
         };
 
         notificationDao.save(notification).then(notification_id => {
