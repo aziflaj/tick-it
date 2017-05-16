@@ -75,7 +75,7 @@ class AppBar extends Component {
 
             <ul className="nav navbar-nav navbar-right">
               <li>
-                <Link to='#'>
+                <Link to='/notifications'>
                   Notifications
                   <span className="badge badge-notification">{this.state.notifications_count}</span>
                 </Link>
