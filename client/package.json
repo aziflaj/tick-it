@@ -6,6 +6,7 @@
     "node": "6.10.2"
   },
   "dependencies": {
+    "alertifyjs": "^1.10.0",
     "axios": "^0.16.1",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import io from 'socket.io-client';
+import { Link } from 'react-router-dom';
+import alertify from 'alertifyjs';
 
 import CustomerLinks from './CustomerLinks';
 import SupportLinks from './SupportLinks';
@@ -8,6 +10,13 @@ import AdminLinks from './AdminLinks';
 import logo from '../../logo.png';
 
 class AppBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      notifications_count: 0
+    };
+  }
+
   handleLogout(e) {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -19,7 +28,9 @@ class AppBar extends Component {
       const user = JSON.parse(localStorage.getItem('user'));
       const sock = io('http://localhost:5000');
       sock.on(`user:${user.id}`, (msg) => {
-        console.log(msg);
+        alertify.message(msg.message);
+        const currentCount = this.state.notifications_count;
+        this.setState({ notifications_count: currentCount + 1 });
       });
     }
   }
@@ -63,6 +74,12 @@ class AppBar extends Component {
             {navbar}
 
             <ul className="nav navbar-nav navbar-right">
+              <li>
+                <Link to='#'>
+                  Notifications
+                  <span className="badge badge-notification">{this.state.notifications_count}</span>
+                </Link>
+              </li>
               <li>
                 <button className="btn btn-link" onClick={this.handleLogout.bind(this)}>
                   Log Out

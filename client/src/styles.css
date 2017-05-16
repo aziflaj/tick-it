@@ -223,3 +223,9 @@ html, body, #root, .html-content {
     opacity: 1;
   }
 }
+
+.badge-notification {
+  background:red;
+  position:relative;
+  transform: (-100%, -100%);
+}
