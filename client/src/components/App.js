@@ -6,7 +6,8 @@ import Login from './Login';
 import SignUp from './SignUp';
 
 import { Profile, Settings } from './user';
-import { NewTicket, TicketsList } from './customer';
+import { NewTicket } from './customer';
+import { TicketsList } from './tickets'
 import { AllTickets, MyTickets } from './support';
 import { SupportersList, NewSupport } from './admin';
 import Notifications from './notifications/Notifications';
