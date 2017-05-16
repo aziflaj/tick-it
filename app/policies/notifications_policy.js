@@ -9,6 +9,7 @@ class NotificationsPolicy {
       return db.hgetall(`notification:${req.params.notification_id}`).then(notification => {
         return notification.user_id == user.id;
       });
+    });
   }
 }
 
