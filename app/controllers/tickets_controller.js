@@ -103,7 +103,7 @@ class TicketsController {
         res.json({
           status: 'ok',
           message: `Assigned to ${user.username}`
-        })
+        });
       });
     });
   }

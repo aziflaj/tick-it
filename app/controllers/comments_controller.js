@@ -1,4 +1,5 @@
 const CommentDAO = require('../dao/comment_dao');
+const NotificationJob = require('../jobs/notification_job');
 const { currentUser } = require('../helpers/user_helpers');
 
 const commentDao = new CommentDAO();
@@ -13,6 +14,7 @@ class CommentsController {
       };
 
       commentDao.save(comment).then(comment_id => {
+        NotificationJob.notifyNewComment(comment_id);
         res.json({
           status: 'ok',
           id: comment_id

@@ -1,5 +1,5 @@
 const Redis = require('ioredis');
-const publisher = new Redis(`${process.env.PUB_URL}`);
+const publisher = new Redis(process.env.PUB_URL);
 
 const db = require('../../lib/db');
 
@@ -18,6 +18,29 @@ class NotificationJob {
 
         notificationDao.save(notification).then(notification_id => {
           publisher.publish('notifications', notification_id);
+        });
+      });
+    });
+  }
+
+  static notifyNewComment(comment_id) {
+    db.hgetall(`comment:${comment_id}`).then(comment => {
+      db.hgetall(`ticket:${comment.ticket_id}`).then(ticket => {
+        db.hgetall(`user:${comment.author_id}`).then(user => {
+          const notification = {
+            message: `${user.full_name} commented on Ticket #${ticket.id}.`,
+            ticket_id: ticket.id
+          };
+
+          if(comment.author_id === ticket.customer_id) {
+            notification.user_id = ticket.supporter_id;
+          } else if(comment.author_id === ticket.supporter_id) {
+            notification.user_id = ticket.customer_id;
+          }
+
+          notificationDao.save(notification).then(notification_id => {
+            publisher.publish('notifications', notification_id);
+          });
         });
       });
     });
