@@ -5,6 +5,8 @@ const db = require('../../lib/db');
 
 const NotificationDAO = require('../dao/notification_dao');
 const notificationDao = new NotificationDAO();
+const TicketDAO = require('../dao/ticket_dao');
+const ticketDao = new TicketDAO();
 
 class NotificationJob {
   static notifyCustomer(ticket_id) {
@@ -25,19 +27,27 @@ class NotificationJob {
 
   static notifyNewComment(comment_id) {
     db.hgetall(`comment:${comment_id}`).then(comment => {
-      db.hgetall(`ticket:${comment.ticket_id}`).then(ticket => {
+      ticketDao.getById(comment.ticket_id).then(ticket => {
+        const notification = {
+          ticket_id: ticket.id
+        };
+        const comments = ticket.comments;
+        const users = comments.map(c => c.author_id)
+                              .filter(id => id != comment.author_id
+                                         && id != ticket.ticket.supporter_id
+                                         && id != ticket.ticket.customer_id);
+        if(comment.author_id === ticket.ticket.customer_id) {
+          users.push(ticket.ticket.supporter_id);
+        } else if(comment.author_id === ticket.ticket.supporter_id) {
+          users.push(ticket.ticket.customer_id);
+        }
+
         db.hgetall(`user:${comment.author_id}`).then(user => {
-          const notification = {
-            message: `${user.full_name} commented on Ticket #${ticket.id}.`,
-            ticket_id: ticket.id
-          };
+          notification.message = `${user.full_name} commented on Ticket #${ticket.ticket.id}.`;
+        });
 
-          if(comment.author_id === ticket.customer_id) {
-            notification.user_id = ticket.supporter_id;
-          } else if(comment.author_id === ticket.supporter_id) {
-            notification.user_id = ticket.customer_id;
-          }
-
+        users.forEach(uid => {
+          notification.user_id = uid;
           notificationDao.save(notification).then(notification_id => {
             publisher.publish('notifications', notification_id);
           });
