@@ -2,6 +2,7 @@ const Socket = require('socket.io');
 const Redis = require('ioredis');
 
 const db = require('./lib/db');
+const logger = require('./lib/logger');
 
 class WebSockets {
   static prepareSocket(httpServer) {
@@ -11,17 +12,17 @@ class WebSockets {
     return io.on('connection', (socket) => {
       console.log('connected');
 
-      subscriber.subscribe('notifications', (e, c) => {
+      subscriber.subscribe('notifications', (error, count) => {
+        if (error) {
+          logger.error(error);
+        }
+
         subscriber.on('message', (channel, msg) => {
           if (channel === 'notifications') {
-            console.log(`Get notification #${msg} on websockets`);
-
             db.hgetall(`notification:${msg}`).then(notification => {
-              console.log(notification);
+              logger.info('Notifying for %s', JSON.stringify(notification));
               socket.emit(`user:${notification.user_id}`, notification);
             });
-          } else {
-            console.log(`${channel}:${msg}`);
           }
         });
       });
