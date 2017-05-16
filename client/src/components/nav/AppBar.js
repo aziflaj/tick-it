@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import io from 'socket.io-client';
 
 import CustomerLinks from './CustomerLinks';
 import SupportLinks from './SupportLinks';
@@ -11,6 +12,16 @@ class AppBar extends Component {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     this.context.router.history.push('/');
+  }
+
+  componentDidMount() {
+    if (localStorage.getItem('token')) {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const sock = io('http://localhost:5000');
+      sock.on(`user:${user.id}`, (msg) => {
+        console.log(msg);
+      });
+    }
   }
 
   render() {

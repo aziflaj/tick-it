@@ -1,3 +1,6 @@
+const Redis = require('ioredis');
+const publisher = new Redis(`${process.env.PUB_URL}`);
+
 const db = require('../../lib/db');
 
 const NotificationDAO = require('../dao/notification_dao');
@@ -12,7 +15,10 @@ class NotificationJob {
           message: `Ticket #${ticket.id} was assigned to supporter ${supporter.full_name}.`,
           ticket_id: ticket.id
         };
-        notificationDao.save(notification).then(notification_id => console.log(notification_id));
+
+        notificationDao.save(notification).then(notification_id => {
+          publisher.publish('notifications', notification_id);
+        });
       });
     });
   }
