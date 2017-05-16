@@ -31,6 +31,15 @@ class TicketsController {
             });
           });
         }
+      } else if (user.role === 'admin') {
+        const from = req.query.from || 0;
+        const to = req.query.to || (from + 10);
+        ticketDao.allTickets(from, to).then(tickets => {
+          res.json({
+            status: 'ok',
+            tickets: tickets
+          });
+        });
       }
     });
   }

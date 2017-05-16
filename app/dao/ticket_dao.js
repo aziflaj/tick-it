@@ -34,6 +34,7 @@ class TicketDAO {
 
       return db.multi()
         .hmset(`ticket:${ticket_count}`, ticket)
+        .zadd(`tickets`, ticket.created_at, ticket.id)
         .zadd(`customer_tickets:${ticket.customer_id}`, ticket.created_at, ticket.id)
         .zadd('unassigned_tickets', ticket.created_at, ticket.id)
         .exec().then(result => ticket_count);
@@ -76,6 +77,13 @@ class TicketDAO {
         .zrem('unassigned_tickets', ticket.id)
         .exec();
     });
+  }
+
+  allTickets(from = 0, to = -1) {
+    return db.zrange(`tickets`, from, to).then(result => {
+      const keys = result.map((item) => `ticket:${item}`).join(' ');
+      return db.mhgetall(keys).then(result => result.map(item => arrayToObject(item)));
+    })
   }
 }
 
