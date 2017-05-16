@@ -55,6 +55,25 @@ class NotificationJob {
       });
     });
   }
+
+  static notifyClosedTicket(ticket_id, user_id) {
+    db.hgetall(`ticket:${ticket_id}`).then(ticket => {
+      const notification = {
+        message: `Ticket #${ticket.id} was marked as closed.`,
+        ticket_id: ticket.id
+      };
+
+      if(ticket.supporter_id == user_id) {
+        notification.user_id = ticket.customer_id;
+      } else if(ticket.customer_id == user_id) {
+        notification.user_id = ticket.supporter_id;
+      }
+
+      notificationDao.save(notification).then(notification_id => {
+        publisher.publish('notifications', notification_id);
+      });
+    });
+  }
 }
 
 module.exports = NotificationJob;

@@ -77,6 +77,11 @@ class TicketsController {
     };
 
     ticketDao.update(req.params.id, ticket).then(data => {
+      if(req.body.status === 'closed') {
+        currentUser(req).then(user => {
+          NotificationJob.notifyClosedTicket(req.params.id, user.id);
+        });
+      }
       res.json({
         status: 'ok',
         id: req.params.id
