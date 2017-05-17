@@ -8,6 +8,7 @@ class TicketItem extends Component {
         <h3><Link to={`/ticket/${this.props.id}`}>{this.props.title}</Link></h3>
         <p>{this.props.status}</p>
         <p>{this.props.description}</p>
+        <p>{this.props.assigned}</p>
       </div>
     );
   }

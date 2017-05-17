@@ -60,12 +60,21 @@ class Ticket extends Component {
     }
 
     let commentForm = '';
-    if (this.state.ticket.status === 'opened') {
+    if (this.state.ticket.status === 'opened' && user.role != 'admin') {
       commentForm = (
         <NewComment
           ticketId={this.state.ticket.id}
         />
       );
+    }
+
+    let assigned = '';
+    if (user.role === 'admin') {
+      if(this.state.ticket.supporter_id === 'undefined') {
+        assigned = 'This ticket is not assigned to a supporter.';
+      } else {
+        assigned = 'This ticket is assigned to a supporter.';
+      }
     }
 
     return (
@@ -75,6 +84,7 @@ class Ticket extends Component {
           title={this.state.ticket.title}
           status={this.state.ticket.status}
           description={this.state.ticket.description}
+          assigned={assigned}
         />
         {assignButton}
         {closeButton}

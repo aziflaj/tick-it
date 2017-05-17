@@ -46,10 +46,23 @@ class TicketsList extends Component {
   }
 
   renderEmptyList() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    let emptyList = '';
+    if (user.role === 'admin') {
+      emptyList = (
+        <h3>There are no tickets</h3>
+      );
+    } else {
+      emptyList = (
+        <div>
+          <h3>You have no tickets</h3>
+          <Link to='/tickets/create'>Create one now?</Link>
+        </div>
+      );
+    }
     return (
       <div>
-        <h3>You have no tickets</h3>
-        <Link to='/tickets/create'>Create one now?</Link>
+        {emptyList}
       </div>
     );
   }
