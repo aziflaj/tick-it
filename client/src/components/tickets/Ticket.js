@@ -64,6 +64,7 @@ class Ticket extends Component {
         );
       }
     }
+
     let closeButton = '';
     if (((this.state.ticket.customer_id === user.id && user.role === 'customer')
          || (this.state.ticket.supporter_id === user.id && user.role === 'supporter'))
@@ -85,6 +86,23 @@ class Ticket extends Component {
       );
     }
 
+    let setRemoveSupporter = '';
+    if (user.role === 'admin') {
+      if (this.state.supporter === 'none') {
+        setRemoveSupporter = (
+          <button className="btn btn-primary" onClick={this.setSupporter.bind(this)}>
+            Assign to a Supporter
+          </button>
+        );
+      } else {
+        setRemoveSupporter = (
+          <button className="btn btn-danger" onClick={this.removeSupporter.bind(this)}>
+            Unassign
+          </button>
+        );
+      }
+    }
+
     return (
       <div className="ticket">
         <TicketItem
@@ -96,6 +114,7 @@ class Ticket extends Component {
           supporter={this.state.supporter}
         />
         {assignButton}
+        {setRemoveSupporter}
         {closeButton}
         {commentForm}
         <CommentsList
@@ -134,6 +153,14 @@ class Ticket extends Component {
         window.location.reload();
       }
     });
+  }
+
+  setSupporter() {
+    //TODO
+  }
+
+  removeSupporter() {
+    //TODO
   }
 }
 
