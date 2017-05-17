@@ -1,9 +1,11 @@
 const TicketDAO = require('../dao/ticket_dao');
+const UserDAO = require('../dao/user_dao');
 const NotificationJob = require('../jobs/notification_job');
 const { currentUser } = require('../helpers/user_helpers');
 const { toJson } = require('../helpers/ticket_helpers');
 
 const ticketDao = new TicketDAO();
+const userDao = new UserDAO();
 
 class TicketsController {
   index(req, res, next) {
@@ -47,9 +49,15 @@ class TicketsController {
 
   show(req, res, next) {
     ticketDao.getById(req.params.id).then(ticket => {
-      res.json({
-        status: 'ok',
-        ticket: ticket
+      userDao.getById(ticket.ticket.customer_id).then(customer => {
+        userDao.getById(ticket.ticket.supporter_id).then(support => {
+          res.json({
+            status: 'ok',
+            ticket: ticket,
+            customer: customer.username,
+            supporter: support.username
+          });
+        });
       });
     });
   }

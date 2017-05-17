@@ -16,6 +16,8 @@ class Ticket extends Component {
         description: '',
         status: ''
       },
+      supporter: '',
+      customer: '',
       comments: []
     };
   }
@@ -32,20 +34,35 @@ class Ticket extends Component {
       url: `${baseUrl}/tickets/${this.props.match.params.id}`,
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
     }).then((response) => {
-      const data = response.data.ticket;
-      this.setState({ ticket: data.ticket, comments: data.comments });
+      const data = response.data;
+      this.setState({ ticket: data.ticket.ticket,
+                      comments: data.ticket.comments,
+                      supporter: data.supporter,
+                      customer: data.customer
+                    });
     });
   }
 
   render() {
     const user = JSON.parse(localStorage.getItem('user'));
+    if (this.state.customer === user.username) {
+      this.setState({ customer: 'you' });
+    }
+
+    if (this.state.supporter === user.username) {
+      this.setState({ supporter: 'you' });
+    }
+
     let assignButton = '';
-    if (user.role === 'supporter' && typeof this.state.ticket.supporter_id === 'undefined') {
-      assignButton = (
-        <button className="btn btn-primary" onClick={this.assignToSelf.bind(this)}>
-          Assign to self
-        </button>
-      );
+    if (!this.state.supporter) {
+      this.setState({ supporter: 'none' });
+      if (user.role === 'supporter') {
+        assignButton = (
+          <button className="btn btn-primary" onClick={this.assignToSelf.bind(this)}>
+            Assign to self
+          </button>
+        );
+      }
     }
     let closeButton = '';
     if (((this.state.ticket.customer_id === user.id && user.role === 'customer')
@@ -68,15 +85,6 @@ class Ticket extends Component {
       );
     }
 
-    let assigned = '';
-    if (user.role === 'admin') {
-      if(this.state.ticket.supporter_id) {
-        assigned = 'This ticket is assigned to a supporter.';
-      } else {
-        assigned = 'This ticket is not assigned to a supporter.';
-      }
-    }
-
     return (
       <div className="ticket">
         <TicketItem
@@ -84,7 +92,8 @@ class Ticket extends Component {
           title={this.state.ticket.title}
           status={this.state.ticket.status}
           description={this.state.ticket.description}
-          assigned={assigned}
+          customer={this.state.customer}
+          supporter={this.state.supporter}
         />
         {assignButton}
         {closeButton}
