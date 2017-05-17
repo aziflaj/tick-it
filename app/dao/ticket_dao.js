@@ -34,7 +34,7 @@ class TicketDAO {
 
       return db.multi()
         .hmset(`ticket:${ticket_count}`, ticket)
-        .zadd(`tickets`, ticket.created_at, ticket.id)
+        .zadd('tickets', ticket.created_at, ticket.id)
         .zadd(`customer_tickets:${ticket.customer_id}`, ticket.created_at, ticket.id)
         .zadd('unassigned_tickets', ticket.created_at, ticket.id)
         .exec().then(result => ticket_count);
@@ -49,7 +49,7 @@ class TicketDAO {
     return db.hgetall(`ticket:${id}`).then(ticket => {
       return db.multi()
         .del(`ticket:${ticket.id}`)
-        .hdel('tickets', ticket.id)
+        .zrem('tickets', ticket.id)
         .zrem(`customer_tickets:${ticket.customer_id}`, ticket.id)
         .exec();
     });
@@ -79,11 +79,21 @@ class TicketDAO {
     });
   }
 
-  allTickets(from = 0, to = -1) {
-    return db.zrange(`tickets`, from, to).then(result => {
-      const keys = result.map((item) => `ticket:${item}`).join(' ');
-      return db.mhgetall(keys).then(result => result.map(item => arrayToObject(item)));
-    })
+  allTickets(page = 1, perPage = 10) {
+    const from = (page - 1) * perPage;
+    const to = from + perPage - 1;
+    return db.zcount('tickets', '-inf', '+inf').then(count => {
+      return db.zrange('tickets', from, to).then(result => {
+        const keys = result.map((item) => `ticket:${item}`).join(' ');
+        return db.mhgetall(keys).then(result => {
+          return {
+            tickets: result.map(item => arrayToObject(item)),
+            pages: Math.ceil(count / perPage),
+            currentPage: page
+          }
+        });
+      });
+    });
   }
 }
 

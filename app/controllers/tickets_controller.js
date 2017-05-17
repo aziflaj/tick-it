@@ -32,12 +32,13 @@ class TicketsController {
           });
         }
       } else if (user.role === 'admin') {
-        const from = req.query.from || 0;
-        const to = req.query.to || (from + 10);
-        ticketDao.allTickets(from, to).then(tickets => {
+        const page = req.query.page || 1;
+        ticketDao.allTickets(page).then(result => {
           res.json({
             status: 'ok',
-            tickets: tickets
+            tickets: result.tickets,
+            pages: result.pages,
+            currentPage: result.currentPage
           });
         });
       }

@@ -32,37 +32,21 @@ const customers = [
   }
 ];
 
-const tickets = [
-  {
-    title: faker.lorem.sentence(),
-    description: faker.lorem.text(),
-    status: 'opened'
-  },
-  {
-    title: faker.lorem.sentence(),
-    description: faker.lorem.text(),
-    status: 'opened'
-  },
-  {
-    title: faker.lorem.sentence(),
-    description: faker.lorem.text(),
-    status: 'opened'
-  }
-];
-
-const saveUserWithTicket = async((user, ticket) => {
-  const userId = await(userDao.save(user));
-  ticket.customer_id = userId;
-  return await(ticketDao.save(ticket));
-});
-
-for (let i = 0; i < customers.length; i++) {
-  const user = customers[i];
-  saveUserWithTicket(user, tickets[i]).then(ticketId => {
-    console.log(`Saved ticket #${ticketId} for user ${user.username}`);
+customers.forEach(customer => {
+  userDao.save(customer).then(user_id => {
+    for (let i = 0; i < 5; i++) {
+      const ticket = {
+        title: faker.lorem.sentence(),
+        description: faker.lorem.text(),
+        status: 'opened',
+        customer_id: user_id
+      };
+      ticketDao.save(ticket).then(ticket_id => {
+        console.log(`Saved ticket ${ticket_id} for user ${user_id}`);
+      });
+    }
   });
-}
-
+});
 
 const supporters = [
   {

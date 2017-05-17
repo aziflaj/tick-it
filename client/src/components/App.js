@@ -51,7 +51,6 @@ class App extends Component {
             <Route exact path="/supporters" component={SupportersList} />
             <Route exact path="/newsupport" component={NewSupport} />
 
-
             <Route exact path="/notifications" component={Notifications} />
 
             <Route path="/settings" component={Settings} />
