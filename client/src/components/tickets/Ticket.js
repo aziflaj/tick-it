@@ -70,10 +70,10 @@ class Ticket extends Component {
 
     let assigned = '';
     if (user.role === 'admin') {
-      if(this.state.ticket.supporter_id === 'undefined') {
-        assigned = 'This ticket is not assigned to a supporter.';
-      } else {
+      if(this.state.ticket.supporter_id) {
         assigned = 'This ticket is assigned to a supporter.';
+      } else {
+        assigned = 'This ticket is not assigned to a supporter.';
       }
     }
 
