@@ -34,6 +34,7 @@ class UserDAO {
           .hset('users', user.username, user_count) // username serves as index
           .hset('users', user.email, user_count)    // email serves as index
           .zadd(user.role, Date.now(), user.id)
+          .zadd(`${user.role}_names`, user.id, user.username)
           .exec().then(results => user_count);
       });
     });
@@ -53,6 +54,19 @@ class UserDAO {
                .hdel('users', user.email)
                .del(`user:${user.id}`)
                .exec();
+    });
+  }
+
+  searchSupporter(name) {
+    return db.zscan('supporter_names', 0, 'match', `${name}*`).then(result => {
+      let supporters = [];
+      for (let i = 0; i < result[1].length; i += 2) {
+        supporters.push({
+          username: result[1][i],
+          id: result[1][i + 1]
+        });
+      }
+      return supporters;
     });
   }
 }
