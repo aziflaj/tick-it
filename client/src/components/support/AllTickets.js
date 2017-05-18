@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 import TicketItem from '../tickets/TicketItem';
 import Paginator from '../Paginator';
-import baseUrl from '../../config/constants';
+import { apiCall } from '../../helpers/api';
 
 class AllTickets extends Component {
   constructor(props) {
@@ -108,11 +107,7 @@ class AllTickets extends Component {
   }
 
   getTickets(page = 1) {
-    axios({
-      method: 'get',
-      url: `${baseUrl}/tickets?page=${page}`,
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
-    }).then((response) => {
+    apiCall('tickets', 'get', { page: page }).then(result => {
       this.setState({
         tickets: response.data.tickets,
         currentPage: parseInt(response.data.currentPage, 10),
