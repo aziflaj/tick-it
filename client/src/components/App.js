@@ -8,7 +8,7 @@ import SignUp from './SignUp';
 import { Profile, Settings } from './user';
 import { NewTicket } from './customer';
 import { TicketsList } from './tickets'
-import { AllTickets, MyTickets } from './support';
+import { MyTickets } from './support';
 import { SupportersList, NewSupport } from './admin';
 import Notifications from './notifications/Notifications';
 

@@ -62,6 +62,13 @@ const supporters = [
     email: 'clapton@tickit.com',
     full_name: 'Eric Clapton',
     role: 'supporter'
+  },
+  {
+    username: 'jin',
+    password: 'password',
+    email: 'jin@tickit.com',
+    full_name: 'Gjin Bue Shpata',
+    role: 'supporter'
   }
 ];
 
