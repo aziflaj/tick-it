@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 import TicketItem from '../tickets/TicketItem';
-import baseUrl from '../../config/constants';
+import Paginator from '../Paginator';
+// import baseUrl from '../../config/constants';
+import { apiCall } from '../../helpers/api';
 
 class TicketsList extends Component {
   constructor(props) {
     super(props);
-    this.state = { tickets: [] };
+    this.state = {
+      tickets: [],
+      currentPage: 1,
+      pages: 1
+    };
   }
 
   componentWillMount() {
@@ -18,16 +24,21 @@ class TicketsList extends Component {
   }
 
   componentDidMount() {
-    axios({
-      method: 'get',
-      url: `${baseUrl}/tickets`,
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
-    }).then((response) => {
-      this.setState({ tickets: response.data.tickets });
-    });
+    this.getTickets(1);
+    // axios({
+    //   method: 'get',
+    //   url: `${baseUrl}/tickets`,
+    //   headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
+    // }).then((response) => {
+    //   this.setState({ tickets: response.data.tickets });
+    // });
   }
 
   renderTicketList(tickets) {
+    if (tickets.length === 0) {
+      return this.renderEmptyList();
+    }
+
     return (
       <div>
         {tickets.map(ticket => {
@@ -67,12 +78,58 @@ class TicketsList extends Component {
     );
   }
 
+  onFirst() {
+    this.getTickets(1);
+  }
+
+  onPrev() {
+    if (this.state.currentPage !== 1) {
+      this.getTickets(this.state.currentPage - 1);
+    }
+  }
+
+  onNext() {
+    if (this.state.currentPage !== this.state.pages) {
+      this.getTickets(this.state.currentPage + 1);
+    }
+  }
+
+  onLast() {
+    this.getTickets(this.state.pages);
+  }
+
   render() {
+    let paginator = '';
+    if (this.state.pages !== 1) {
+      paginator = (
+        <Paginator
+          currentPage={this.state.currentPage}
+          pagesCount={this.state.pages}
+          onFirst={this.onFirst.bind(this)}
+          onPrev={this.onPrev.bind(this)}
+          onNext={this.onNext.bind(this)}
+          onLast={this.onLast.bind(this)}
+        />
+      );
+    }
+
     return (
       <div className="tickets-listing">
-        {this.state.tickets.length === 0 ? this.renderEmptyList() : this.renderTicketList(this.state.tickets)}
+        {paginator}
+        {this.renderTicketList(this.state.tickets)}
+        {paginator}
       </div>
     );
+  }
+
+  getTickets(page = 1) {
+    apiCall('tickets', 'get', { page: page }).then(response => {
+      this.setState({
+        tickets: response.data.tickets,
+        currentPage: parseInt(response.data.currentPage, 10),
+        pages: parseInt(response.data.pages, 10)
+      });
+    });
   }
 }
 

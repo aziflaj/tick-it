@@ -6,7 +6,7 @@ class AdminLinks extends Component {
     return (
       <ul className="nav navbar-nav">
         <Link to='/supporters'>All Supporters</Link>
-        <Link to='/tickets/all'>All Tickets</Link>
+        <Link to='/tickets'>All Tickets</Link>
       </ul>
     );
   }

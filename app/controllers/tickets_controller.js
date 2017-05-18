@@ -10,31 +10,38 @@ const userDao = new UserDAO();
 class TicketsController {
   index(req, res, next) {
     currentUser(req).then(user => {
+      const page = req.query.page || 1;
+
       if (user.role === 'customer') {
-        ticketDao.ticketsForCustomer(user).then(tickets => {
+        ticketDao.ticketsForCustomer(user, page).then(result => {
           res.json({
             status: 'ok',
-            tickets: tickets
+            tickets: result.tickets,
+            pages: result.pages,
+            currentPage: result.currentPage
           });
         });
       } else if (user.role === 'supporter') {
         if (req.query.type === 'mine') {
-          ticketDao.ticketsForSupporter(user).then(tickets => {
+          ticketDao.ticketsForSupporter(user, page).then(result => {
             res.json({
               status: 'ok',
-              tickets: tickets
+              tickets: result.tickets,
+              pages: result.pages,
+              currentPage: result.currentPage
             });
           });
         } else {
-          ticketDao.unassignedTickets().then(tickets => {
+          ticketDao.unassignedTickets(page).then(result => {
             res.json({
               status: 'ok',
-              tickets: tickets
+              tickets: result.tickets,
+              pages: result.pages,
+              currentPage: result.currentPage
             });
           });
         }
       } else if (user.role === 'admin') {
-        const page = req.query.page || 1;
         ticketDao.allTickets(page).then(result => {
           res.json({
             status: 'ok',

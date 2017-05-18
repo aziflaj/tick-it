@@ -45,7 +45,6 @@ class App extends Component {
             <Route exact path="/tickets" component={TicketsList} />
             <Route exact path="/tickets/create" component={NewTicket} />
 
-            <Route exact path="/tickets/all" component={AllTickets} />
             <Route exact path="/tickets/mine" component={MyTickets} />
 
             <Route exact path="/supporters" component={SupportersList} />
