@@ -78,7 +78,7 @@ class Ticket extends Component {
     }
 
     let commentForm = '';
-    if (this.state.ticket.status === 'opened' && user.role != 'admin') {
+    if (this.state.ticket.status === 'opened' && user.role !== 'admin') {
       commentForm = (
         <NewComment
           ticketId={this.state.ticket.id}

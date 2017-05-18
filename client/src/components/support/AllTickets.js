@@ -22,20 +22,29 @@ class AllTickets extends Component {
   }
 
   componentDidMount() {
-    axios({
-      method: 'get',
-      url: `${baseUrl}/tickets?type=all`,
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
-    }).then((response) => {
-      this.setState({
-        tickets: response.data.tickets,
-        currentPage: response.data.currentPage,
-        pages: response.data.pages
-      });
-    });
+    this.getTickets(1);
+    // axios({
+    //   method: 'get',
+    //   url: `${baseUrl}/tickets?type=all`,
+    //   headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
+    // }).then((response) => {
+    //   this.setState({
+    //     tickets: response.data.tickets,
+    //     currentPage: response.data.currentPage,
+    //     pages: response.data.pages
+    //   });
+    // });
   }
 
   renderTicketList(tickets) {
+    if (tickets.length === 0) {
+      return (
+        <div>
+          <h3>There are no tickets</h3>
+        </div>
+      );
+    }
+
     return (
       <div>
         {tickets.map(ticket => {
@@ -53,28 +62,24 @@ class AllTickets extends Component {
     );
   }
 
-  renderEmptyList() {
-    return (
-      <div>
-        <h3>There are no tickets</h3>
-      </div>
-    );
-  }
-
   onFirst() {
-    console.log('first');
+    this.getTickets(1);
   }
 
   onPrev() {
-    console.log('prev');
+    if (this.state.currentPage !== 1) {
+      this.getTickets(this.state.currentPage - 1);
+    }
   }
 
   onNext() {
-    console.log('next');
+    if (this.state.currentPage !== this.state.pages) {
+      this.getTickets(this.state.currentPage + 1);
+    }
   }
 
   onLast() {
-    console.log('last');
+    this.getTickets(this.state.pages);
   }
 
   render() {
@@ -96,10 +101,24 @@ class AllTickets extends Component {
     return (
       <div className="tickets-listing">
         {paginator}
-        {this.state.tickets.length === 0 ? this.renderEmptyList() : this.renderTicketList(this.state.tickets)}
+        {this.renderTicketList(this.state.tickets)}
         {paginator}
       </div>
     );
+  }
+
+  getTickets(page = 1) {
+    axios({
+      method: 'get',
+      url: `${baseUrl}/tickets?page=${page}`,
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
+    }).then((response) => {
+      this.setState({
+        tickets: response.data.tickets,
+        currentPage: parseInt(response.data.currentPage, 10),
+        pages: parseInt(response.data.pages, 10)
+      });
+    });
   }
 }
 
