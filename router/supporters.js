@@ -17,4 +17,12 @@ router.get('/', (req, res, next) => {
   }
 });
 
+router.get('/search', (req, res, next) => {
+  if (isLoggedIn(req) && policy.isAdmin(req)) {
+    supporters.search(req, res, next);
+  } else {
+    unauthorized(res);
+  }
+});
+
 module.exports = router;

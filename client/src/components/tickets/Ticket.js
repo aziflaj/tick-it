@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { confirmAlert } from 'react-confirm-alert';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { Typeahead } from 'react-typeahead';
 
 import TicketItem from './TicketItem';
 import CommentsList from '../comments/CommentsList';
@@ -19,6 +20,7 @@ class Ticket extends Component {
       },
       supporter: '',
       customer: '',
+      suggestions: [],
       comments: []
     };
   }
@@ -41,6 +43,20 @@ class Ticket extends Component {
                       supporter: data.supporter,
                       customer: data.customer
                     });
+    });
+  }
+
+  onSearchTermChange(e) {
+    axios({
+      method: 'get',
+      url: `${baseUrl}/supporters/search`,
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      params: {
+        term: e.target.value
+      }
+    }).then(response => {
+      console.log(response);
+      this.setState({ suggestions: response.data.supporters.map(item => item.username) });
     });
   }
 
@@ -91,9 +107,23 @@ class Ticket extends Component {
     if (user.role === 'admin') {
       if (this.state.supporter === 'none') {
         setRemoveSupporter = (
-          <button className="btn btn-primary" onClick={this.setSupporter.bind(this)}>
-            Assign to a Supporter
-          </button>
+          <div className="doctors-search">
+            <Typeahead
+              id="doctors-search-txt"
+              className="zerodarkthirty"
+              options={this.state.suggestions}
+              maxVisible={2}
+              onKeyUp={this.onSearchTermChange.bind(this)}
+            />
+            <button type="button"
+                     className="btn btn-sm btn-info btn-rounded"
+                     id="assign-doctor-btn"
+                     onClick={this.setSupporter.bind(this)}
+            >
+              Assign
+            </button>
+            <div className="results" id="doctors-search-results"></div>
+          </div>
         );
       } else {
         setRemoveSupporter = (

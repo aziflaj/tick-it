@@ -12,6 +12,15 @@ class SupportersController {
       });
     });
   }
+
+  search(req, res, next) {
+    userDao.searchSupporter(req.params.term).then(supporters => {
+      res.json({
+        status: 'ok',
+        supporters: supporters
+      });
+    });
+  }
 }
 
 module.exports = SupportersController;
