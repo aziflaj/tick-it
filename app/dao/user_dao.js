@@ -16,10 +16,21 @@ class UserDAO {
     });
   }
 
-  getSupporters() {
-    return db.zrange('supporter', 0, -1).then(result => {
-      const keys = result.map((item) => `user:${item}`).join(' ');
-      return db.mhgetall(keys).then(result => result.map(item => arrayToObject(item)));
+  getSupporters(page = 1, perPage = 10) {
+    const from = (page - 1) * perPage;
+    const to = from + perPage - 1;
+
+    return db.zcount('supporter', '-inf', '+inf').then(count => {
+      return db.zrange('supporter', from, to).then(result => {
+        const keys = result.map((item) => `user:${item}`).join(' ');
+        return db.mhgetall(keys).then(result => {
+          return {
+            supporters: result.map(item => arrayToObject(item)),
+            pages: Math.ceil(count / perPage),
+            currentPage: page
+          };
+        });
+      });
     });
   }
 

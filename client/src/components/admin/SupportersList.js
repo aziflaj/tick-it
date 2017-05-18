@@ -3,13 +3,17 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import SupporterItem from './SupporterItem';
+import Paginator from '../Paginator';
+import { apiCall } from '../../helpers/api';
 import baseUrl from '../../config/constants';
 
 class SupporterList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      supporters: []
+      supporters: [],
+      currentPage: 1,
+      pages: 1
     };
   }
 
@@ -20,17 +24,18 @@ class SupporterList extends Component {
   }
 
   componentDidMount() {
-    axios({
-      method: 'get',
-      url: `${baseUrl}/supporters`,
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    }).then(response => {
-      console.log(response);
-      this.setState({ supporters: response.data.supporters });
-    });
+    this.getSupporters(1);
   }
 
   renderSupportersList(supporters) {
+    if (supporters.length === 0) {
+      return (
+        <div>
+          <h3>There are no supporters</h3>
+        </div>
+      );
+    }
+
     return (
       <div>
         {supporters.map(supporter => {
@@ -48,27 +53,65 @@ class SupporterList extends Component {
     );
   }
 
-  renderEmptyList() {
-    return (
-      <div>
-        <h3>There are no supporters</h3>
-      </div>
-    );
-  }
-
   addSupporter() {
     this.context.router.history.push(`/newsupport`);
   }
 
+  onFirst() {
+    this.getTickets(1);
+  }
+
+  onPrev() {
+    if (this.state.currentPage !== 1) {
+      this.getTickets(this.state.currentPage - 1);
+    }
+  }
+
+  onNext() {
+    if (this.state.currentPage !== this.state.pages) {
+      this.getTickets(this.state.currentPage + 1);
+    }
+  }
+
+  onLast() {
+    this.getTickets(this.state.pages);
+  }
+
   render() {
+    let paginator = '';
+    if (this.state.pages !== 1) {
+      paginator = (
+        <Paginator
+          currentPage={this.state.currentPage}
+          pagesCount={this.state.pages}
+          onFirst={this.onFirst.bind(this)}
+          onPrev={this.onPrev.bind(this)}
+          onNext={this.onNext.bind(this)}
+          onLast={this.onLast.bind(this)}
+        />
+      );
+    }
+
     return (
       <div className="supporters-listing">
         <button className="pull-right btn btn-primary" onClick={this.addSupporter.bind(this)}>
           Add a new supporter
         </button>
-        {this.state.supporters.length === 0 ? this.renderEmptyList() : this.renderSupportersList(this.state.supporters)}
+        {paginator}
+        {this.renderSupportersList(this.state.supporters)}
+        {paginator}
       </div>
     );
+  }
+
+  getSupporters(page = 1) {
+    apiCall('supporters', 'get', { page: page }).then(response => {
+      this.setState({
+        supporters: response.data.supporters,
+        currentPage: parseInt(response.data.currentPage, 10),
+        pages: parseInt(response.data.pages, 10)
+      });
+    });
   }
 }
 

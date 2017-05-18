@@ -15,7 +15,7 @@ class NotificationList extends Component {
               read={notification.read}
               ticket={notification.ticket_id}
             />
-          )
+          );
         })}
       </div>
     );

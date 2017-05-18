@@ -26,10 +26,20 @@ class NotificationDAO {
     });
   }
 
-  getAllByUserId(id) {
-    return db.zrange(`user_notifications:${id}`, 0, -1).then(result => {
-      const keys = result.map(item => `notification:${item}`).join(' ');
-      return db.mhgetall(keys).then(result => result.map(item => arrayToObject(item)));
+  getAllByUserId(id, page = 1, perPage = 10) {
+    const from = (page - 1) * perPage;
+    const to = from + perPage - 1;
+    return db.zcount(`user_notifications:${id}`, '-inf', '+inf').then(count => {
+      return db.zrange(`user_notifications:${id}`, from, to).then(result => {
+        const keys = result.map(item => `notification:${item}`).join(' ');
+        return db.mhgetall(keys).then(result => {
+          return {
+            notifications: result.map(item => arrayToObject(item)),
+            pages: Math.ceil(count / perPage),
+            currentPage: page
+          };
+        });
+      });
     });
   }
 }
