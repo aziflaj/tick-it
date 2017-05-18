@@ -14,7 +14,7 @@ class SupportersController {
   }
 
   search(req, res, next) {
-    userDao.searchSupporter(req.params.term).then(supporters => {
+    userDao.searchSupporter(req.query.term).then(supporters => {
       res.json({
         status: 'ok',
         supporters: supporters

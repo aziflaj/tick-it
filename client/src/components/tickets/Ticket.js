@@ -49,13 +49,9 @@ class Ticket extends Component {
   onSearchTermChange(e) {
     axios({
       method: 'get',
-      url: `${baseUrl}/supporters/search`,
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      params: {
-        term: e.target.value
-      }
+      url: `${baseUrl}/supporters/search?term=${e.target.value}`,
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     }).then(response => {
-      console.log(response);
       this.setState({ suggestions: response.data.supporters.map(item => item.username) });
     });
   }
