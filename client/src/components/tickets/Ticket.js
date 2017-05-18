@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
@@ -160,7 +161,28 @@ class Ticket extends Component {
   }
 
   removeSupporter() {
-    //TODO
+    confirmAlert({
+      title: 'Unassign',
+      message: `Are you sure you want to unassign this ticket from ${this.state.supporter}?`,
+      confirmLabel: 'Yes',
+      cancelLabel: 'Cancel',
+      onConfirm: () => {
+        axios({
+          method: 'put',
+          url: `${baseUrl}/tickets/${JSON.parse(this.state.ticket.id)}/removesupport`,
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}`},
+          data: {
+            title: this.state.ticket.title,
+            description: this.state.ticket.description,
+            status: this.state.ticket.status
+          }
+        }).then((response) => {
+          console.log(response);
+          this.setState({ supporter: 'none' });
+          window.location.reload();
+        });
+      }
+    });
   }
 }
 

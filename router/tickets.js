@@ -51,6 +51,16 @@ router.delete('/:id', (req, res, next) => {
   });
 });
 
+router.put('/:id/removesupport', (req, res, next) => {
+  policy.canRemoveSupporter(req).then(ok => {
+    if (ok) {
+      tickets.update(req, res, next);
+    } else {
+      unauthorized(res);
+    }
+  });
+});
+
 router.post('/:ticket_id/comments', (req, res, next) => {
   // policy.canComment(req)
   comments.create(req, res, next);

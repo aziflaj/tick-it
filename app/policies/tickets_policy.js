@@ -40,6 +40,12 @@ class TicketsPolicy {
       return user.role === 'supporter';
     });
   }
+
+  canRemoveSupporter(req) {
+    return currentUser(req).then(user => {
+      return user.role === 'admin';
+    });
+  }
 }
 
 function findCommentById(comments, id) {
