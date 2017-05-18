@@ -5,15 +5,25 @@ class TicketItem extends Component {
   render() {
     let assigned = '';
     if (this.props.supporter === 'none') {
-     assigned = 'This ticket is not assigned to a supporter.';
-    } else if (this.props.supporter) {
       assigned = (
-       <p>
+        <p>
+          This ticket is not assigned to a supporter.
+        </p>
+      );
+    } else if (this.props.supporter === 'you') {
+      assigned = (
+        <p>
+          This ticket is assigned to you.
+        </p>
+      );
+    } else if(this.props.supporter) {
+      assigned = (
+        <p>
           This ticket is assigned to
           <Link to={`/users/${this.props.supporter}`}>
             {this.props.supporter}
           </Link>
-       </p>
+        </p>
       );
     }
 
