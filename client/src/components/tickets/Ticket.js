@@ -21,6 +21,7 @@ class Ticket extends Component {
       supporter: '',
       customer: '',
       suggestions: [],
+      selected: '',
       comments: []
     };
   }
@@ -46,6 +47,37 @@ class Ticket extends Component {
     });
   }
 
+  assignToSelf() {
+    axios({
+      method: 'get',
+      url: `${baseUrl}/tickets/${this.props.match.params.id}/assign`,
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
+    }).then((response) => {
+      if (response.data.status === 'ok') {
+        window.location.reload();
+      }
+    });
+  }
+
+  markAsClosed() {
+    axios({
+      method: 'put',
+      url: `${baseUrl}/tickets/${this.props.match.params.id}`,
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`},
+      data: {
+        status: 'closed',
+        title: this.state.ticket.title,
+        description: this.state.ticket.description,
+        supporter_id: this.state.supporter
+      }
+    }).then((response) => {
+      console.log(response);
+      if (response.data.status === 'ok') {
+        window.location.reload();
+      }
+    });
+  }
+
   onSearchTermChange(e) {
     axios({
       method: 'get',
@@ -54,6 +86,65 @@ class Ticket extends Component {
     }).then(response => {
       this.setState({ suggestions: response.data.supporters.map(item => item.username) });
     });
+  }
+
+  setSupporter() {
+    this.setState({ supporter: this.state.selected });
+    confirmAlert({
+      title: 'Assigning ticket',
+      message: `Are you sure you want to assign this ticket to ${this.state.selected}?`,
+      confirmLabel: 'Yes',
+      cancelLabel: 'Cancel',
+      onConfirm: () => {
+        axios({
+          method: 'put',
+          url: `${baseUrl}/tickets/${JSON.parse(this.state.ticket.id)}/setsupport`,
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}`},
+          data: {
+            title: this.state.ticket.title,
+            description: this.state.ticket.description,
+            status: this.state.ticket.status,
+            supporter: this.state.supporter
+          }
+        }).then((response) => {
+          console.log(response);
+          window.location.reload();
+        });
+      },
+      onCancel: () => {
+        this.setState({ supporter: 'none' });
+      }
+    });
+  }
+
+  removeSupporter() {
+    confirmAlert({
+      title: 'Unassign',
+      message: `Are you sure you want to unassign this ticket from ${this.state.supporter}?`,
+      confirmLabel: 'Yes',
+      cancelLabel: 'Cancel',
+      onConfirm: () => {
+        axios({
+          method: 'put',
+          url: `${baseUrl}/tickets/${JSON.parse(this.state.ticket.id)}/removesupport`,
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}`},
+          data: {
+            title: this.state.ticket.title,
+            description: this.state.ticket.description,
+            status: this.state.ticket.status
+          }
+        }).then((response) => {
+          console.log(response);
+          this.setState({ supporter: 'none' });
+          window.location.reload();
+        });
+      }
+    });
+  }
+
+  onSelectSupporter(e) {
+    console.log(e);
+    this.setState({ selected: e });
   }
 
   render() {
@@ -108,8 +199,9 @@ class Ticket extends Component {
               id="doctors-search-txt"
               className="zerodarkthirty"
               options={this.state.suggestions}
-              maxVisible={2}
-              onKeyUp={this.onSearchTermChange.bind(this)}
+              maxVisible={8}
+              onKeyDown={this.onSearchTermChange.bind(this)}
+              onOptionSelected={this.onSelectSupporter.bind(this)}
             />
             <button type="button"
                      className="btn btn-sm btn-info btn-rounded"
@@ -149,66 +241,6 @@ class Ticket extends Component {
         />
       </div>
     );
-  }
-
-  assignToSelf() {
-    axios({
-      method: 'get',
-      url: `${baseUrl}/tickets/${this.props.match.params.id}/assign`,
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
-    }).then((response) => {
-      if (response.data.status === 'ok') {
-        window.location.reload();
-      }
-    });
-  }
-
-  markAsClosed() {
-    axios({
-      method: 'put',
-      url: `${baseUrl}/tickets/${this.props.match.params.id}`,
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`},
-      data: {
-        status: 'closed',
-        title: this.state.ticket.title,
-        description: this.state.ticket.description,
-        supporter_id: this.state.ticket.supporter_id
-      }
-    }).then((response) => {
-      console.log(response);
-      if (response.data.status === 'ok') {
-        window.location.reload();
-      }
-    });
-  }
-
-  setSupporter() {
-    //TODO
-  }
-
-  removeSupporter() {
-    confirmAlert({
-      title: 'Unassign',
-      message: `Are you sure you want to unassign this ticket from ${this.state.supporter}?`,
-      confirmLabel: 'Yes',
-      cancelLabel: 'Cancel',
-      onConfirm: () => {
-        axios({
-          method: 'put',
-          url: `${baseUrl}/tickets/${JSON.parse(this.state.ticket.id)}/removesupport`,
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}`},
-          data: {
-            title: this.state.ticket.title,
-            description: this.state.ticket.description,
-            status: this.state.ticket.status
-          }
-        }).then((response) => {
-          console.log(response);
-          this.setState({ supporter: 'none' });
-          window.location.reload();
-        });
-      }
-    });
   }
 }
 

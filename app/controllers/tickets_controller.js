@@ -137,6 +137,19 @@ class TicketsController {
       });
     });
   }
+
+  setSupporter(req, res, next) {
+    console.log(req.body);
+    userDao.getByUsername(req.body.supporter).then(user => {
+      ticketDao.assignToSupporter(req.params.id, user.id).then(result => {
+        res.json({
+          status: 'ok',
+          supporter_id: user.id,
+          message: `Assigned to ${user.username}`
+        });
+      });
+    });
+  }
 }
 
 module.exports = TicketsController;

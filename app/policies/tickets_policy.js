@@ -41,7 +41,7 @@ class TicketsPolicy {
     });
   }
 
-  canRemoveSupporter(req) {
+  canSetRemoveSupporter(req) {
     return currentUser(req).then(user => {
       return user.role === 'admin';
     });

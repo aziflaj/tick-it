@@ -51,8 +51,18 @@ router.delete('/:id', (req, res, next) => {
   });
 });
 
+router.put('/:id/setsupport', (req, res, next) => {
+  policy.canSetRemoveSupporter(req).then(ok => {
+    if (ok) {
+      tickets.setSupporter(req, res, next);
+    } else {
+      unauthorized(res);
+    }
+  });
+});
+
 router.put('/:id/removesupport', (req, res, next) => {
-  policy.canRemoveSupporter(req).then(ok => {
+  policy.canSetRemoveSupporter(req).then(ok => {
     if (ok) {
       tickets.update(req, res, next);
     } else {
