@@ -41,8 +41,8 @@ class NotificationsController {
 
   markAllAsRead(req, res, next) {
     currentUser(req).then(user => {
-      notificationDao.getAllByUserId(user.id).then(notifications => {
-        notifications.map(notification => {
+      notificationDao.getAllByUserId(user.id).then(result => {
+        result.notifications.map(notification => {
           notificationDao.markAsRead(notification.id);
         });
         res.json({

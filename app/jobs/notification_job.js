@@ -16,8 +16,7 @@ class NotificationJob {
         break;
 
       case 'admin_assign':
-        this.notifyCustomer(params.ticket_id);
-        this.notifyAssignmentSupport(params.ticket_id);
+        this.notifyAdminAssignment(params.ticket_id);
         break;
 
       case 'admin_unassign':
@@ -47,11 +46,18 @@ class NotificationJob {
     });
   }
 
-  static notifyAssignmentSupport(ticket_id) {
+  static notifyAdminAssignment(ticket_id) {
     db.hgetall(`ticket:${ticket_id}`).then(ticket => {
+      // Notify supporter
       db.hgetall(`user:${ticket.customer_id}`).then(customer => {
         const message = `Ticket #${ticket.id} created by ${customer.username} was assigned to you.`;
         sendNotification(ticket.supporter_id, ticket.id, message);
+      });
+
+      // Notify customer
+      db.hgetall(`user:${ticket.supporter_id}`).then(supporter => {
+        const message = `Ticket #${ticket.id} was assigned to supporter ${supporter.username}.`;
+        sendNotification(ticket.customer_id, ticket.id, message);
       });
     });
   }

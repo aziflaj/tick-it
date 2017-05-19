@@ -108,6 +108,10 @@ class TicketsController {
           currentUser(req).then(user => {
             // NotificationJob.notifyClosedTicket(req.params.id, user.id);
             NotificationJob.perform('close_ticket', {ticket_id: req.params.id, user_id: user.id});
+            res.json({
+              status: 'ok',
+              id: req.params.id
+            });
           });
         } else if(!req.body.supporter_id) {
           // TODO: check permissions

@@ -35,13 +35,24 @@ class Ticket extends Component {
   componentDidMount() {
     apiCall(`tickets/${this.props.match.params.id}`, 'get').then(response => {
       const data = response.data;
-      this.setState({ ticket: data.ticket.ticket,
-                      comments: data.ticket.comments,
-                      supporter: data.supporter,
-                      customer: data.customer
-                    });
+      this.setState({
+        ticket: data.ticket.ticket,
+        comments: data.ticket.comments,
+        supporter: data.supporter,
+        customer: data.customer
+      });
+
       if (typeof this.state.supporter === 'undefined') {
         this.setState({ supporter: 'none' });
+      }
+
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (this.state.customer === user.username) {
+        this.setState({ customer: 'you' });
+      }
+
+      if (this.state.supporter === user.username) {
+        this.setState({ supporter: 'you' });
       }
     });
   }
@@ -55,6 +66,7 @@ class Ticket extends Component {
   }
 
   markAsClosed() {
+    console.log('marking as closed');
     const data = {
       status: 'closed',
       title: this.state.ticket.title,
@@ -63,6 +75,7 @@ class Ticket extends Component {
     };
 
     apiCall(`tickets/${this.props.match.params.id}`, 'put', data).then(response => {
+      console.log(response);
       if (response.data.status === 'ok') {
         window.location.reload();
       }
@@ -127,13 +140,6 @@ class Ticket extends Component {
 
   render() {
     const user = JSON.parse(localStorage.getItem('user'));
-    if (this.state.customer === user.username) {
-      this.setState({ customer: 'you' });
-    }
-
-    if (this.state.supporter === user.username) {
-      this.setState({ supporter: 'you' });
-    }
 
     let assignButton = '';
     if (this.state.supporter === 'none' && user.role === 'supporter') {
