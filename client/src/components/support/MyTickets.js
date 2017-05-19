@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+
 import { Link } from 'react-router-dom';
 
 import TicketItem from '../tickets/TicketItem';
-import baseUrl from '../../config/constants';
+import { apiCall } from '../../helpers/api';
 
 class MyTickets extends Component {
   constructor(props) {
@@ -18,11 +18,7 @@ class MyTickets extends Component {
   }
 
   componentDidMount() {
-    axios({
-      method: 'get',
-      url: `${baseUrl}/tickets?type=mine`,
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
-    }).then((response) => {
+    apiCall('tickets', 'get', { type: 'mine' }).then(response => {
       this.setState({ tickets: response.data.tickets });
     });
   }

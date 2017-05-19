@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 
-import baseUrl from '../../config/constants';
+
+import { apiCall } from '../../helpers/api';
 
 class NewTicket extends Component {
   constructor(props) {
@@ -23,15 +23,12 @@ class NewTicket extends Component {
 
   onFormSubmit(e) {
     e.preventDefault();
-    axios({
-      method: 'post',
-      url: `${baseUrl}/tickets`,
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`},
-      data: {
-        title: this.state.title,
-        description: this.state.description
-      }
-    }).then((response) => {
+    const data = {
+      title: this.state.title,
+      description: this.state.description
+    }
+
+    apiCall('tickets', 'post', data).then(response => {
       console.log(response);
       this.context.router.history.push(`/ticket/${response.data.id}`);
     });

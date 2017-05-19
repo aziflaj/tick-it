@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
+
 import { Link } from 'react-router-dom';
 
-import baseUrl from '../config/constants';
+import { apiCall } from '../helpers/api';
 
 class SignUp extends Component {
   constructor(props) {
@@ -37,12 +37,14 @@ class SignUp extends Component {
   onFormSubmit(e) {
     e.preventDefault();
     this.setState({ disabled: true });
-    axios.post(`${baseUrl}/users`, {
+    const data = {
       full_name: this.state.full_name,
       username: this.state.username,
       email: this.state.email,
       password: this.state.password
-    }).then((response) => {
+    };
+
+    apiCall('users', 'get', data, false).then(response => {
       if (response.data.status === 'ok') {
         alert('You should login now');
         this.context.router.history.push('/');

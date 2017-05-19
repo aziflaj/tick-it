@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
+
 
 import SupporterItem from './SupporterItem';
 import Paginator from '../Paginator';
 import { apiCall } from '../../helpers/api';
-import baseUrl from '../../config/constants';
+import { apiCall } from '../../helpers/api';
 
 class SupporterList extends Component {
   constructor(props) {
@@ -58,23 +58,23 @@ class SupporterList extends Component {
   }
 
   onFirst() {
-    this.getTickets(1);
+    this.getSupporters(1);
   }
 
   onPrev() {
     if (this.state.currentPage !== 1) {
-      this.getTickets(this.state.currentPage - 1);
+      this.getSupporters(this.state.currentPage - 1);
     }
   }
 
   onNext() {
     if (this.state.currentPage !== this.state.pages) {
-      this.getTickets(this.state.currentPage + 1);
+      this.getSupporters(this.state.currentPage + 1);
     }
   }
 
   onLast() {
-    this.getTickets(this.state.pages);
+    this.getSupporters(this.state.pages);
   }
 
   render() {

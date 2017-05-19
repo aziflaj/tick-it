@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
+
 import { Link } from 'react-router-dom';
 
-import baseUrl from '../config/constants';
+import { apiCall } from '../helpers/api';
 import { showLoading, hideLoading } from '../helpers';
 
 class Login extends Component {
@@ -29,10 +29,11 @@ class Login extends Component {
     e.preventDefault();
     this.setState({ disabled: true });
     showLoading();
-    axios.post(`${baseUrl}/authenticate`, {
+    const data = {
       username: this.state.username,
       password: this.state.password
-    }).then((response) => {
+    };
+    apiCall('authenticate', 'get', data, false).then(response => {
       hideLoading();
       if (response.data.status === 'ok') {
         localStorage.setItem('token', response.data.token);

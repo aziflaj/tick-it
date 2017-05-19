@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 // import ReactConfirmAlert, { confirmAlert } from 'react-confirm-alert';
 import { confirmAlert } from 'react-confirm-alert';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 
-import baseUrl from '../../config/constants';
+
+import { apiCall } from '../../helpers/api';
 import { showLoading, hideLoading, updateObject } from '../../helpers';
 
 class Settings extends Component {
@@ -39,12 +39,7 @@ class Settings extends Component {
       confirmLabel: 'Delete',
       cancelLabel: 'Cancel',
       onConfirm: () => {
-        axios({
-          method: 'delete',
-          url: `${baseUrl}/users/${JSON.parse(localStorage.getItem('user')).username}`,
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}`},
-        }).then((response) => {
-          console.log(response);
+        apiCall(`users/${JSON.parse(localStorage.getItem('user')).username}`, 'delete').then(response => {
           localStorage.removeItem('user');
           localStorage.removeItem('token');
           this.context.router.history.push('/');
@@ -59,18 +54,15 @@ class Settings extends Component {
 
   onFormSubmit(e) {
     const user = JSON.parse(localStorage.getItem('user'));
+    const data = {
+      username: this.state.username,
+      email: this.state.email,
+      full_name: this.state.full_name
+    };
+
     this.setState({ disabled: true });
     showLoading();
-    axios({
-      method: 'put',
-      url: `${baseUrl}/users/${user.username}`,
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`},
-      data: {
-        username: this.state.username,
-        email: this.state.email,
-        full_name: this.state.full_name
-      }
-    }).then((response) => {
+    apiCall(`users/${user.username}`, 'put', data).then(response => {
       this.setState({ disabled: false });
       hideLoading();
 

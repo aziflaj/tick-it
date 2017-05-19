@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 import NotificationList from './NotificationList';
-import baseUrl from '../../config/constants';
+import { apiCall } from '../../helpers/api';
 
 class Notifications extends Component {
   constructor(props) {

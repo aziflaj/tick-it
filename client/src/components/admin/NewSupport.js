@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 
-import baseUrl from '../../config/constants';
+import { apiCall } from '../../helpers/api';
 
 class NewSupport extends Component {
   constructor(props) {
@@ -36,13 +35,15 @@ class NewSupport extends Component {
   onFormSubmit(e) {
     e.preventDefault();
     this.setState({ disabled: true });
-    axios.post(`${baseUrl}/users`, {
+    const data = {
       full_name: this.state.full_name,
       username: this.state.username,
       email: this.state.email,
       password: this.state.password,
       role: 'supporter'
-    }).then((response) => {
+    };
+    
+    apiCall('users', 'post', data).then(response => {
       if (response.data.status === 'ok') {
         alert('New support was created.');
         this.context.router.history.push('/supporters');

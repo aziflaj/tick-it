@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 
-import baseUrl from '../../config/constants';
+
+import { apiCall } from '../../helpers/api';
 
 class NotificationItem extends Component {
   markAsRead(action) {
-    axios({
-      method: 'put',
-      url: `${baseUrl}/notifications/${this.props.id}/read`,
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
-    }).then((response) => {
+    apiCall(`notifications/${this.props.id}/read`, 'put').then(response => {
       if (response.data.status === 'ok' && action === 'mark') {
         window.location.reload();
       } else {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
-import baseUrl from '../../config/constants';
+import { apiCall } from '../../helpers/api';
 
 class NewComment extends Component {
   constructor(props) {
@@ -17,12 +16,7 @@ class NewComment extends Component {
 
   onCommentSubmit(e) {
     e.preventDefault();
-    axios({
-      method: 'post',
-      url: `${baseUrl}/tickets/${this.props.ticketId}/comments`,
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`},
-      data: { content: this.state.content }
-    }).then((response) => {
+    apiCall(`tickets/${this.props.ticketId}/comments`, 'post', { content: this.state.content }).then(response => {
       if (response.data.status === 'ok') {
         this.setState({ content: '' });
         window.location.reload();

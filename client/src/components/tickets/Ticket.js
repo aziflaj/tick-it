@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { confirmAlert } from 'react-confirm-alert';
 import PropTypes from 'prop-types';
-import axios from 'axios';
+
 import { Typeahead } from 'react-typeahead';
 
 import TicketItem from './TicketItem';
 import CommentsList from '../comments/CommentsList';
 import NewComment from '../comments/NewComment';
-import baseUrl from '../../config/constants';
+import { apiCall } from '../../helpers/api';
 
 class Ticket extends Component {
   constructor(props) {
@@ -33,11 +33,7 @@ class Ticket extends Component {
   }
 
   componentDidMount() {
-    axios({
-      method: 'get',
-      url: `${baseUrl}/tickets/${this.props.match.params.id}`,
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
-    }).then((response) => {
+    apiCall(`tickets/${this.props.match.params.id}`, 'get').then(response => {
       const data = response.data;
       this.setState({ ticket: data.ticket.ticket,
                       comments: data.ticket.comments,

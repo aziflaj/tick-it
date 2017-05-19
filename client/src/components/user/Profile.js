@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+
 import PropTypes from 'prop-types';
 
-import baseUrl from '../../config/constants';
+import { apiCall } from '../../helpers/api';
 
 class Profile extends Component {
   constructor(props) {
@@ -19,7 +19,7 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    axios.get(`${baseUrl}/users/${this.props.match.params.username}`).then((response) => {
+    apiCall(`users/${this.props.match.params.username}`, 'get').then(response => {
       this.setState({ user: response.data.user });
     });
   }
