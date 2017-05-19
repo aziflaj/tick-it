@@ -106,12 +106,18 @@ class TicketsController {
       ticketDao.update(req.params.id, tick).then(data => {
         if(req.body.status === 'closed') {
           currentUser(req).then(user => {
-            NotificationJob.notifyClosedTicket(req.params.id, user.id);
+            // NotificationJob.notifyClosedTicket(req.params.id, user.id);
+            NotificationJob.perform('close_ticket', {ticket_id: req.params.id, user_id: user.id});
           });
         } else if(!req.body.supporter_id) {
+          // TODO: check permissions
           currentUser(req).then(user => {
-            NotificationJob.notifyUnassignmentCustomer(req.params.id, user.id);
-            NotificationJob.notifyUnassignmentSupport(req.params.id, unassigned_from);
+            NotificationJob.perform('admin_unassign', {
+              ticket_id: req.params.id,
+              supporter_id: unassigned_from
+            });
+            // NotificationJob.notifyUnassignmentCustomer(req.params.id, user.id);
+            // NotificationJob.notifyUnassignmentSupport(req.params.id, unassigned_from);
             res.json({
               status: 'ok',
               id: req.params.id
@@ -136,8 +142,9 @@ class TicketsController {
 
   assign(req, res, next) {
     currentUser(req).then(user => {
-      ticketDao.assignToSupporter(req.params.ticket_id, user.id).then(result => {
-        NotificationJob.notifyCustomer(req.params.ticket_id);
+      ticketDao.assignToSupporter(req.params.id, user.id).then(result => {
+        // NotificationJob.notifyCustomer(req.params.id);
+        NotificationJob.perform('assign_supporter', {ticket_id: req.params.id});
         res.json({
           status: 'ok',
           message: `Assigned to ${user.username}`
@@ -150,8 +157,9 @@ class TicketsController {
     console.log(req.body);
     userDao.getByUsername(req.body.supporter).then(user => {
       ticketDao.assignToSupporter(req.params.id, user.id).then(result => {
-        NotificationJob.notifyCustomer(req.params.id);
-        NotificationJob.notifyAssignmentSupport(req.params.id);
+        // NotificationJob.notifyCustomer(req.params.id);
+        // NotificationJob.notifyAssignmentSupport(req.params.id);
+        NotificationJob.perform('admin_assign', {ticket_id: req.params.id});
         res.json({
           status: 'ok',
           supporter_id: user.id,

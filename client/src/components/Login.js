@@ -33,7 +33,7 @@ class Login extends Component {
       username: this.state.username,
       password: this.state.password
     };
-    apiCall('authenticate', 'get', data, false).then(response => {
+    apiCall('authenticate', 'post', data, false).then(response => {
       hideLoading();
       if (response.data.status === 'ok') {
         localStorage.setItem('token', response.data.token);

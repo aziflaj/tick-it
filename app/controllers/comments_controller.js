@@ -13,11 +13,12 @@ class CommentsController {
         author_id: user.id
       };
 
-      commentDao.save(comment).then(comment_id => {
-        NotificationJob.notifyNewComment(comment_id);
+      commentDao.save(comment).then(id => {
+        NotificationJob.perform('comment', {comment_id: id});
+        // NotificationJob.notifyNewComment(comment_id);
         res.json({
           status: 'ok',
-          id: comment_id
+          id: id
         });
       }).catch(error => {
         console.log(error);

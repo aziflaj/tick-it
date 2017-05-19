@@ -9,20 +9,42 @@ const TicketDAO = require('../dao/ticket_dao');
 const ticketDao = new TicketDAO();
 
 class NotificationJob {
-  static notifyCustomer(ticket_id) {
-    db.hgetall(`ticket:${ticket_id}`).then(ticket => {
-      db.hgetall(`user:${ticket.supporter_id}`).then(supporter => {
-        const message = `Ticket #${ticket.id} was assigned to supporter ${supporter.username}.`;
-        sendNotification(ticket.supporter_id, ticket.id, message);
-      });
-    });
+  static perform(type, params) {
+    switch (type) {
+      case 'assign_supporter':
+        console.log(type);
+        this.notifyCustomer(params.ticket_id);
+        break;
+
+      case 'admin_assign':
+        this.notifyCustomer(params.ticket_id);
+        this.notifyAssignmentSupport(params.ticket_id);
+        break;
+
+      case 'admin_unassign':
+        NotificationJob.notifyUnassignment(params.ticket_id, user.id);
+        break;
+
+      case 'close_ticket':
+        this.notifyClosedTicket(params.ticket_id, params.user_id);
+        break;
+
+      case 'comment':
+        this.notifyNewComment(params.comment_id);
+        break;
+
+      default:
+        throw new Error('Unknown notification type');
+    }
   }
 
-  static notifyUnassignmentCustomer(ticket_id) {
+
+  static notifyCustomer(ticket_id) {
     db.hgetall(`ticket:${ticket_id}`).then(ticket => {
+      console.log(ticket);
       db.hgetall(`user:${ticket.supporter_id}`).then(supporter => {
-        const message = `Ticket #${ticket.id} was unassigned from supporter ${supporter.username}.`;
-        sendNotification(ticket.supporter_id, ticket.id, message);
+        const message = `Ticket #${ticket.id} was assigned to supporter ${supporter.username}.`;
+        sendNotification(ticket.customer_id, ticket.id, message);
       });
     });
   }
@@ -36,51 +58,52 @@ class NotificationJob {
     });
   }
 
-  static notifyUnassignmentSupport(ticket_id, supporter_id) {
-    const message = `Ticket #${ticket.id} was unassigned from you.`;
-    sendNotification(supporter_id, ticket.id, message);
+  static notifyClosedTicket(ticket_id, user_id) {
+    db.hgetall(`ticket:${ticket_id}`).then(ticket => {
+      const message = `Ticket #${ticket.id} was marked as closed.`;
+
+      if (ticket.supporter_id == user_id) {
+        sendNotification(ticket.customer_id, ticket.id, message);
+      } else if (ticket.customer_id == user_id) {
+        sendNotification(ticket.supporter, ticket.id, message);
+      }
+    });
   }
 
   static notifyNewComment(comment_id) {
     db.hgetall(`comment:${comment_id}`).then(comment => {
-      ticketDao.getById(comment.ticket_id).then(ticket => {
-        const notification = {
-          ticket_id: ticket.id
-        };
-        const comments = ticket.comments;
-        const users = comments.map(c => c.author_id)
-                              .filter(id => id != comment.author_id
-                                         && id != ticket.ticket.supporter_id
-                                         && id != ticket.ticket.customer_id);
-        if(comment.author_id === ticket.ticket.customer_id) {
-          users.push(ticket.ticket.supporter_id);
-        } else if(comment.author_id === ticket.ticket.supporter_id) {
-          users.push(ticket.ticket.customer_id);
+      ticketDao.getById(comment.ticket_id).then(ticketData => {
+        const ticket = ticketData.ticket;
+        const comments = ticketData.comments;
+
+        const userIds = comments.map(c => c.author_id).filter(id => {
+          const invalidIds = [comment.author_id, ticket.supporter_id, ticket.customer_id];
+          return invalidIds.indexOf(id) !== -1;
+        })
+
+        if (comment.author_id === ticket.customer_id) {
+          userIds.push(ticket.supporter_id);
+        } else if (comment.author_id === ticket.supporter_id) {
+          userIds.push(ticket.customer_id);
         }
 
         db.hgetall(`user:${comment.author_id}`).then(user => {
-          notification.message = `${user.full_name} commented on Ticket #${ticket.ticket.id}.`;
-        });
-
-        users.forEach(uid => {
-          notification.user_id = uid;
-          notificationDao.save(notification).then(notification_id => {
-            publisher.publish('notifications', notification_id);
-          });
+          const message = `${user.full_name} commented on Ticket #${ticket.id}.`;
+          userIds.forEach(uid => sendNotification(uid, ticket.id, message));
         });
       });
     });
   }
 
-  static notifyClosedTicket(ticket_id, user_id) {
-    db.hgetall(`ticket:${ticket_id}`).then(ticket => {
-      const message = `Ticket #${ticket.id} was marked as closed.`;
+  static notifyUnassignment(ticket_id, supporter_id) {
+    db.hgetall(`ticket:${ticket_id}`).then(t => {
+      db.hgetall(`user:${supporter_id}`).then(s => {
+        const customerMessage = `Ticket #${t.id} was unassigned from supporter ${s.username}.`;
+        sendNotification(t.customer_id, t.id, customerMessage);
+      });
 
-      if(ticket.supporter_id == user_id) {
-        sendNotification(ticket.customer_id, ticket.id, message);
-      } else if(ticket.customer_id == user_id) {
-        sendNotification(ticket.supporter, ticket.id, message);
-      }
+      const messageForSupport = `Ticket #${t.id} was unassigned from you.`;
+      sendNotification(supporter_id, t.id, messageForSupport);
     });
   }
 }
@@ -92,8 +115,9 @@ function sendNotification(user_id, ticket_id, message) {
     ticket_id: ticket_id
   };
 
-  notificationDao.save(notification).then(notification_id => {
-    publisher.publish('notifications', notification_id)
+  notificationDao.save(notification).then(id => {
+    console.log(`saved notification ${id}`);
+    publisher.publish('notifications', id);
   });
 }
 

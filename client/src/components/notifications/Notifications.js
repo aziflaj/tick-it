@@ -28,6 +28,8 @@ class Notifications extends Component {
 
   componentDidMount() {
     apiCall('notifications/unread', 'get', { page: 1 }).then(response => {
+      console.log('unread');
+      console.log(response.data);
       this.setState({
         unread: {
           notifications: response.data.notifications,
@@ -38,6 +40,8 @@ class Notifications extends Component {
     });
 
     apiCall('notifications/all', 'get', { page: 1 }).then(response => {
+      console.log('all');
+      console.log(response.data);
       this.setState({
         all: {
           notifications: response.data.notifications,

@@ -5,9 +5,15 @@ class CustomerLinks extends Component {
   render() {
     return (
       <ul className="nav navbar-nav">
-        <Link to='/tickets'>My Tickets</Link>
-        <Link to='/tickets/create'>New Ticket</Link>
-        <Link to='/settings'>Settings</Link>
+        <li>
+          <Link to='/tickets'>My Tickets</Link>
+        </li>
+        <li>
+          <Link to='/tickets/create'>New Ticket</Link>
+        </li>
+        <li>
+          <Link to='/settings'>Settings</Link>
+        </li>
       </ul>
     );
   }
