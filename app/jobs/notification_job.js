@@ -12,15 +12,8 @@ class NotificationJob {
   static notifyCustomer(ticket_id) {
     db.hgetall(`ticket:${ticket_id}`).then(ticket => {
       db.hgetall(`user:${ticket.supporter_id}`).then(supporter => {
-        const notification = {
-          user_id: ticket.customer_id,
-          message: `Ticket #${ticket.id} was assigned to supporter ${supporter.username}.`,
-          ticket_id: ticket.id
-        };
-
-        notificationDao.save(notification).then(notification_id => {
-          publisher.publish('notifications', notification_id);
-        });
+        const message = `Ticket #${ticket.id} was assigned to supporter ${supporter.username}.`;
+        sendNotification(ticket.supporter_id, ticket.id, message);
       });
     });
   }
@@ -28,15 +21,8 @@ class NotificationJob {
   static notifyUnassignmentCustomer(ticket_id) {
     db.hgetall(`ticket:${ticket_id}`).then(ticket => {
       db.hgetall(`user:${ticket.supporter_id}`).then(supporter => {
-        const notification = {
-          user_id: ticket.customer_id,
-          message: `Ticket #${ticket.id} was unassigned from supporter ${supporter.username}.`,
-          ticket_id: ticket.id
-        };
-
-        notificationDao.save(notification).then(notification_id => {
-          publisher.publish('notifications', notification_id);
-        });
+        const message = `Ticket #${ticket.id} was unassigned from supporter ${supporter.username}.`;
+        sendNotification(ticket.supporter_id, ticket.id, message);
       });
     });
   }
@@ -44,33 +30,15 @@ class NotificationJob {
   static notifyAssignmentSupport(ticket_id) {
     db.hgetall(`ticket:${ticket_id}`).then(ticket => {
       db.hgetall(`user:${ticket.customer_id}`).then(customer => {
-        const notification = {
-          user_id: ticket.supporter_id,
-          message: `Ticket #${ticket.id} created by ${customer.username} was assigned to you.`,
-          ticket_id: ticket.id
-        };
-
-        console.log(ticket);
-
-        notificationDao.save(notification).then(notification_id => {
-          publisher.publish('notifications', notification_id)
-        });
+        const message = `Ticket #${ticket.id} created by ${customer.username} was assigned to you.`;
+        sendNotification(ticket.supporter_id, ticket.id, message);
       });
     });
   }
 
-  static notifyUnassignmentSupport(ticket_id) {
-    db.hgetall(`ticket:${ticket_id}`).then(ticket => {
-      const notification = {
-        user_id: ticket.supporter_id,
-        message: `Ticket #${ticket.id} was unassigned from you.`,
-        ticket_id: ticket.id
-      };
-
-      notificationDao.save(notification).then(notification_id => {
-        publisher.publish('notifications', notification_id)
-      });
-    });
+  static notifyUnassignmentSupport(ticket_id, supporter_id) {
+    const message = `Ticket #${ticket.id} was unassigned from you.`;
+    sendNotification(supporter_id, ticket.id, message);
   }
 
   static notifyNewComment(comment_id) {
@@ -106,22 +74,27 @@ class NotificationJob {
 
   static notifyClosedTicket(ticket_id, user_id) {
     db.hgetall(`ticket:${ticket_id}`).then(ticket => {
-      const notification = {
-        message: `Ticket #${ticket.id} was marked as closed.`,
-        ticket_id: ticket.id
-      };
+      const message = `Ticket #${ticket.id} was marked as closed.`;
 
       if(ticket.supporter_id == user_id) {
-        notification.user_id = ticket.customer_id;
+        sendNotification(ticket.customer_id, ticket.id, message);
       } else if(ticket.customer_id == user_id) {
-        notification.user_id = ticket.supporter_id;
+        sendNotification(ticket.supporter, ticket.id, message);
       }
-
-      notificationDao.save(notification).then(notification_id => {
-        publisher.publish('notifications', notification_id);
-      });
     });
   }
+}
+
+function sendNotification(user_id, ticket_id, message) {
+  const notification = {
+    user_id: user_id,
+    message: message,
+    ticket_id: ticket_id
+  };
+
+  notificationDao.save(notification).then(notification_id => {
+    publisher.publish('notifications', notification_id)
+  });
 }
 
 module.exports = NotificationJob;

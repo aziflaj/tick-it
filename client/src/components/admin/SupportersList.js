@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import SupporterItem from './SupporterItem';
 import Paginator from '../Paginator';
 import { apiCall } from '../../helpers/api';
-import { apiCall } from '../../helpers/api';
 
 class SupporterList extends Component {
   constructor(props) {

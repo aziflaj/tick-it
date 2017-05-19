@@ -1,5 +1,6 @@
 
-import { apiCall } from '../helpers/api';
+import baseUrl from '../config/constants';
+import axios from 'axios';
 
 export function apiCall(path, verb, data = {}, auth = true, headers = {}) {
   if (auth) {

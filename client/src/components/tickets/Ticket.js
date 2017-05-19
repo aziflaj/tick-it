@@ -47,11 +47,7 @@ class Ticket extends Component {
   }
 
   assignToSelf() {
-    axios({
-      method: 'get',
-      url: `${baseUrl}/tickets/${this.props.match.params.id}/assign`,
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
-    }).then((response) => {
+    apiCall(`tickets/${this.props.match.params.id}/assign`, 'get').then(response => {
       if (response.data.status === 'ok') {
         window.location.reload();
       }
@@ -59,18 +55,14 @@ class Ticket extends Component {
   }
 
   markAsClosed() {
-    axios({
-      method: 'put',
-      url: `${baseUrl}/tickets/${this.props.match.params.id}`,
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`},
-      data: {
-        status: 'closed',
-        title: this.state.ticket.title,
-        description: this.state.ticket.description,
-        supporter_id: this.state.ticket.supporter_id
-      }
-    }).then((response) => {
-      console.log(response);
+    const data = {
+      status: 'closed',
+      title: this.state.ticket.title,
+      description: this.state.ticket.description,
+      supporter_id: this.state.ticket.supporter_id
+    };
+
+    apiCall(`tickets/${this.props.match.params.id}`, 'put', data).then(response => {
       if (response.data.status === 'ok') {
         window.location.reload();
       }
@@ -78,11 +70,7 @@ class Ticket extends Component {
   }
 
   onSearchTermChange(e) {
-    axios({
-      method: 'get',
-      url: `${baseUrl}/supporters/search?term=${e.target.value}`,
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    }).then(response => {
+    apiCall(`supporters/search?term=${e.target.value}`, 'get').then(response => {
       this.setState({ suggestions: response.data.supporters.map(item => item.username) });
     });
   }
@@ -95,18 +83,14 @@ class Ticket extends Component {
       confirmLabel: 'Yes',
       cancelLabel: 'Cancel',
       onConfirm: () => {
-        axios({
-          method: 'put',
-          url: `${baseUrl}/tickets/${JSON.parse(this.state.ticket.id)}/setsupport`,
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}`},
-          data: {
-            title: this.state.ticket.title,
-            description: this.state.ticket.description,
-            status: this.state.ticket.status,
-            supporter: this.state.supporter
-          }
-        }).then((response) => {
-          console.log(response);
+        const data = {
+          title: this.state.ticket.title,
+          description: this.state.ticket.description,
+          status: this.state.ticket.status,
+          supporter: this.state.supporter
+        };
+
+        apiCall(`tickets/${JSON.parse(this.state.ticket.id)}/setsupport`, 'put', data).then(response => {
           window.location.reload();
         });
       },
@@ -123,17 +107,13 @@ class Ticket extends Component {
       confirmLabel: 'Yes',
       cancelLabel: 'Cancel',
       onConfirm: () => {
-        axios({
-          method: 'put',
-          url: `${baseUrl}/tickets/${JSON.parse(this.state.ticket.id)}/removesupport`,
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}`},
-          data: {
-            title: this.state.ticket.title,
-            description: this.state.ticket.description,
-            status: this.state.ticket.status
-          }
-        }).then((response) => {
-          console.log(response);
+        const data = {
+          title: this.state.ticket.title,
+          description: this.state.ticket.description,
+          status: this.state.ticket.status
+        };
+
+        apiCall(`tickets/${JSON.parse(this.state.ticket.id)}/removesupport`, 'put', data).then(response => {
           this.setState({ supporter: 'none' });
           window.location.reload();
         });
@@ -142,7 +122,6 @@ class Ticket extends Component {
   }
 
   onSelectSupporter(e) {
-    console.log(e);
     this.setState({ selected: e });
   }
 
