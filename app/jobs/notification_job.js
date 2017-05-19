@@ -50,6 +50,8 @@ class NotificationJob {
           ticket_id: ticket.id
         };
 
+        console.log(ticket);
+
         notificationDao.save(notification).then(notification_id => {
           publisher.publish('notifications', notification_id)
         });

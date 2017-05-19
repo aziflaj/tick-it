@@ -6,16 +6,28 @@ const notificationDao = new NotificationDAO();
 class NotificationsController {
   showAll(req, res, next) {
     currentUser(req).then(user => {
-      notificationDao.getAllByUserId(user.id).then(notifications => {
+      notificationDao.getAllByUserId(user.id).then(result => {
         res.json({
           status: 'ok',
-          notifications: notifications
+          notifications: result.notifications,
+          pages: result.pages,
+          currentPage: result.currentPage
         });
       });
     });
   }
 
   showUnread(req, res, next) {
+    currentUser(req).then(user => {
+      notificationDao.getUnreadByUserId(user.id).then(result => {
+        res.json({
+          status: 'ok',
+          notifications: result.notifications,
+          pages: result.pages,
+          currentPage: result.currentPage
+        });
+      });
+    });
   }
 
   markAsRead(req, res, next) {

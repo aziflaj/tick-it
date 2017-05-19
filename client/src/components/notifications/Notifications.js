@@ -8,8 +8,16 @@ class Notifications extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      all: [],
-      unread: []
+      all: {
+        notifications: [],
+        currentPage: 1,
+        pages: 1
+      },
+      unread: {
+        notifications: [],
+        currentPage: 1,
+        pages: 1
+      }
     };
   }
 
@@ -20,23 +28,29 @@ class Notifications extends Component {
   }
 
   componentDidMount() {
-    axios({
-      method: 'get',
-      url: `${baseUrl}/notifications`,
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
-    }).then((response) => {
-      const all = response.data.notifications;
-      const unread = all.filter(item => item.read === 'false');
-      this.setState({all: all, unread: unread});
+    apiCall('notifications/unread', 'get', { page: 1 }).then(response => {
+      this.setState({
+        unread: {
+          notifications: response.data.notifications,
+          currentPage: parseInt(response.data.currentPage, 10),
+          pages: parseInt(response.data.pages, 10)
+        }
+      });
+    });
+
+    apiCall('notifications/all', 'get', { page: 1 }).then(response => {
+      this.setState({
+        all: {
+          notifications: response.data.notifications,
+          currentPage: parseInt(response.data.currentPage, 10),
+          pages: parseInt(response.data.pages, 10)
+        }
+      });
     });
   }
 
   markAllAsRead() {
-    axios({
-      method: 'put',
-      url: `${baseUrl}/notifications/readall`,
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
-    }).then((response) => {
+    apiCall('notifications/readall', 'put', { page: 1 }).then(response => {
       if (response.data.status === 'ok') {
         window.location.reload();
       }
@@ -60,10 +74,10 @@ class Notifications extends Component {
             <button className="pull-right btn btn-primary" onClick={this.markAllAsRead.bind(this)}>
               Mark all as read
             </button>
-            <NotificationList notifications={this.state.unread} />
+            <NotificationList notifications={this.state.unread.notifications} />
           </div>
           <div role="tabpanel" className="tab-pane" id="all">
-            <NotificationList notifications={this.state.all} />
+            <NotificationList notifications={this.state.all.notifications} />
           </div>
         </div>
       </div>

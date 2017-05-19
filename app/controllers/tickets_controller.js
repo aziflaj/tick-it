@@ -150,8 +150,8 @@ class TicketsController {
     console.log(req.body);
     userDao.getByUsername(req.body.supporter).then(user => {
       ticketDao.assignToSupporter(req.params.id, user.id).then(result => {
-        NotificationJob.notifyCustomer(req.params.ticket_id);
-        NotificationJob.notifyAssignmentSupport(req.params.ticket_id);
+        NotificationJob.notifyCustomer(req.params.id);
+        NotificationJob.notifyAssignmentSupport(req.params.id);
         res.json({
           status: 'ok',
           supporter_id: user.id,

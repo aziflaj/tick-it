@@ -9,7 +9,15 @@ const policy = new NotificationsPolicy();
 const { unauthorized } = require('../lib/response');
 const { isLoggedIn } = require('../app/helpers/user_helpers');
 
-router.get('/', (req, res, next) => {
+router.get('/unread', (req, res, next) => {
+  if (isLoggedIn(req)) {
+    notifications.showUnread(req, res, next);
+  } else {
+    unauthorized(res);
+  }
+});
+
+router.get('/all', (req, res, next) => {
   if (isLoggedIn(req)) {
     notifications.showAll(req, res, next);
   } else {

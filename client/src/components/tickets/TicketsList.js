@@ -89,6 +89,16 @@ class TicketsList extends Component {
     this.getTickets(this.state.pages);
   }
 
+  getTickets(page = 1) {
+    apiCall('tickets', 'get', { page: page }).then(response => {
+      this.setState({
+        tickets: response.data.tickets,
+        currentPage: parseInt(response.data.currentPage, 10),
+        pages: parseInt(response.data.pages, 10)
+      });
+    });
+  }
+  
   render() {
     let paginator = '';
     if (this.state.pages !== 1) {
@@ -113,15 +123,6 @@ class TicketsList extends Component {
     );
   }
 
-  getTickets(page = 1) {
-    apiCall('tickets', 'get', { page: page }).then(response => {
-      this.setState({
-        tickets: response.data.tickets,
-        currentPage: parseInt(response.data.currentPage, 10),
-        pages: parseInt(response.data.pages, 10)
-      });
-    });
-  }
 }
 
 export default TicketsList;

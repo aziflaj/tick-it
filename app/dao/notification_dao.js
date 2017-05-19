@@ -42,6 +42,23 @@ class NotificationDAO {
       });
     });
   }
+
+  getUnreadByUserId(id, page = 1, perPage = 10) {
+    const from = (page - 1) * perPage;
+    const to = from + perPage - 1;
+    return db.zcount(`user_unread_notifications:${id}`, '-inf', '+inf').then(count => {
+      return db.zrange(`user_unread_notifications:${id}`, from, to).then(result => {
+        const keys = result.map(item => `notification:${item}`).join(' ');
+        return db.mhgetall(keys).then(result => {
+          return {
+            notifications: result.map(item => arrayToObject(item)),
+            pages: Math.ceil(count / perPage),
+            currentPage: page
+          };
+        });
+      });
+    });
+  }
 }
 
 module.exports = NotificationDAO;
