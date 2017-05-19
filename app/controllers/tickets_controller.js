@@ -95,7 +95,7 @@ class TicketsController {
 
   update(req, res, next) {
     ticketDao.getById(req.params.id).then(ticket => {
-      let unassigned_from = ticket.supporter_id;
+      const unassigned_from = ticket.ticket.supporter_id;
       const tick = {
         title: req.body.title,
         description: req.body.description,
@@ -116,8 +116,7 @@ class TicketsController {
               ticket_id: req.params.id,
               supporter_id: unassigned_from
             });
-            // NotificationJob.notifyUnassignmentCustomer(req.params.id, user.id);
-            // NotificationJob.notifyUnassignmentSupport(req.params.id, unassigned_from);
+
             res.json({
               status: 'ok',
               id: req.params.id
@@ -154,7 +153,6 @@ class TicketsController {
   }
 
   setSupporter(req, res, next) {
-    console.log(req.body);
     userDao.getByUsername(req.body.supporter).then(user => {
       ticketDao.assignToSupporter(req.params.id, user.id).then(result => {
         // NotificationJob.notifyCustomer(req.params.id);

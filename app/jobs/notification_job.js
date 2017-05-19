@@ -12,7 +12,6 @@ class NotificationJob {
   static perform(type, params) {
     switch (type) {
       case 'assign_supporter':
-        console.log(type);
         this.notifyCustomer(params.ticket_id);
         break;
 
@@ -22,7 +21,7 @@ class NotificationJob {
         break;
 
       case 'admin_unassign':
-        NotificationJob.notifyUnassignment(params.ticket_id, user.id);
+        NotificationJob.notifyUnassignment(params.ticket_id, params.supporter_id);
         break;
 
       case 'close_ticket':
@@ -41,7 +40,6 @@ class NotificationJob {
 
   static notifyCustomer(ticket_id) {
     db.hgetall(`ticket:${ticket_id}`).then(ticket => {
-      console.log(ticket);
       db.hgetall(`user:${ticket.supporter_id}`).then(supporter => {
         const message = `Ticket #${ticket.id} was assigned to supporter ${supporter.username}.`;
         sendNotification(ticket.customer_id, ticket.id, message);
@@ -116,7 +114,6 @@ function sendNotification(user_id, ticket_id, message) {
   };
 
   notificationDao.save(notification).then(id => {
-    console.log(`saved notification ${id}`);
     publisher.publish('notifications', id);
   });
 }

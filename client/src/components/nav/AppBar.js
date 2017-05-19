@@ -37,6 +37,7 @@ class AppBar extends Component {
 
   render() {
     let navbar = '';
+    let notifications = '';
     if (localStorage.getItem('token')) {
       const user = JSON.parse(localStorage.getItem('user'));
 
@@ -53,6 +54,15 @@ class AppBar extends Component {
         default:
           navbar = '';
       }
+
+      notifications = (
+        <li>
+          <Link to='/notifications'>
+            Notifications
+            <span className="badge badge-notification">{this.state.notifications_count}</span>
+          </Link>
+        </li>
+      )
     }
 
     return (
@@ -74,16 +84,11 @@ class AppBar extends Component {
             {navbar}
 
             <ul className="nav navbar-nav navbar-right">
+              {notifications}
               <li>
-                <Link to='/notifications'>
-                  Notifications
-                  <span className="badge badge-notification">{this.state.notifications_count}</span>
-                </Link>
-              </li>
-              <li>
-                <button className="btn btn-link" onClick={this.handleLogout.bind(this)}>
+                <a href="#" onClick={this.handleLogout.bind(this)}>
                   Log Out
-                </button>
+                </a>
               </li>
             </ul>
           </div>
