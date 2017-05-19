@@ -5,10 +5,12 @@ const userDao = new UserDAO();
 
 class SupportersController {
   index(req, res, next) {
-    userDao.getSupporters().then(supporters => {
+    userDao.getSupporters().then(result => {
       res.json({
         status: 'ok',
-        supporters: supporters
+        supporters: result.supporters,
+        pages: result.pages,
+        currentPage: result.currentPage
       });
     });
   }

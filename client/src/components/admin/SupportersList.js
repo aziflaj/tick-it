@@ -34,23 +34,23 @@ class SupporterList extends Component {
           <h3>There are no supporters</h3>
         </div>
       );
+    } else {
+      return (
+        <div>
+          {supporters.map(supporter => {
+            return (
+              <SupporterItem
+                id={supporter.id}
+                key={supporter.id}
+                full_name={supporter.full_name}
+                email={supporter.email}
+                username={supporter.username}
+                />
+            )
+          })}
+        </div>
+      );
     }
-
-    return (
-      <div>
-        {supporters.map(supporter => {
-          return (
-            <SupporterItem
-              id={supporter.id}
-              key={supporter.id}
-              full_name={supporter.full_name}
-              email={supporter.email}
-              username={supporter.username}
-            />
-          )
-        })}
-      </div>
-    );
   }
 
   addSupporter() {
@@ -106,6 +106,7 @@ class SupporterList extends Component {
 
   getSupporters(page = 1) {
     apiCall('supporters', 'get', { page: page }).then(response => {
+      console.log(response);
       this.setState({
         supporters: response.data.supporters,
         currentPage: parseInt(response.data.currentPage, 10),

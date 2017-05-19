@@ -94,22 +94,30 @@ class TicketsController {
   }
 
   update(req, res, next) {
-    const ticket = {
-      title: req.body.title,
-      description: req.body.description,
-      status: req.body.status,
-      supporter_id: req.body.supporter_id
-    };
+    ticketDao.getById(req.params.id).then(ticket => {
+      let unassigned_from = ticket.supporter_id;
+      const tick = {
+        title: req.body.title,
+        description: req.body.description,
+        status: req.body.status,
+        supporter_id: req.body.supporter_id
+      };
 
-    ticketDao.update(req.params.id, ticket).then(data => {
-      if(req.body.status === 'closed') {
-        currentUser(req).then(user => {
-          NotificationJob.notifyClosedTicket(req.params.id, user.id);
-        });
-      }
-      res.json({
-        status: 'ok',
-        id: req.params.id
+      ticketDao.update(req.params.id, tick).then(data => {
+        if(req.body.status === 'closed') {
+          currentUser(req).then(user => {
+            NotificationJob.notifyClosedTicket(req.params.id, user.id);
+          });
+        } else if(!req.body.supporter_id) {
+          currentUser(req).then(user => {
+            NotificationJob.notifyUnassignmentCustomer(req.params.id, user.id);
+            NotificationJob.notifyUnassignmentSupport(req.params.id, unassigned_from);
+            res.json({
+              status: 'ok',
+              id: req.params.id
+            });
+          });
+        }
       });
     });
   }
@@ -142,6 +150,8 @@ class TicketsController {
     console.log(req.body);
     userDao.getByUsername(req.body.supporter).then(user => {
       ticketDao.assignToSupporter(req.params.id, user.id).then(result => {
+        NotificationJob.notifyCustomer(req.params.ticket_id);
+        NotificationJob.notifyAssignmentSupport(req.params.ticket_id);
         res.json({
           status: 'ok',
           supporter_id: user.id,

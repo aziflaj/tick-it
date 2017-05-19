@@ -44,6 +44,9 @@ class Ticket extends Component {
                       supporter: data.supporter,
                       customer: data.customer
                     });
+      if (typeof this.state.supporter === 'undefined') {
+        this.setState({ supporter: 'none' });
+      }
     });
   }
 
@@ -68,7 +71,7 @@ class Ticket extends Component {
         status: 'closed',
         title: this.state.ticket.title,
         description: this.state.ticket.description,
-        supporter_id: this.state.supporter
+        supporter_id: this.state.ticket.supporter_id
       }
     }).then((response) => {
       console.log(response);
@@ -158,15 +161,12 @@ class Ticket extends Component {
     }
 
     let assignButton = '';
-    if (!this.state.supporter) {
-      this.setState({ supporter: 'none' });
-      if (user.role === 'supporter') {
-        assignButton = (
-          <button className="btn btn-primary" onClick={this.assignToSelf.bind(this)}>
-            Assign to self
-          </button>
-        );
-      }
+    if (this.state.supporter === 'none' && user.role === 'supporter') {
+      assignButton = (
+        <button className="btn btn-primary" onClick={this.assignToSelf.bind(this)}>
+          Assign to self
+        </button>
+      );
     }
 
     let closeButton = '';

@@ -14,13 +14,59 @@ class NotificationJob {
       db.hgetall(`user:${ticket.supporter_id}`).then(supporter => {
         const notification = {
           user_id: ticket.customer_id,
-          message: `Ticket #${ticket.id} was assigned to supporter ${supporter.full_name}.`,
+          message: `Ticket #${ticket.id} was assigned to supporter ${supporter.username}.`,
           ticket_id: ticket.id
         };
 
         notificationDao.save(notification).then(notification_id => {
           publisher.publish('notifications', notification_id);
         });
+      });
+    });
+  }
+
+  static notifyUnassignmentCustomer(ticket_id) {
+    db.hgetall(`ticket:${ticket_id}`).then(ticket => {
+      db.hgetall(`user:${ticket.supporter_id}`).then(supporter => {
+        const notification = {
+          user_id: ticket.customer_id,
+          message: `Ticket #${ticket.id} was unassigned from supporter ${supporter.username}.`,
+          ticket_id: ticket.id
+        };
+
+        notificationDao.save(notification).then(notification_id => {
+          publisher.publish('notifications', notification_id);
+        });
+      });
+    });
+  }
+
+  static notifyAssignmentSupport(ticket_id) {
+    db.hgetall(`ticket:${ticket_id}`).then(ticket => {
+      db.hgetall(`user:${ticket.customer_id}`).then(customer => {
+        const notification = {
+          user_id: ticket.supporter_id,
+          message: `Ticket #${ticket.id} created by ${customer.username} was assigned to you.`,
+          ticket_id: ticket.id
+        };
+
+        notificationDao.save(notification).then(notification_id => {
+          publisher.publish('notifications', notification_id)
+        });
+      });
+    });
+  }
+
+  static notifyUnassignmentSupport(ticket_id) {
+    db.hgetall(`ticket:${ticket_id}`).then(ticket => {
+      const notification = {
+        user_id: ticket.supporter_id,
+        message: `Ticket #${ticket.id} was unassigned from you.`,
+        ticket_id: ticket.id
+      };
+
+      notificationDao.save(notification).then(notification_id => {
+        publisher.publish('notifications', notification_id)
       });
     });
   }
