@@ -15,7 +15,6 @@ class CommentsController {
 
       commentDao.save(comment).then(id => {
         NotificationJob.perform('comment', {comment_id: id});
-        // NotificationJob.notifyNewComment(comment_id);
         res.json({
           status: 'ok',
           id: id

@@ -106,7 +106,6 @@ class TicketsController {
       ticketDao.update(req.params.id, tick).then(data => {
         if(req.body.status === 'closed') {
           currentUser(req).then(user => {
-            // NotificationJob.notifyClosedTicket(req.params.id, user.id);
             NotificationJob.perform('close_ticket', {ticket_id: req.params.id, user_id: user.id});
             res.json({
               status: 'ok',
@@ -146,7 +145,6 @@ class TicketsController {
   assign(req, res, next) {
     currentUser(req).then(user => {
       ticketDao.assignToSupporter(req.params.id, user.id).then(result => {
-        // NotificationJob.notifyCustomer(req.params.id);
         NotificationJob.perform('assign_supporter', {ticket_id: req.params.id});
         res.json({
           status: 'ok',
@@ -159,8 +157,6 @@ class TicketsController {
   setSupporter(req, res, next) {
     userDao.getByUsername(req.body.supporter).then(user => {
       ticketDao.assignToSupporter(req.params.id, user.id).then(result => {
-        // NotificationJob.notifyCustomer(req.params.id);
-        // NotificationJob.notifyAssignmentSupport(req.params.id);
         NotificationJob.perform('admin_assign', {ticket_id: req.params.id});
         res.json({
           status: 'ok',
