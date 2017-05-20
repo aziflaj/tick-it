@@ -66,7 +66,6 @@ class Ticket extends Component {
   }
 
   markAsClosed() {
-    console.log('marking as closed');
     const data = {
       status: 'closed',
       title: this.state.ticket.title,

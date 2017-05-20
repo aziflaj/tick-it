@@ -19,10 +19,7 @@ class TicketItem extends Component {
     } else if(this.props.supporter) {
       assigned = (
         <p>
-          This ticket is assigned to 
-          <Link to={`/users/${this.props.supporter}`}>
-            {this.props.supporter}
-          </Link>
+          This ticket is assigned to <Link to={`/users/${this.props.supporter}`}>{this.props.supporter}</Link>
         </p>
       );
     }

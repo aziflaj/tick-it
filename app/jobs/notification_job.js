@@ -83,7 +83,7 @@ class NotificationJob {
         const userIds = comments.map(c => c.author_id).filter(id => {
           const invalidIds = [comment.author_id, ticket.supporter_id, ticket.customer_id];
           return invalidIds.indexOf(id) !== -1;
-        })
+        });
 
         if (comment.author_id === ticket.customer_id) {
           userIds.push(ticket.supporter_id);
