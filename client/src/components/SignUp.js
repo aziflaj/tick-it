@@ -44,7 +44,7 @@ class SignUp extends Component {
       password: this.state.password
     };
 
-    apiCall('users', 'get', data, false).then(response => {
+    apiCall('users', 'post', data, false).then(response => {
       if (response.data.status === 'ok') {
         alert('You should login now');
         this.context.router.history.push('/');
