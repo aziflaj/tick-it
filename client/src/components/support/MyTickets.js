@@ -45,7 +45,7 @@ class MyTickets extends Component {
     return (
       <div>
         <h3>You have no tickets</h3>
-        <Link to='/tickets/all'>Assign one to yourself</Link>
+        <Link to='/tickets'>Assign one to yourself</Link>
       </div>
     );
   }

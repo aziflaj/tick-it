@@ -1,30 +1,33 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 class TicketItem extends Component {
   render() {
     let assigned = '';
-    if (this.props.supporter === 'none') {
-      assigned = <p>This ticket is not assigned to a supporter.</p>;
-    } else if (this.props.supporter === 'you') {
-      assigned = <p>This ticket is assigned to you.</p>;
-    } else if(this.props.supporter) {
-      assigned = (
-        <p>
-          This ticket is assigned to <Link to={`/users/${this.props.supporter}`}>{this.props.supporter}</Link>
-        </p>
-      );
-    }
-
     let created = '';
-    if (this.props.customer === 'you') {
-      created = <p>Created by you</p>;
-    } else if (this.props.customer) {
-      created = (
-        <p>
-          Created by <Link to={`/users/${this.props.customer}`}>{this.props.customer}</Link>
-        </p>
-      );
+
+    if (this.context.router.route.location.pathname === `/ticket/${this.props.id}`) {
+      if (this.props.supporter === 'none') {
+        assigned = <p>This ticket is not assigned to a supporter.</p>;
+        } else if (this.props.supporter === 'you') {
+          assigned = <p>This ticket is assigned to you.</p>;
+          } else {
+            assigned = (
+              <p>
+                This ticket is assigned to <Link to={`/users/${this.props.supporter}`}>{this.props.supporter}</Link>
+            </p>
+          );
+        }
+        if (this.props.customer === 'you') {
+          created = <p>Created by you</p>;
+          } else if (this.props.customer) {
+            created = (
+              <p>
+                Created by <Link to={`/users/${this.props.customer}`}>{this.props.customer}</Link>
+            </p>
+          );
+        }
     }
 
     const status = this.statusIcon(this.props.status);
@@ -61,4 +64,9 @@ class TicketItem extends Component {
     }
   }
 }
+
+TicketItem.contextTypes = {
+  router: PropTypes.object.isRequired
+}
+
 export default TicketItem;
