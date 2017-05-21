@@ -68,6 +68,7 @@ class Settings extends Component {
 
       const newUser = JSON.parse(response.config.data);
       const currentUser = updateObject(user, newUser);
+
       localStorage.removeItem('user');
       localStorage.setItem('user', JSON.stringify(currentUser));
 

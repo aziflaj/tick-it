@@ -53,7 +53,13 @@ class UserDAO {
 
   update(username, data) {
     return this.getByUsername(username).then(user => {
-      return db.hmset(`user:${user.id}`, data);
+      return db.multi()
+               .hmset(`user:${user.id}`, data)
+               .hdel('users', user.username, user.id)
+               .hdel('users', user.email, user.id)
+               .hset('users', data.username, user.id)
+               .hset('users', data.email, user.id)
+               .exec();
     });
   }
 
