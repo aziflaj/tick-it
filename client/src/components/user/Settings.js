@@ -78,42 +78,58 @@ class Settings extends Component {
 
   render() {
     return (
-      <form className="form-signin" onSubmit={this.onFormSubmit.bind(this)}>
+      <form className="form-horizontal" onSubmit={this.onFormSubmit.bind(this)}>
         <h2 className="form-signin-heading">Settings</h2>
-        <label htmlFor="inputFullName" className="sr-only">Full Name</label>
-        <input id="inputFullName"
-               type="text"
-               className="form-control"
-               value={this.state.full_name}
-               required
-               autoFocus
-               onChange={this.onFullNameChange.bind(this)}
-        />
+        <div className="form-group">
+          <label htmlFor="inputFullName" className="control-label col-sm-4">Full Name</label>
+          <div className="col-sm-8">
+            <input id="inputFullName"
+              type="text"
+              className="form-control"
+              value={this.state.full_name}
+              required
+              autoFocus
+              onChange={this.onFullNameChange.bind(this)}
+              />
+          </div>
+        </div>
 
-        <label htmlFor="inputUsername" className="sr-only">Username</label>
-        <input id="inputUsername"
-               type="text"
-               className="form-control"
-               value={this.state.username}
-               required
-               autoFocus
-               onChange={this.onUsernameChange.bind(this)}
-        />
+        <div className="form-group">
+          <label htmlFor="inputUsername" className="control-label col-sm-4">Username</label>
+          <div className="col-sm-8">
+            <input id="inputUsername"
+              type="text"
+              className="form-control"
+              value={this.state.username}
+              required
+              autoFocus
+              onChange={this.onUsernameChange.bind(this)}
+              />
+          </div>
+        </div>
 
-        <label htmlFor="inputEmail" className="sr-only">E-Mail</label>
-        <input id="inputEmail"
-               type="text"
-               className="form-control"
-               value={this.state.email}
-               required
-               autoFocus
-               onChange={this.onEmailChange.bind(this)}
-        />
+        <div className="form-group">
+          <label htmlFor="inputEmail" className="control-label col-sm-4">E-Mail</label>
+          <div className="col-sm-8">
+            <input id="inputEmail"
+              type="text"
+              className="form-control"
+              value={this.state.email}
+              required
+              autoFocus
+              onChange={this.onEmailChange.bind(this)}
+              />
+          </div>
+        </div>
 
-        <div>
-          <button className="btn btn-lg btn-primary btn-block" onClick={this.onDeleteAccount.bind(this)} disabled={this.state.disabled}>Delete Account</button>
-          <button className="btn btn-lg btn-primary btn-block" onClick={this.onCanceledRequest.bind(this)} disabled={this.state.disabled}>Cancel</button>
-          <button className="btn btn-lg btn-primary btn-block" type="submit" disabled={this.state.disabled}>Save</button>
+        <div className="form-group">
+          <div className="pull-left col-sm-offset-2 col-sm-10">
+            <button className="btn btn-sm btn-danger" onClick={this.onDeleteAccount.bind(this)} disabled={this.state.disabled}>Delete Account</button>
+          </div>
+          <div className="pull-right">
+            <button className="btn btn-sm btn-default" onClick={this.onCanceledRequest.bind(this)} disabled={this.state.disabled}>Cancel</button>
+            <button className="btn btn-sm btn-primary" type="submit" disabled={this.state.disabled}>Save</button>
+          </div>
         </div>
       </form>
     );

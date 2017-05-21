@@ -27,7 +27,7 @@ class NewComment extends Component {
   render() {
     return (
       <div className="comment-form col-md-5" onSubmit={this.onCommentSubmit.bind(this)}>
-        <form class="form-inline">
+        <form className="form-inline">
           <div className="form-group">
             <textarea id="inputComment"
                       type="text"
