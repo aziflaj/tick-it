@@ -52,6 +52,20 @@ class UsersController {
     });
   }
 
+  changePassword(req, res, next) {
+    const username = req.params.username;
+    const data = {
+      password: req.body.password
+    };
+
+    userDao.changePassword(username, data).then(results => {
+      res.json({
+        status: 'ok',
+        message: 'User updated'
+      });
+    });
+  }
+
   destroy(req, res, next) {
     const username = req.params.username;
     userDao.delete(username).then(results => {

@@ -63,6 +63,14 @@ class UserDAO {
     });
   }
 
+  changePassword(username, data) {
+    return bcrypt.hash(user.password, SALT_ROUNDS).then(hash => {
+      return this.getByUsername(username).then(user => {
+        return db.hmset(`user:${user.id}, data`);
+      });
+    });
+  }
+
   delete(username) {
     return this.getByUsername(username).then((user) => {
       // TODO: delete tickets

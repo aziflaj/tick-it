@@ -26,6 +26,20 @@ router.put('/:username', (req, res, next) => {
   })
 });
 
+router.put('/:username/password', (req, res, next) => {
+  if (!isLoggedIn(req)) {
+    unauthorized(res);
+  }
+
+  policy.canModify(req).then(ok => {
+    if(ok) {
+      users.changePassword(req, res, next);
+    } else {
+      unauthorized(res);
+    }
+  })
+});
+
 router.delete('/:username', (req, res, next) => {
   if (!isLoggedIn(req)) {
     unauthorized(res);

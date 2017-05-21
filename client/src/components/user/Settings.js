@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import ReactConfirmAlert, { confirmAlert } from 'react-confirm-alert';
+const bcrypt = require('bcrypt');
 import { confirmAlert } from 'react-confirm-alert';
 import PropTypes from 'prop-types';
 
@@ -93,7 +93,33 @@ class Settings extends Component {
   }
 
   onPassFormSubmit(e) {
+    bcrypt.compare(this.state.password, this.state.inputPassword).then(match => {
+      if (match) {
+        if (this.state.newPassword === this.state.confirmPassword) {
+          const user = JSON.parse(localStorage.getItem('user'));
+          const data = {
+            password: this.state.inputPassword
+          };
 
+          apiCall(`users/${user.username}/password`, 'put', data).then(response => {
+            this.setState({ disabled: false });
+            hideLoading();
+
+            const newUser = JSON.parse(response.config.data);
+            const currentUser = updateObject(user, newUser);
+
+            localStorage.removeItem('user');
+            localStorage.setItem('user', JSON.stringify(currentUser));
+
+            this.context.router.history.push(`/users/${currentUser.username}`);
+          });
+        } else {
+          alert('New and Confirm Password should match!');
+        }
+      } else {
+        alert('Password is incorrect!');
+      }
+    });
   }
 
   render() {
@@ -200,7 +226,7 @@ class Settings extends Component {
                 <div className="col-sm-8">
                   <input id="inputConfirmPassword"
                     type="password"
-                    className="form-control has-feedback"
+                    className="form-control"
                     required
                     autoFocus
                     onChange={this.onConfirmPasswordChange.bind(this)}
