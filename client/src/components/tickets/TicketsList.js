@@ -98,10 +98,10 @@ class TicketsList extends Component {
       });
     });
   }
-  
+
   render() {
     let paginator = '';
-    if (this.state.pages !== 1) {
+    if (this.state.pages > 1) {
       paginator = (
         <Paginator
           currentPage={this.state.currentPage}

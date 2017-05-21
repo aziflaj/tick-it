@@ -1,10 +1,10 @@
 html, body, #root, .html-content {
   height: 100%;
+  background-color: #eee;
 }
 
 .html-content {
   padding-bottom: 40px;
-  background-color: #eee;
   margin: 0;
   font-family: sans-serif;
 }
@@ -228,6 +228,7 @@ html, body, #root, .html-content {
   background:red;
   position:relative;
   transform: (-100%, -100%);
+  margin-left: 0.5em;
 }
 
 .search-doctor-result {
@@ -284,4 +285,16 @@ html, body, #root, .html-content {
 .doctors-search .results .ui-state-focus .first_name,
 .doctors-search .results .ui-state-focus .last_name {
   color: #08c;
+}
+
+.status-icon {
+  font-size: 0.65em;
+}
+
+.status-icon.glyphicon-info-sign {
+  color: green;
+}
+
+.status-icon.glyphicon-ok-sign {
+  color: red;
 }

@@ -5,17 +5,9 @@ class TicketItem extends Component {
   render() {
     let assigned = '';
     if (this.props.supporter === 'none') {
-      assigned = (
-        <p>
-          This ticket is not assigned to a supporter.
-        </p>
-      );
+      assigned = <p>This ticket is not assigned to a supporter.</p>;
     } else if (this.props.supporter === 'you') {
-      assigned = (
-        <p>
-          This ticket is assigned to you.
-        </p>
-      );
+      assigned = <p>This ticket is assigned to you.</p>;
     } else if(this.props.supporter) {
       assigned = (
         <p>
@@ -26,11 +18,7 @@ class TicketItem extends Component {
 
     let created = '';
     if (this.props.customer === 'you') {
-      created = (
-        <p>
-          Created by you
-        </p>
-      );
+      created = <p>Created by you</p>;
     } else if (this.props.customer) {
       created = (
         <p>
@@ -39,15 +27,38 @@ class TicketItem extends Component {
       );
     }
 
+    const status = this.statusIcon(this.props.status);
+
     return (
-      <div className="ticket well">
-        <h3><Link to={`/ticket/${this.props.id}`}>{this.props.title}</Link></h3>
-        {created}
-        <p>{this.props.status}</p>
-        <p>{this.props.description}</p>
-        {assigned}
+      <div className="row">
+        <div className="ticket well col-md-6 col-md-offset-3">
+          <h3>{status} <Link to={`/ticket/${this.props.id}`}>{this.props.title}</Link></h3>
+          {created}
+          <p>{this.props.description}</p>
+          {assigned}
+        </div>
       </div>
     );
+  }
+
+  statusIcon(status) {
+    if (status === 'opened') {
+      return (
+        <span
+          className="glyphicon glyphicon-info-sign status-icon"
+          aria-hidden="true"
+        >
+        </span>
+      );
+    } else {
+      return (
+        <span
+          className="glyphicon glyphicon-ok-sign status-icon"
+          aria-hidden="true"
+        >
+        </span>
+      );
+    }
   }
 }
 export default TicketItem;

@@ -141,7 +141,7 @@ class Ticket extends Component {
     const user = JSON.parse(localStorage.getItem('user'));
 
     let assignButton = '';
-    if (this.state.supporter === 'none' && user.role === 'supporter') {
+    if (this.state.supporter === 'none' && user.role === 'supporter' && this.state.ticket.status === 'opened') {
       assignButton = (
         <button className="btn btn-primary" onClick={this.assignToSelf.bind(this)}>
           Assign to self
@@ -203,18 +203,23 @@ class Ticket extends Component {
     }
 
     return (
-      <div className="ticket">
-        <TicketItem
-          id={this.state.ticket.id}
-          title={this.state.ticket.title}
-          status={this.state.ticket.status}
-          description={this.state.ticket.description}
-          customer={this.state.customer}
-          supporter={this.state.supporter}
-        />
-        {assignButton}
+      <div className="ticket-view">
+        <div className="row" style={{marginBottom: '2em'}}>
+          <TicketItem
+            id={this.state.ticket.id}
+            title={this.state.ticket.title}
+            status={this.state.ticket.status}
+            description={this.state.ticket.description}
+            customer={this.state.customer}
+            supporter={this.state.supporter}
+          />
+          <div className="pull-right col-md-5">
+          {assignButton}
+          {closeButton}
+
+          </div>
+        </div>
         {setRemoveSupporter}
-        {closeButton}
         {commentForm}
         <CommentsList
           comments={this.state.comments}

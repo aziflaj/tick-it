@@ -26,15 +26,16 @@ class NewComment extends Component {
 
   render() {
     return (
-      <div className="comments-listing" onSubmit={this.onCommentSubmit.bind(this)}>
-        <form>
+      <div className="comment-form col-md-5" onSubmit={this.onCommentSubmit.bind(this)}>
+        <form class="form-inline">
           <div className="form-group">
             <textarea id="inputComment"
                       type="text"
                       className="form-control"
                       required
-                      autoFocus
-                      placeholder="Comment"
+                      rows={4}
+                      cols={60}
+                      placeholder="Your comment goes here"
                       onChange={this.onCommentChange.bind(this)}
             />
           </div>
