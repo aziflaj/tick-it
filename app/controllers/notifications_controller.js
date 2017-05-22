@@ -52,6 +52,17 @@ class NotificationsController {
       });
     });
   }
+
+  getUnreadCount(req, res, next) {
+    currentUser(req).then(user =>  {
+      notificationDao.getUnreadCount(user.id).then(result => {
+        console.log(result);
+        res.json({
+          unread: result.unread
+        });
+      });
+    });
+  }
 }
 
 module.exports = NotificationsController;

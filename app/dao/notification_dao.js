@@ -59,6 +59,14 @@ class NotificationDAO {
       });
     });
   }
+
+  getUnreadCount(id) {
+    return db.zcount(`user_unread_notifications:${id}`, '-inf', '+inf').then(count => {
+      return {
+        unread: count
+      };
+    });
+  }
 }
 
 module.exports = NotificationDAO;

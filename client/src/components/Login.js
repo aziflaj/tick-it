@@ -33,12 +33,17 @@ class Login extends Component {
       username: this.state.username,
       password: this.state.password
     };
+
     apiCall('authenticate', 'post', data, false).then(response => {
       hideLoading();
       if (response.data.status === 'ok') {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.user));
-        this.context.router.history.push(`/users/${response.data.user.username}`);
+
+        apiCall(`notifications/count`, 'get').then(response => {
+          localStorage.setItem('notifications', response.data.unread);
+          this.context.router.history.push(`/users/${this.state.username}`);
+        });
       } else {
         this.setState({
           errorMessage: response.data.message,

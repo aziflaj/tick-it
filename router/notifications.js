@@ -47,4 +47,12 @@ router.put('/:notification_id/read', (req, res, next) => {
   });
 });
 
+router.get('/count', (req, res, next) => {
+  if (!isLoggedIn(req)) {
+    unauthorized(res);
+  }
+
+  notifications.getUnreadCount(req, res, next);
+})
+
 module.exports = router;

@@ -4,6 +4,8 @@ import io from 'socket.io-client';
 import { Link } from 'react-router-dom';
 import alertify from 'alertifyjs';
 
+import { apiCall } from '../../helpers/api';
+
 import CustomerLinks from './CustomerLinks';
 import SupportLinks from './SupportLinks';
 import AdminLinks from './AdminLinks';
@@ -13,7 +15,7 @@ class AppBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      notifications_count: 0
+      notifications_count: localStorage.getItem('count')
     };
   }
 
