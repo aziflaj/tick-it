@@ -64,9 +64,12 @@ class UserDAO {
   }
 
   changePassword(username, data) {
-    return bcrypt.hash(user.password, SALT_ROUNDS).then(hash => {
-      return this.getByUsername(username).then(user => {
-        return db.hmset(`user:${user.id}, data`);
+    return this.getByUsername(username).then(user => {
+      return bcrypt.hash(data.password, SALT_ROUNDS).then(hash => {
+        const newData = {
+          password: hash
+        }
+        return db.hmset(`user:${user.id}`, newData);
       });
     });
   }

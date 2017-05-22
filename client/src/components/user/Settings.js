@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-const bcrypt = require('bcrypt');
 import { confirmAlert } from 'react-confirm-alert';
 import PropTypes from 'prop-types';
 
@@ -93,33 +92,27 @@ class Settings extends Component {
   }
 
   onPassFormSubmit(e) {
-    bcrypt.compare(this.state.password, this.state.inputPassword).then(match => {
-      if (match) {
-        if (this.state.newPassword === this.state.confirmPassword) {
-          const user = JSON.parse(localStorage.getItem('user'));
-          const data = {
-            password: this.state.inputPassword
-          };
+    if (this.state.newPassword === this.state.confirmPassword) {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const data = {
+        currentPass: this.state.inputPassword,
+        newPass: this.state.newPassword
+      };
 
-          apiCall(`users/${user.username}/password`, 'put', data).then(response => {
-            this.setState({ disabled: false });
-            hideLoading();
-
-            const newUser = JSON.parse(response.config.data);
-            const currentUser = updateObject(user, newUser);
-
-            localStorage.removeItem('user');
-            localStorage.setItem('user', JSON.stringify(currentUser));
-
-            this.context.router.history.push(`/users/${currentUser.username}`);
-          });
+      apiCall(`users/${user.username}/password`, 'put', data).then(response => {
+        console.log(response);
+        if (response.data.status === 'error') {
+          alert('The current password you entered was incorrect.');
         } else {
-          alert('New and Confirm Password should match!');
+          this.setState({ disabled: false });
+          hideLoading();
+
+          this.context.router.history.push(`/users/${user.username}`);
         }
-      } else {
-        alert('Password is incorrect!');
-      }
-    });
+      });
+    } else {
+      alert('New and Confirm Password should match!');
+    }
   }
 
   render() {

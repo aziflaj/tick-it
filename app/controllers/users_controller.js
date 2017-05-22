@@ -1,5 +1,7 @@
 const UserDAO = require('../dao/user_dao');
 const { toJson } = require('../helpers/user_helpers');
+const bcrypt = require('bcrypt');
+
 
 const userDao = new UserDAO();
 
@@ -55,13 +57,25 @@ class UsersController {
   changePassword(req, res, next) {
     const username = req.params.username;
     const data = {
-      password: req.body.password
+      currentPass: req.body.currentPass,
+      newPass: req.body.newPass
     };
 
-    userDao.changePassword(username, data).then(results => {
-      res.json({
-        status: 'ok',
-        message: 'User updated'
+    return userDao.getByUsername(username).then(user => {
+      return bcrypt.compare(data.currentPass, user.password).then(match => {
+        if (match) {
+          userDao.changePassword(username, data).then(results => {
+            res.json({
+              status: 'ok',
+              message: 'User updated'
+            });
+          });
+        } else {
+          res.json({
+            status: 'error',
+            message: 'incorrect password'
+          });
+        }
       });
     });
   }
