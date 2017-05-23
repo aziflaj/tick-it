@@ -67,54 +67,45 @@ class SignUp extends Component {
 
   render() {
     return (
-      <form className="form-signin" onSubmit={this.onFormSubmit.bind(this)}>
-        <h2 className="form-signin-heading">Please enter the required information to sign up.</h2>
-        <label htmlFor="inputFullName" className="sr-only">Full Name</label>
-        <input id="inputFullName"
-               type="text"
-               className="form-control"
-               placeholder="Full Name"
-               required
-               autoFocus
-               onChange={this.onFullNameChange.bind(this)}
-            />
+      <div className="login-page">
+        <div className="form">
+          <form className="register-form" onSubmit={this.onFormSubmit.bind(this)}>
+            <label htmlFor="inputFullName" className="sr-only">Full Name</label>
+            <input type="text"
+              placeholder="Full Name"
+              required
+              autoFocus
+              onChange={this.onFullNameChange.bind(this)}
+              />
 
-        <label htmlFor="inputUsername" className="sr-only">Username</label>
-        <input id="inputUsername"
-               type="text"
-               className="form-control"
-               placeholder="Username"
-               required
-               autoFocus
-               onChange={this.onUsernameChange.bind(this)}
-        />
+            <label htmlFor="inputUsername" className="sr-only">Username</label>
+            <input type="text"
+              placeholder="Username"
+              required
+              autoFocus
+              onChange={this.onUsernameChange.bind(this)}
+              />
 
-        <label htmlFor="inputEmail" className="sr-only">E-Mail</label>
-        <input id="inputEmail"
-               type="text"
-               className="form-control"
-               placeholder="E-Mail"
-               required
-               autoFocus
-               onChange={this.onEmailChange.bind(this)}
-        />
+            <label htmlFor="inputEmail" className="sr-only">E-Mail</label>
+            <input type="text"
+              placeholder="E-Mail"
+              required
+              autoFocus
+              onChange={this.onEmailChange.bind(this)}
+              />
 
-        <label htmlFor="inputPassword" className="sr-only">Password</label>
-        <input type="password"
-               id="inputPassword"
-               className="form-control"
-               placeholder="Password"
-               onChange={this.onPasswordChange.bind(this)}
-               required
-        />
+            <label htmlFor="inputPassword" className="sr-only">Password</label>
+            <input type="password"
+              placeholder="Password"
+              onChange={this.onPasswordChange.bind(this)}
+              required
+              />
 
-        <div>
-          Already have an account?
-          <Link to='/'>Log in</Link>
+            <button type="submit" disabled={this.state.disabled}>Register</button>
+            <p className="message">Already registered? <Link to='/'>Sign in</Link></p>
+          </form>
         </div>
-
-        <button className="btn btn-lg btn-primary btn-block" type="submit" disabled={this.state.disabled}>Register</button>
-      </form>
+      </div>
     );
   }
 }

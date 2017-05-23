@@ -353,9 +353,6 @@ html, body, #root, .html-content {
   color: #4CAF50;
   text-decoration: none;
 }
-.form .register-form {
-  display: none;
-}
 /*.container {
   position: relative;
   z-index: 1;

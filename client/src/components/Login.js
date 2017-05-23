@@ -82,9 +82,8 @@ class Login extends Component {
               required
               />
 
-            <p className="message">Not registered? <Link to='/signup'>Create an account</Link></p>
-
             <button type="submit" disabled={this.state.disabled}>Sign in</button>
+            <p className="message">Not registered? <Link to='/signup'>Create an account</Link></p>
           </form>
         </div>
       </div>
