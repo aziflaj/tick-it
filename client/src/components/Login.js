@@ -63,41 +63,31 @@ class Login extends Component {
 
   render() {
     return (
-      <form className="form-signin" onSubmit={this.onFormSubmit.bind(this)}>
-        <p className="bg-danger">{this.state.errorMessage}</p>
-        <h2 className="form-signin-heading">Please sign in</h2>
-        <label htmlFor="inputEmail" className="sr-only">Username</label>
-        <input id="inputEmail"
-               type="text"
-               className="form-control"
-               placeholder="Username"
-               required
-               autoFocus
-               onChange={this.onUsernameChange.bind(this)}
-        />
+      <div className="login-page">
+        <div className="form">
+          <form className="login-form" onSubmit={this.onFormSubmit.bind(this)}>
+            <p className="bg-danger">{this.state.errorMessage}</p>
+            <label htmlFor="inputEmail" className="sr-only">Username</label>
+            <input type="text"
+              placeholder="Username"
+              required
+              autoFocus
+              onChange={this.onUsernameChange.bind(this)}
+              />
 
-        <label htmlFor="inputPassword" className="sr-only">Password</label>
-        <input type="password"
-               id="inputPassword"
-               className="form-control"
-               placeholder="Password"
-               onChange={this.onPasswordChange.bind(this)}
-               required
-        />
+            <label htmlFor="inputPassword" className="sr-only">Password</label>
+            <input type="password"
+              placeholder="Password"
+              onChange={this.onPasswordChange.bind(this)}
+              required
+              />
 
-        <div className="checkbox">
-          <label>
-            <input type="checkbox" value="remember-me" /> Remember me
-          </label>
+            <p className="message">Not registered? <Link to='/signup'>Create an account</Link></p>
+
+            <button type="submit" disabled={this.state.disabled}>Sign in</button>
+          </form>
         </div>
-
-        <div>
-          Don't have an account?
-          <Link to='/signup'>Sign up</Link>
-        </div>
-
-        <button className="btn btn-lg btn-primary btn-block" type="submit" disabled={this.state.disabled}>Sign in</button>
-      </form>
+      </div>
     );
   }
 }

@@ -40,6 +40,8 @@ class AppBar extends Component {
   render() {
     let navbar = '';
     let notifications = '';
+    let appBar = '';
+
     if (localStorage.getItem('token')) {
       const user = JSON.parse(localStorage.getItem('user'));
 
@@ -64,38 +66,44 @@ class AppBar extends Component {
             <span className="badge badge-notification">{this.state.notifications_count}</span>
           </Link>
         </li>
-      )
+      );
+
+      appBar = (
+        <nav className="navbar navbar-default">
+          <div className="container-fluid">
+            <div className="navbar-header">
+              <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span className="sr-only">Toggle navigation</span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+              </button>
+              <a className="navbar-brand" href="#" style={{paddingTop: 10}}>
+                <img alt="tick-it" src={logo} />
+              </a>
+            </div>
+
+            <div className="collapse navbar-collapse">
+              {navbar}
+
+              <ul className="nav navbar-nav navbar-right">
+                {notifications}
+                <li>
+                  <a href="#" onClick={this.handleLogout.bind(this)}>
+                    Log Out
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      );
     }
 
     return (
-      <nav className="navbar navbar-default">
-        <div className="container-fluid">
-          <div className="navbar-header">
-            <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-              <span className="sr-only">Toggle navigation</span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-            </button>
-            <a className="navbar-brand" href="#" style={{paddingTop: 10}}>
-              <img alt="tick-it" src={logo} />
-            </a>
-          </div>
-
-          <div className="collapse navbar-collapse">
-            {navbar}
-
-            <ul className="nav navbar-nav navbar-right">
-              {notifications}
-              <li>
-                <a href="#" onClick={this.handleLogout.bind(this)}>
-                  Log Out
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+      <div>
+        {appBar}
+      </div>
     )
   }
 }
