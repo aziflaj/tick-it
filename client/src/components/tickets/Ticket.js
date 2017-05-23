@@ -213,17 +213,17 @@ class Ticket extends Component {
             customer={this.state.customer}
             supporter={this.state.supporter}
           />
-          <div className="pull-right col-md-5">
           {assignButton}
+          <div className="pull-right col-md-5">
           {closeButton}
 
           </div>
         </div>
         {setRemoveSupporter}
-        {commentForm}
         <CommentsList
           comments={this.state.comments}
         />
+        {commentForm}
       </div>
     );
   }

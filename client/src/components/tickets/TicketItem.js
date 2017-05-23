@@ -34,7 +34,7 @@ class TicketItem extends Component {
 
     return (
       <div className="row">
-        <div className="ticket well col-md-6 col-md-offset-3">
+        <div className="ticket well">
           <h3>{status} <Link to={`/ticket/${this.props.id}`}>{this.props.title}</Link></h3>
           {created}
           <p>{this.props.description}</p>

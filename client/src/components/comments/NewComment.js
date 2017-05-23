@@ -28,23 +28,16 @@ class NewComment extends Component {
     return (
       <div className="comment-form col-md-5" onSubmit={this.onCommentSubmit.bind(this)}>
         <form className="form-inline">
-          <div className="form-group">
-            <textarea id="inputComment"
-                      type="text"
-                      className="form-control"
-                      required
-                      rows={4}
-                      cols={60}
-                      placeholder="Your comment goes here"
-                      onChange={this.onCommentChange.bind(this)}
-            />
-          </div>
-
-          <div className="form-group">
-            <div className="col-sm-offset-2 col-sm-10">
-              <button type="submit" className="btn btn-success">Comment</button>
-            </div>
-          </div>
+          <textarea id="inputComment"
+                    type="text"
+                    className="form-control"
+                    required
+                    rows={4}
+                    cols={60}
+                    placeholder="Your comment goes here"
+                    onChange={this.onCommentChange.bind(this)}
+          />
+          <button type="submit" className="btn btn-success">Comment</button>
         </form>
       </div>
     );

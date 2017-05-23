@@ -390,3 +390,13 @@ html, body, #root, .html-content {
 .login {
   background: #76b852;
 }
+
+.paginator {
+  width: 48%;
+  margin: 0 26%;
+}
+
+.ticket {
+  width: 80%;
+  margin-left: 10%;
+}
