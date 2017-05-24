@@ -26,8 +26,8 @@ class NewComment extends Component {
 
   render() {
     return (
-      <div className="comment-form col-md-5" onSubmit={this.onCommentSubmit.bind(this)}>
-        <form className="form-inline">
+      <div className="comment-form" onSubmit={this.onCommentSubmit.bind(this)}>
+        <form>
           <textarea id="inputComment"
                     type="text"
                     className="form-control"
@@ -37,7 +37,7 @@ class NewComment extends Component {
                     placeholder="Your comment goes here"
                     onChange={this.onCommentChange.bind(this)}
           />
-          <button type="submit" className="btn btn-success">Comment</button>
+        <button type="submit" className="btn btn-success jeshile comment pull-right">Comment</button>
         </form>
       </div>
     );

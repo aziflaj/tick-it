@@ -66,7 +66,7 @@ html, body, #root, .html-content {
 .sk-cube-grid .sk-cube {
   width: 33%;
   height: 33%;
-  background-color: #162955;
+  background-color: #4CAF50;
   float: left;
   -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
           animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
@@ -399,4 +399,41 @@ html, body, #root, .html-content {
 .ticket {
   width: 80%;
   margin-left: 10%;
+}
+
+.btn.jeshile {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  border: 0;
+  padding: 10px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+
+.btn.jeshile:hover, .btn.jeshile:active, .btn.jeshile:focus {
+  background: #43A047;
+}
+
+.comments {
+  background: #fff;
+  padding: 15px;
+  width: 84%;
+  margin: 0 8%;
+  border-style: ridge;
+  border-width: 1px;
+  border-color: lightgrey;
+  padding-bottom: 68px;
+  margin-bottom: 8%;
+}
+
+.btn.comment {
+  margin-top: 15px;
+  margin-right: 2%;
+  padding: 8px;
+  text-transform: none;
 }

@@ -57,13 +57,13 @@ class Ticket extends Component {
     });
   }
 
-  assignToSelf() {
-    apiCall(`tickets/${this.props.match.params.id}/assign`, 'get').then(response => {
-      if (response.data.status === 'ok') {
-        window.location.reload();
-      }
-    });
-  }
+  // assignToSelf() {
+  //   apiCall(`tickets/${this.props.match.params.id}/assign`, 'get').then(response => {
+  //     if (response.data.status === 'ok') {
+  //       window.location.reload();
+  //     }
+  //   });
+  // }
 
   markAsClosed() {
     const data = {
@@ -141,13 +141,13 @@ class Ticket extends Component {
     const user = JSON.parse(localStorage.getItem('user'));
 
     let assignButton = '';
-    if (this.state.supporter === 'none' && user.role === 'supporter' && this.state.ticket.status === 'opened') {
-      assignButton = (
-        <button className="btn btn-primary" onClick={this.assignToSelf.bind(this)}>
-          Assign to self
-        </button>
-      );
-    }
+    // if (this.state.supporter === 'none' && user.role === 'supporter' && this.state.ticket.status === 'opened') {
+    //   assignButton = (
+    //     <button className="btn btn-primary" onClick={this.assignToSelf.bind(this)}>
+    //       Assign to self
+    //     </button>
+    //   );
+    // }
 
     let closeButton = '';
     if (((this.state.ticket.customer_id === user.id && user.role === 'customer')
@@ -220,10 +220,12 @@ class Ticket extends Component {
           </div>
         </div>
         {setRemoveSupporter}
-        <CommentsList
-          comments={this.state.comments}
-        />
-        {commentForm}
+        <div className="comments">
+          <CommentsList
+            comments={this.state.comments}
+          />
+          {commentForm}
+        </div>
       </div>
     );
   }
