@@ -61,6 +61,17 @@ class Notifications extends Component {
   }
 
   render() {
+    let markAllButton = '';
+    if (this.state.unread.notifications.length > 0) {
+      markAllButton = (
+        <div className="markAll">
+          <button className="pull-right btn markAll" onClick={this.markAllAsRead.bind(this)}>
+            Mark all as read
+          </button>
+        </div>
+      );
+    }
+
     return (
       <div className="notifications row">
         <ul className="nav nav-pills nav-stacked col-md-3" role="tablist">
@@ -73,13 +84,11 @@ class Notifications extends Component {
         </ul>
 
         <div className="tab-content col-md-8">
-          <div role="tabpanel" className="tab-pane active" id="unread">
-            <button className="pull-right btn btn-primary" onClick={this.markAllAsRead.bind(this)}>
-              Mark all as read
-            </button>
+          <div role="tabpanel" className="tab-pane active notificationList" id="unread">
+            {markAllButton}
             <NotificationList notifications={this.state.unread.notifications} />
           </div>
-          <div role="tabpanel" className="tab-pane" id="all">
+          <div role="tabpanel" className="tab-pane notificationList" id="all">
             <NotificationList notifications={this.state.all.notifications} />
           </div>
         </div>

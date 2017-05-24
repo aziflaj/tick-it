@@ -437,3 +437,40 @@ html, body, #root, .html-content {
   padding: 8px;
   text-transform: none;
 }
+
+.mark {
+  background: transparent;
+  border: none;
+  color: #43A047;
+}
+
+.markAll {
+  height: 50px;
+}
+
+.btn.markAll {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: transparent;
+  border: 0;
+  padding: 10px;
+  color: #07540b;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.notification {
+  padding-bottom: 35px;
+}
+
+/*.notificationList {
+  background: white;
+  padding: 10px;
+  border-style: ridge;
+  border-color: lightgray;
+  border-width: 1px;
+}*/

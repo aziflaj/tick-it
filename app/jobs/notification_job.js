@@ -85,10 +85,6 @@ class NotificationJob {
         const ids = userIds.filter(id => {
           return (id !== invalidIds[0] && id !== invalidIds[1] && id !== invalidIds[2]);
         });
-        // .filter(id => {
-        //   const invalidIds = [comment.author_id, ticket.supporter_id, ticket.customer_id];
-        //   return invalidIds.indexOf(id) !== -1;
-        // });
 
         console.log(ids);
 

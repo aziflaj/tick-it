@@ -18,13 +18,17 @@ class NotificationItem extends Component {
   render() {
     let mark = '';
     if(this.props.read === 'false') {
-      mark = (<button className="pull-right btn btn-primary" onClick={this.markAsRead.bind(this, "mark")}>
-        Mark as read
+      mark = (<button title="Mark as Read" className="pull-right mark" onClick={this.markAsRead.bind(this, "mark")}>
+      <span
+        className="glyphicon glyphicon-check"
+        aria-hidden="true"
+      >
+      </span>
       </button>);
     }
     return (
       <div className="notification well">
-        <p onClick={this.markAsRead.bind(this, "open")}>{this.props.message}</p>
+        <p className="pull-left" onClick={this.markAsRead.bind(this, "open")}>{this.props.message}</p>
         {mark}
       </div>
     );
