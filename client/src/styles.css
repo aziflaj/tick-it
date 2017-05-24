@@ -467,10 +467,21 @@ html, body, #root, .html-content {
   padding-bottom: 35px;
 }
 
-/*.notificationList {
-  background: white;
-  padding: 10px;
-  border-style: ridge;
-  border-color: lightgray;
-  border-width: 1px;
-}*/
+.settings-buttons {
+  margin-top: 50px;
+}
+
+.btn.left {
+  margin-left: 150px;
+  font-size: 14px;
+}
+
+.btn.cancel {
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.btn.saveProfile {
+  text-transform: none;
+  padding: 5px 10px;
+}

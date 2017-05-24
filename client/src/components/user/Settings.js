@@ -173,13 +173,13 @@ class Settings extends Component {
                     />
                 </div>
               </div>
-              <div className="form-group">
+              <div className="form-group settings-buttons">
                 <div className="pull-left">
-                  <button className="btn btn-sm btn-danger" onClick={this.onDeleteAccount.bind(this)} disabled={this.state.disabled}>Delete Account</button>
+                  <button className="btn btn-sm btn-danger left" onClick={this.onDeleteAccount.bind(this)} disabled={this.state.disabled}>Delete Account</button>
                 </div>
                 <div className="pull-right">
-                  <button className="btn btn-sm btn-default" onClick={this.onCanceledRequest.bind(this)} disabled={this.state.disabled}>Cancel</button>
-                  <button className="btn btn-sm btn-primary" type="submit" disabled={this.state.disabled}>Save</button>
+                  <button className="btn btn-sm btn-default cancel" onClick={this.onCanceledRequest.bind(this)} disabled={this.state.disabled}>Cancel</button>
+                  <button className="btn btn-sm btn-primary saveProfile jeshile" type="submit" disabled={this.state.disabled}>Save</button>
                 </div>
               </div>
             </form>
@@ -227,12 +227,10 @@ class Settings extends Component {
                 </div>
               </div>
 
-              <div className="form-group">
-                <div className="pull-left">
-                  <button className="btn btn-sm btn-default" onClick={this.onCanceledRequest.bind(this)} disabled={this.state.disabled}>Cancel</button>
-                </div>
+              <div className="form-group settings-buttons">
                 <div className="pull-right">
-                  <button className="btn btn-sm btn-primary" type="submit" disabled={this.state.disabled}>Save</button>
+                  <button className="btn btn-sm btn-default cancel" onClick={this.onCanceledRequest.bind(this)} disabled={this.state.disabled}>Cancel</button>
+                  <button className="btn btn-sm btn-primary saveProfile jeshile" type="submit" disabled={this.state.disabled}>Save</button>
                 </div>
               </div>
             </form>
