@@ -65,21 +65,21 @@ class Ticket extends Component {
   //   });
   // }
 
-  markAsClosed() {
-    const data = {
-      status: 'closed',
-      title: this.state.ticket.title,
-      description: this.state.ticket.description,
-      supporter_id: this.state.ticket.supporter_id
-    };
-
-    apiCall(`tickets/${this.props.match.params.id}`, 'put', data).then(response => {
-      console.log(response);
-      if (response.data.status === 'ok') {
-        window.location.reload();
-      }
-    });
-  }
+  // markAsClosed() {
+  //   const data = {
+  //     status: 'closed',
+  //     title: this.state.ticket.title,
+  //     description: this.state.ticket.description,
+  //     supporter_id: this.state.ticket.supporter_id
+  //   };
+  //
+  //   apiCall(`tickets/${this.props.match.params.id}`, 'put', data).then(response => {
+  //     console.log(response);
+  //     if (response.data.status === 'ok') {
+  //       window.location.reload();
+  //     }
+  //   });
+  // }
 
   onSearchTermChange(e) {
     apiCall(`supporters/search?term=${e.target.value}`, 'get').then(response => {
@@ -150,16 +150,16 @@ class Ticket extends Component {
     // }
 
     let closeButton = '';
-    if (((this.state.ticket.customer_id === user.id && user.role === 'customer')
-         || (this.state.ticket.supporter_id === user.id && user.role === 'supporter'))
-         && this.state.ticket.status === 'opened'
-       ) {
-      closeButton = (
-        <button className="btn btn-danger" onClick={this.markAsClosed.bind(this)}>
-          Mark as closed
-        </button>
-      );
-    }
+    // if (((this.state.ticket.customer_id === user.id && user.role === 'customer')
+    //      || (this.state.ticket.supporter_id === user.id && user.role === 'supporter'))
+    //      && this.state.ticket.status === 'opened'
+    //    ) {
+    //   closeButton = (
+    //     <button className="btn btn-danger" onClick={this.markAsClosed.bind(this)}>
+    //       Mark as closed
+    //     </button>
+    //   );
+    // }
 
     let commentForm = '';
     if (this.state.ticket.status === 'opened' && user.role !== 'admin') {
@@ -201,7 +201,7 @@ class Ticket extends Component {
         );
       }
     }
-
+    console.log(this.state.ticket);
     return (
       <div className="ticket-view">
         <div className="row" style={{marginBottom: '2em'}}>
@@ -212,6 +212,7 @@ class Ticket extends Component {
             description={this.state.ticket.description}
             customer={this.state.customer}
             supporter={this.state.supporter}
+            supporterId={this.state.ticket.supporter_id}
           />
           {assignButton}
           <div className="pull-right col-md-5">

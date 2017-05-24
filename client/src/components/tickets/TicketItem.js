@@ -5,7 +5,23 @@ import { apiCall } from '../../helpers/api';
 
 class TicketItem extends Component {
   assignToSelf() {
-    apiCall(`tickets/${this.props.match.params.id}/assign`, 'get').then(response => {
+    apiCall(`tickets/${this.props.id}/assign`, 'get').then(response => {
+      if (response.data.status === 'ok') {
+        window.location.reload();
+      }
+    });
+  }
+
+  markAsClosed() {
+    const data = {
+      status: 'closed',
+      title: this.props.title,
+      description: this.props.description,
+      supporter_id: this.props.supporterId
+    };
+
+    apiCall(`tickets/${this.props.id}`, 'put', data).then(response => {
+      console.log(response);
       if (response.data.status === 'ok') {
         window.location.reload();
       }
@@ -16,6 +32,8 @@ class TicketItem extends Component {
     let assigned = '';
     let created = '';
     let assignButton = '';
+    let closeButton = '';
+
     if (this.context.router.route.location.pathname === `/ticket/${this.props.id}`) {
       if (this.props.supporter === 'none') {
         assigned = <p>This ticket is not assigned to a supporter.</p>;
@@ -28,6 +46,13 @@ class TicketItem extends Component {
         }
       } else if (this.props.supporter === 'you') {
         assigned = <p>This ticket is assigned to you.</p>;
+          if (this.props.status === 'opened') {
+            closeButton = (
+              <button className="btn btn-danger" onClick={this.markAsClosed.bind(this)}>
+                Mark as closed
+              </button>
+            );
+          }
       } else {
         assigned = (
           <p>
@@ -37,6 +62,13 @@ class TicketItem extends Component {
       }
       if (this.props.customer === 'you') {
         created = <p>Created by you</p>;
+          if (this.props.status === 'opened') {
+            closeButton = (
+              <button className="btn btn-danger" onClick={this.markAsClosed.bind(this)}>
+                Mark as closed
+              </button>
+            );
+          }
       } else if (this.props.customer) {
         created = (
           <p>
@@ -56,6 +88,7 @@ class TicketItem extends Component {
           <p>{this.props.description}</p>
           {assigned}
           {assignButton}
+          {closeButton}
         </div>
       </div>
     );

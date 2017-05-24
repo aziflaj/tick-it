@@ -10,7 +10,7 @@ class CommentItem extends Component {
       <div className="comment well">
         <p>{author}</p>
         <p>{this.props.content}</p>
-        <Moment fromNow ago unix format="">{this.props.created_at}</Moment>
+        <Moment unix>{this.props.created_at}</Moment>
       </div>
     );
   }
