@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Moment from 'react-moment';
 
 class CommentItem extends Component {
   render() {
@@ -9,7 +10,7 @@ class CommentItem extends Component {
       <div className="comment well">
         <p>{author}</p>
         <p>{this.props.content}</p>
-        <p>{this.props.created_at}</p>
+        <Moment fromNow ago unix format="">{this.props.created_at}</Moment>
       </div>
     );
   }
