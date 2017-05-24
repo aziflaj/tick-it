@@ -80,20 +80,27 @@ class NotificationJob {
         const ticket = ticketData.ticket;
         const comments = ticketData.comments;
 
-        const userIds = comments.map(c => c.author_id).filter(id => {
-          const invalidIds = [comment.author_id, ticket.supporter_id, ticket.customer_id];
-          return invalidIds.indexOf(id) !== -1;
+        const userIds = comments.map(c => c.author_id);
+        const invalidIds = [comment.author_id, ticket.supporter_id, ticket.customer_id];
+        const ids = userIds.filter(id => {
+          return (id !== invalidIds[0] && id !== invalidIds[1] && id !== invalidIds[2]);
         });
+        // .filter(id => {
+        //   const invalidIds = [comment.author_id, ticket.supporter_id, ticket.customer_id];
+        //   return invalidIds.indexOf(id) !== -1;
+        // });
+
+        console.log(ids);
 
         if (comment.author_id === ticket.customer_id) {
-          userIds.push(ticket.supporter_id);
+          ids.push(ticket.supporter_id);
         } else if (comment.author_id === ticket.supporter_id) {
-          userIds.push(ticket.customer_id);
+          ids.push(ticket.customer_id);
         }
 
         db.hgetall(`user:${comment.author_id}`).then(user => {
           const message = `${user.full_name} commented on Ticket #${ticket.id}.`;
-          userIds.forEach(uid => sendNotification(uid, ticket.id, message));
+          ids.forEach(uid => sendNotification(uid, ticket.id, message));
         });
       });
     });

@@ -57,30 +57,6 @@ class Ticket extends Component {
     });
   }
 
-  // assignToSelf() {
-  //   apiCall(`tickets/${this.props.match.params.id}/assign`, 'get').then(response => {
-  //     if (response.data.status === 'ok') {
-  //       window.location.reload();
-  //     }
-  //   });
-  // }
-
-  // markAsClosed() {
-  //   const data = {
-  //     status: 'closed',
-  //     title: this.state.ticket.title,
-  //     description: this.state.ticket.description,
-  //     supporter_id: this.state.ticket.supporter_id
-  //   };
-  //
-  //   apiCall(`tickets/${this.props.match.params.id}`, 'put', data).then(response => {
-  //     console.log(response);
-  //     if (response.data.status === 'ok') {
-  //       window.location.reload();
-  //     }
-  //   });
-  // }
-
   onSearchTermChange(e) {
     apiCall(`supporters/search?term=${e.target.value}`, 'get').then(response => {
       this.setState({ suggestions: response.data.supporters.map(item => item.username) });
@@ -140,27 +116,6 @@ class Ticket extends Component {
   render() {
     const user = JSON.parse(localStorage.getItem('user'));
 
-    let assignButton = '';
-    // if (this.state.supporter === 'none' && user.role === 'supporter' && this.state.ticket.status === 'opened') {
-    //   assignButton = (
-    //     <button className="btn btn-primary" onClick={this.assignToSelf.bind(this)}>
-    //       Assign to self
-    //     </button>
-    //   );
-    // }
-
-    let closeButton = '';
-    // if (((this.state.ticket.customer_id === user.id && user.role === 'customer')
-    //      || (this.state.ticket.supporter_id === user.id && user.role === 'supporter'))
-    //      && this.state.ticket.status === 'opened'
-    //    ) {
-    //   closeButton = (
-    //     <button className="btn btn-danger" onClick={this.markAsClosed.bind(this)}>
-    //       Mark as closed
-    //     </button>
-    //   );
-    // }
-
     let commentForm = '';
     if (this.state.ticket.status === 'opened' && user.role !== 'admin') {
       commentForm = (
@@ -201,7 +156,6 @@ class Ticket extends Component {
         );
       }
     }
-    console.log(this.state.ticket);
     return (
       <div className="ticket-view">
         <div className="row" style={{marginBottom: '2em'}}>
@@ -214,11 +168,6 @@ class Ticket extends Component {
             supporter={this.state.supporter}
             supporterId={this.state.ticket.supporter_id}
           />
-          {assignButton}
-          <div className="pull-right col-md-5">
-          {closeButton}
-
-          </div>
         </div>
         {setRemoveSupporter}
         <div className="comments">
